@@ -5,44 +5,17 @@ This project implements an end-to-end automated data pipeline that scrapes top n
 
 This project demonstrates proficiency across Python Automation, Web Scraping, NLP, Relational Database Design, and Business Intelligence (BI).
 
-🛠️ Tech Stack & Key Skills
-Category
+## 🛠️ Tech Stack & Key Skills
 
-Tools & Libraries Used
+| Category | Tools & Libraries Used | Skill Demonstrated | 
+ | ----- | ----- | ----- | 
+| **Automation & Orchestration** | **Python**, `run_full_pipeline.py` | Full Pipeline Automation, Modular Code Design, `sys.path` management. | 
+| **Data Acquisition** | `requests`, `BeautifulSoup4` | Web Scraping, Handling Multilingual HTML/Encodings. | 
+| **Data Processing & NLP** | `pandas`, `TextBlob`, `spaCy`, `deep_translator` | Data Cleaning, Sentiment Analysis, Named Entity Recognition (NER). | 
+| **Data Storage** | **MySQL** (`mysql.connector`) | Relational Database Modeling (One-to-Many), Data Archiving for time-series analysis. | 
+| **Visualization** | **Power BI**, `matplotlib` | Interactive Dashboard Design, Time-Series Analysis, Data Modeling. | 
 
-Skill Demonstrated
-
-Automation & Orchestration
-
-Python, run_full_pipeline.py
-
-Full Pipeline Automation, Modular Code Design, sys.path management.
-
-Data Acquisition
-
-requests, BeautifulSoup4
-
-Web Scraping, Handling Multilingual HTML/Encodings.
-
-Data Processing & NLP
-
-pandas, TextBlob, spaCy, deep_translator
-
-Data Cleaning, Sentiment Analysis, Named Entity Recognition (NER).
-
-Data Storage
-
-MySQL (mysql.connector)
-
-Relational Database Modeling (One-to-Many), Data Archiving for time-series analysis.
-
-Visualization
-
-Power BI, matplotlib
-
-Interactive Dashboard Design, Time-Series Analysis, Data Modeling.
-
-🚀 Pipeline Execution (The One-Click Run)
+## 🚀 Pipeline Execution (The One-Click Run)
 The entire pipeline, from scraping to database insertion, is automated and executed via a single command.
 
 Prerequisites
