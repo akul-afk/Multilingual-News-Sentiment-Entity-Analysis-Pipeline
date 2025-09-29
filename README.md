@@ -39,19 +39,21 @@ Execute the main automation script from the project root directory:
 
 Output: The script sequentially runs the scraper, cleans and processes the data, generates Matplotlib charts, and appends all results to the historical newsanalysisdb database.
 ## Process Snapshots
-<img width="1120" height="750" alt="image" src="https://github.com/user-attachments/assets/dde1f57e-0817-4979-941d-2a2e6c16cd3f" />
+
 ### Initial Data collection
 
-<img width="1079" height="746" alt="image" src="https://github.com/user-attachments/assets/3d709351-67d3-4f20-91b3-5c276912a5bf" />
+<img width="1120" height="750" alt="image" src="https://github.com/user-attachments/assets/dde1f57e-0817-4979-941d-2a2e6c16cd3f" />
+
 ### Data cleaned and saved to MySQL
 
-<img width="1058" height="658" alt="image" src="https://github.com/user-attachments/assets/6dadff03-b91f-4d8a-b331-6b10e12c1ab0" />
+<img width="1079" height="746" alt="image" src="https://github.com/user-attachments/assets/3d709351-67d3-4f20-91b3-5c276912a5bf" />
+
 ### Data viewed and accessed on MySQL workbench
 
+<img width="1058" height="658" alt="image" src="https://github.com/user-attachments/assets/6dadff03-b91f-4d8a-b331-6b10e12c1ab0" />
 
-📊 Visualizations and Key Findings
-This section is for showcasing the results of your hard work. Replace the placeholder links with screenshots of your actual output.
 
+## 📊 Visualizations and Key Findings
 1. The Automated Dashboard (Power BI)
 (Goal: Show the final, interactive dashboard with multiple visuals and slicers.)
 
@@ -79,7 +81,7 @@ Key Insight: [Example: "BBC Portuguese consistently reported the highest average
 
 Schema Note: Data is archived in two tables linked by a One-to-Many relationship (headlines.id -> entities.headline_id), ensuring accurate count of Named Entities per headline for historical analysis.
 
-📁 Project Structure
+> 📁 Project Structure
 News_Sentiment_Analysis/
 ├── Data_Processing/
 │   ├── analysis_functions.py    # Cleaning, Pandas processing, Matplotlib charts
