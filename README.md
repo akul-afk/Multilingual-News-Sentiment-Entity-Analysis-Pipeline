@@ -33,6 +33,7 @@ The entire pipeline, from scraping to database insertion, is automated and execu
 5. Configuration: Update the MySQL credentials in Data_Processing/db_connector.py.
 
 **Run Command**
+
 Execute the main automation script from the project root directory:
 
 `python run_full_pipeline.py`
@@ -40,7 +41,7 @@ Execute the main automation script from the project root directory:
 Output: The script sequentially runs the scraper, cleans and processes the data, generates Matplotlib charts, and appends all results to the historical newsanalysisdb database.
 ## Process Snapshots
 
-### Initial Data collection
+* ### Initial Data collection*
 
 <img width="1120" height="750" alt="image" src="https://github.com/user-attachments/assets/dde1f57e-0817-4979-941d-2a2e6c16cd3f" />
 
@@ -82,12 +83,12 @@ Key Insight: [Example: "BBC Portuguese consistently reported the highest average
 Schema Note: Data is archived in two tables linked by a One-to-Many relationship (headlines.id -> entities.headline_id), ensuring accurate count of Named Entities per headline for historical analysis.
 
 > 📁 Project Structure
-News_Sentiment_Analysis/
-├── Data_Processing/
-│   ├── analysis_functions.py    # Cleaning, Pandas processing, Matplotlib charts
-│   ├── db_connector.py          # MySQL connection and insertion logic
-│   └── Data_Output/             # Cleaned CSVs and charts
-├── Scraping_Scripts/
-│   └── web_scraper.py           # Core scraping, translation, and NLP logic
-├── run_full_pipeline.py         # Master automation script (One-click execution)
-└── requirements.txt             # Project dependencies
+> News_Sentiment_Analysis/
+> ├── Data_Processing/
+> │   ├── analysis_functions.py    # Cleaning, Pandas processing, Matplotlib charts
+> │   ├── db_connector.py          # MySQL connection and insertion logic
+> │   └── Data_Output/             # Cleaned CSVs and charts
+> ├── Scraping_Scripts/
+> │   └── web_scraper.py           # Core scraping, translation, and NLP logic
+> ├── run_full_pipeline.py         # Master automation script (One-click execution)
+> └── requirements.txt             # Project dependencies
