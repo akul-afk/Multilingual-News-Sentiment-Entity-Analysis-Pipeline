@@ -18,26 +18,36 @@ This project demonstrates proficiency across Python Automation, Web Scraping, NL
 ## 🚀 Pipeline Execution (The One-Click Run)
 The entire pipeline, from scraping to database insertion, is automated and executed via a single command.
 
-Prerequisites
-Python 3.x
+**Prerequisites**
+1. Python 3.x
 
-MySQL Server running locally (ensure port 3306 is open).
+2. MySQL Server running locally (ensure port 3306 is open).
 
-Power BI Desktop (for the final dashboard).
+3. Power BI Desktop (for the final dashboard).
 
-Dependencies: Install all required Python packages:
+4. Dependencies: Install all required Python packages:
 
-pip install -r requirements.txt
-python -m spacy download en_core_web_sm
+`pip install -r requirements.txt`
+`python -m spacy download en_core_web_sm`
 
-Configuration: Update the MySQL credentials in Data_Processing/db_connector.py.
+5. Configuration: Update the MySQL credentials in Data_Processing/db_connector.py.
 
-Run Command
+**Run Command**
 Execute the main automation script from the project root directory:
 
-python run_full_pipeline.py
+`python run_full_pipeline.py`
 
 Output: The script sequentially runs the scraper, cleans and processes the data, generates Matplotlib charts, and appends all results to the historical newsanalysisdb database.
+## Process Snapshots
+<img width="1120" height="750" alt="image" src="https://github.com/user-attachments/assets/dde1f57e-0817-4979-941d-2a2e6c16cd3f" />
+### Initial Data collection
+
+<img width="1079" height="746" alt="image" src="https://github.com/user-attachments/assets/3d709351-67d3-4f20-91b3-5c276912a5bf" />
+### Data cleaned and saved to MySQL
+
+<img width="1058" height="658" alt="image" src="https://github.com/user-attachments/assets/6dadff03-b91f-4d8a-b331-6b10e12c1ab0" />
+### Data viewed and accessed on MySQL workbench
+
 
 📊 Visualizations and Key Findings
 This section is for showcasing the results of your hard work. Replace the placeholder links with screenshots of your actual output.
