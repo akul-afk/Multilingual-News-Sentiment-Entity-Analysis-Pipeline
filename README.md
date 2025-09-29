@@ -88,15 +88,15 @@ Schema Note: Data is archived in two tables linked by a One-to-Many relationship
 
 > ── Data_Processing/
 
->    ├── analysis_functions.py    # Cleaning, Pandas processing, Matplotlib charts
+>         ├── analysis_functions.py    # Cleaning, Pandas processing, Matplotlib charts
 
->    ├── db_connector.py          # MySQL connection and insertion logic
+>         ├── db_connector.py          # MySQL connection and insertion logic
 
->    └── Data_Output/             # Cleaned CSVs and charts
+>         └── Data_Output/             # Cleaned CSVs and charts
 
 > ── Scraping_Scripts/
 
->    └── web_scraper.py           # Core scraping, translation, and NLP logic
+>           └── web_scraper.py           # Core scraping, translation, and NLP logic
 
 > ── run_full_pipeline.py         # Master automation script (One-click execution)
 
