@@ -55,6 +55,13 @@ Output: The script sequentially runs the scraper, cleans and processes the data,
 
 
 ## 📊 Visualizations and Key Findings
+
+### Showcasing a TreeMap for entities variance in the headlines
+
+<img width="708" height="779" alt="image" src="https://github.com/user-attachments/assets/4df73ade-abfd-46d6-93bd-5977c81c1f51" />
+
+
+
 1. The Automated Dashboard (Power BI)
 (Goal: Show the final, interactive dashboard with multiple visuals and slicers.)
 
