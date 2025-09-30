@@ -92,3 +92,57 @@ Schema Note: Data is archived in two tables linked by a One-to-Many relationship
 > ── run_full_pipeline.py         # Master automation script (One-click execution)
 
 > ── requirements.txt             # Project dependencies
+
+
+
+graph TD
+    subgraph "Phase 1: Orchestration & Data Acquisition"
+        A[Start: run_full_pipeline.py] --> B{Configuration: site_configs.json};
+        B --> C[web_scraper.py: Fetch Headlines from BBC (6 Languages)];
+        C --> D{Deep Translator: Translate to English};
+        D --> E{spaCy: Named Entity Recognition (NER)};
+        E --> F{TextBlob: Sentiment Analysis (Polarity)};
+        F --> G[Raw Data: raw_headlines_data.csv];
+    end
+
+    subgraph "Phase 2: Data Processing & Storage"
+        G --> H{analysis_function.py: Data Cleaning & Transformation};
+        H --> I[Processed Data: processed_data_final_[date].csv];
+        H --> J[Processed Entities: processed_entities_final_[date].csv];
+        I --> K[db_connector.py: Insert into MySQL 'headlines' table];
+        J --> L[db_connector.py: Insert into MySQL 'entities' table];
+        K & L --> M[MySQL Database: newsanalysisdb (Historical Data)];
+        H --> N[Generate Matplotlib Charts];
+    end
+
+    subgraph "Phase 3: Visualization & Presentation"
+        M --> O[Power BI: Connect to MySQL];
+        O --> P{Power BI: Build Interactive Dashboard};
+        N --> Q[Power BI: Import Matplotlib Images (for static validation)];
+        P --> R[Screenshot: Power BI Dashboard Visuals];
+        Q --> R;
+        R --> S[index.html: Showcase on GitHub Pages];
+        M --> S;
+    end
+
+    S --> T[End: Project Accessible Online];
+
+    style A fill:#D4EDDA,stroke:#28A745,stroke-width:2px,color:#28A745
+    style T fill:#D4EDDA,stroke:#28A745,stroke-width:2px,color:#28A745
+    style B fill:#E0E0E0,stroke:#6C757D,stroke-width:1px,color:#343A40
+    style D fill:#CDE3F7,stroke:#007BFF,stroke-width:1px,color:#007BFF
+    style E fill:#CDE3F7,stroke:#007BFF,stroke-width:1px,color:#007BFF
+    style F fill:#CDE3F7,stroke:#007BFF,stroke-width:1px,color:#007BFF
+    style G fill:#FFF3CD,stroke:#FFC107,stroke-width:1px,color:#343A40
+    style H fill:#E0E0E0,stroke:#6C757D,stroke-width:1px,color:#343A40
+    style I fill:#FFF3CD,stroke:#FFC107,stroke-width:1px,color:#343A40
+    style J fill:#FFF3CD,stroke:#FFC107,stroke-width:1px,color:#343A40
+    style K fill:#C8DCEF,stroke:#0056B3,stroke-width:1px,color:#0056B3
+    style L fill:#C8DCEF,stroke:#0056B3,stroke-width:1px,color:#0056B3
+    style M fill:#ADD8E6,stroke:#17A2B8,stroke-width:2px,color:#17A2B8
+    style N fill:#E0E0E0,stroke:#6C757D,stroke-width:1px,color:#343A40
+    style O fill:#E6F0FF,stroke:#007BFF,stroke-width:1px,color:#007BFF
+    style P fill:#E6F0FF,stroke:#007BFF,stroke-width:1px,color:#007BFF
+    style Q fill:#FFF3CD,stroke:#FFC107,stroke-width:1px,color:#343A40
+    style R fill:#ADD8E6,stroke:#17A2B8,stroke-width:2px,color:#17A2B8
+    style S fill:#D4EDDA,stroke:#28A745,stroke-width:2px,color:#28A745
