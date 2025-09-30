@@ -61,34 +61,18 @@ Output: The script sequentially runs the scraper, cleans and processes the data,
 <img width="708" height="779" alt="image" src="https://github.com/user-attachments/assets/4df73ade-abfd-46d6-93bd-5977c81c1f51" />
 
 
+### Database Schema (Relational Model)
 
-1. The Automated Dashboard (Power BI)
-(Goal: Show the final, interactive dashboard with multiple visuals and slicers.)
 
-[PLACEHOLDER: Add a link or image here of your Power BI Dashboard.]
+<img width="520" height="551" alt="image" src="https://github.com/user-attachments/assets/4ec3de73-00b5-4fa4-8e0b-8680a436fd68" />
 
-<img src="path/to/power_bi_dashboard_main.png" alt="Interactive Power BI Dashboard showing sentiment trends." width="800"/>
 
-Key Insight: [Example: Insert a brief summary of a key finding, e.g., "The average sentiment polarity across all sources showed a 15% drop over the last week, primarily driven by negative headlines in BBC Russian and BBC Spanish."]
 
-2. Matplotlib Analysis (Sentiment Distribution)
-(Goal: Show the quick, in-code Matplotlib output that validates the scraping and sentiment logic.)
-
-[PLACEHOLDER: Add a link or image here of your Sentiment Bar Chart.]
-
-<img src="Data_Processing/Data_Output/Matplotlib_Charts/sentiment_by_source.png" alt="Matplotlib chart comparing average sentiment by source." width="400"/>
-
-Key Insight: [Example: "BBC Portuguese consistently reported the highest average sentiment (0.15), while BBC Hindi had the most neutral reporting (0.01) across the sampling period."]
-
-3. Database Schema (Relational Model)
-(Goal: Show the data model in Power BI or MySQL Workbench to highlight the relational design.)
-
-[PLACEHOLDER: Add a link or image here of your Power BI Data Model View.]
-
-<img src="path/to/power_bi_data_model.png" alt="Power BI data model showing the one-to-many relationship." width="500"/>
 
 Schema Note: Data is archived in two tables linked by a One-to-Many relationship (headlines.id -> entities.headline_id), ensuring accurate count of Named Entities per headline for historical analysis.
 
+**For more POWER BI visualization and matplotlib analysis got to->** [Click](https://akul-afk.github.io/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/)
+ 
 > 📁 Project Structure
 
 > News_Sentiment_Analysis/
