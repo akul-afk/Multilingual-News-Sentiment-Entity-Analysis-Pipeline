@@ -95,6 +95,7 @@ Schema Note: Data is archived in two tables linked by a One-to-Many relationship
 
 
 
+```mermaid
 graph TD
     subgraph "Phase 1: Orchestration & Data Acquisition"
         A[Start: run_full_pipeline.py] --> B{Configuration: site_configs.json};
@@ -104,6 +105,7 @@ graph TD
         E --> F{TextBlob: Sentiment Analysis (Polarity)};
         F --> G[Raw Data: raw_headlines_data.csv];
     end
+
     subgraph "Phase 2: Data Processing & Storage"
         G --> H{analysis_function.py: Data Cleaning & Transformation};
         H --> I[Processed Data: processed_data_final_[date].csv];
@@ -113,6 +115,7 @@ graph TD
         K & L --> M[MySQL Database: newsanalysisdb (Historical Data)];
         H --> N[Generate Matplotlib Charts];
     end
+
     subgraph "Phase 3: Visualization & Presentation"
         M --> O[Power BI: Connect to MySQL];
         O --> P{Power BI: Build Interactive Dashboard};
@@ -122,7 +125,9 @@ graph TD
         R --> S[index.html: Showcase on GitHub Pages];
         M --> S;
     end
+
     S --> T[End: Project Accessible Online];
+
     style A fill:#D4EDDA,stroke:#28A745,stroke-width:2px,color:#28A745
     style T fill:#D4EDDA,stroke:#28A745,stroke-width:2px,color:#28A745
     style B fill:#E0E0E0,stroke:#6C757D,stroke-width:1px,color:#343A40
@@ -142,3 +147,4 @@ graph TD
     style Q fill:#FFF3CD,stroke:#FFC107,stroke-width:1px,color:#343A40
     style R fill:#ADD8E6,stroke:#17A2B8,stroke-width:2px,color:#17A2B8
     style S fill:#D4EDDA,stroke:#28A745,stroke-width:2px,color:#28A745
+```
