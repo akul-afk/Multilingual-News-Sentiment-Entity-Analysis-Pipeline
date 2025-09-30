@@ -94,40 +94,40 @@ Schema Note: Data is archived in two tables linked by a One-to-Many relationship
 > ── requirements.txt             # Project dependencies
 
 
-
 ```mermaid
 graph TD
     subgraph "Phase 1: Orchestration & Data Acquisition"
-        A[Start: run_full_pipeline.py] --> B{Configuration: site_configs.json};
-        B --> C[web_scraper.py: Fetch Headlines from BBC ];
-        C --> D{Deep Translator: Translate to English};
-        D --> E{spaCy: Named Entity Recognition| NER};
-        E --> F{TextBlob: Sentiment Analysis| Polarity};
-        F --> G[Raw Data: raw_headlines_data.csv];
+        A["Start: run_full_pipeline.py"] --> B["Configuration: site_configs.json"];
+        B --> C["web_scraper.py: Fetch Headlines from BBC"];
+        C --> D["Deep Translator: Translate to English"];
+        D --> E["spaCy: Named Entity Recognition"];
+        E --> F["TextBlob: Sentiment Analysis"];
+        F --> G["Raw Data: raw_headlines_data.csv"];
     end
 
     subgraph "Phase 2: Data Processing & Storage"
-        G --> H{analysis_function.py: Data Cleaning & Transformation};
-        H --> I[Processed Data: processed_data_final_date.csv];
-        H --> J[Processed Entities: processed_entities_final_date.csv];
-        I --> K[db_connector.py: Insert into MySQL 'headlines' table];
-        J --> L[db_connector.py: Insert into MySQL 'entities' table];
-        K & L --> M[MySQL Database: newsanalysisdb | Historical Data];
-        H --> N[Generate Matplotlib Charts];
+        G --> H["analysis_function.py: Data Cleaning & Transformation"];
+        H --> I["Processed Data: processed_data_final_[date].csv"];
+        H --> J["Processed Entities: processed_entities_final_[date].csv"];
+        I --> K["db_connector.py: Insert into MySQL 'headlines' table"];
+        J --> L["db_connector.py: Insert into MySQL 'entities' table"];
+        K & L --> M["MySQL Database: newsanalysisdb Historical Data"];
+        H --> N["Generate Matplotlib Charts"];
     end
 
     subgraph "Phase 3: Visualization & Presentation"
-        M --> O[Power BI: Connect to MySQL];
-        O --> P{Power BI: Build Interactive Dashboard};
-        N --> Q[Power BI: Import Matplotlib Images | for static validation];
-        P --> R[Screenshot: Power BI Dashboard Visuals];
+        M --> O["Power BI: Connect to MySQL"];
+        O --> P["Power BI: Build Interactive Dashboard"];
+        N --> Q["Power BI: Import Matplotlib Images"];
+        P --> R["Screenshot: Power BI Dashboard Visuals"];
         Q --> R;
-        R --> S[index.html: Showcase on GitHub Pages];
+        R --> S["index.html: Showcase on GitHub Pages"];
         M --> S;
     end
 
-    S --> T[End: Project Accessible Online];
+    S --> T["End: Project Accessible Online"];
 
+    %% Style definitions are retained but adjusted to use the corrected node IDs
     style A fill:#D4EDDA,stroke:#28A745,stroke-width:2px,color:#28A745
     style T fill:#D4EDDA,stroke:#28A745,stroke-width:2px,color:#28A745
     style B fill:#E0E0E0,stroke:#6C757D,stroke-width:1px,color:#343A40
