@@ -101,25 +101,25 @@ graph TD
         A[Start: run_full_pipeline.py] --> B{Configuration: site_configs.json};
         B --> C[web_scraper.py: Fetch Headlines from BBC ];
         C --> D{Deep Translator: Translate to English};
-        D --> E{spaCy: Named Entity Recognition (NER)};
-        E --> F{TextBlob: Sentiment Analysis (Polarity)};
+        D --> E{spaCy: Named Entity Recognition| NER};
+        E --> F{TextBlob: Sentiment Analysis| Polarity};
         F --> G[Raw Data: raw_headlines_data.csv];
     end
 
     subgraph "Phase 2: Data Processing & Storage"
         G --> H{analysis_function.py: Data Cleaning & Transformation};
-        H --> I[Processed Data: processed_data_final_[date].csv];
-        H --> J[Processed Entities: processed_entities_final_[date].csv];
+        H --> I[Processed Data: processed_data_final_date.csv];
+        H --> J[Processed Entities: processed_entities_final_date.csv];
         I --> K[db_connector.py: Insert into MySQL 'headlines' table];
         J --> L[db_connector.py: Insert into MySQL 'entities' table];
-        K & L --> M[MySQL Database: newsanalysisdb (Historical Data)];
+        K & L --> M[MySQL Database: newsanalysisdb | Historical Data];
         H --> N[Generate Matplotlib Charts];
     end
 
     subgraph "Phase 3: Visualization & Presentation"
         M --> O[Power BI: Connect to MySQL];
         O --> P{Power BI: Build Interactive Dashboard};
-        N --> Q[Power BI: Import Matplotlib Images (for static validation)];
+        N --> Q[Power BI: Import Matplotlib Images | for static validation];
         P --> R[Screenshot: Power BI Dashboard Visuals];
         Q --> R;
         R --> S[index.html: Showcase on GitHub Pages];
