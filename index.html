@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilingual News Sentiment Pipeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(80, 23, 118);
+            color: #343a40;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #040507;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #157ae6;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: #007bff;
+            font-weight: 700;
+            font-size: 2.5em;
+        }
+        .section-title {
+            color: #12dc0f;
+            border-bottom: 2px solid rgb(57, 57, 238);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        .card {
+            background-color: #110211;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 5px solid #007bff;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        /* Grid for 2-column charts */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-full-width {
+            margin-bottom: 20px;
+        }
+        .chart-container {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            cursor: pointer; /* Indicate it's clickable */
+            transition: transform 0.2s;
+        }
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        .chart-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .chart-container h4 {
+            padding: 10px 15px;
+            margin: 0;
+            background-color: #e9ecef;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-align: center;
+        }
+        .file-links a {
+            display: inline-block;
+            margin: 5px 10px 5px 0;
+            padding: 8px 15px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .file-links a:hover {
+            background-color: #495057;
+        }
+        @media (max-width: 768px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        
+
+        #lightbox {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+        #lightbox-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 900px;
+        }
+        #lightbox-content img {
+            width: 100%;
+            height: auto;
+        }
+        #close-btn {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        #close-btn:hover,
+        #close-btn:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        p{
+            color: #ced4da;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🌐 Automated Multilingual News Sentiment Pipeline</h1>
+            <p>End-to-end data analysis project showcasing Python automation, NLP, MySQL modeling, and Power BI visualization.</p>
+        </header>
+
+        <h2 class="section-title">📊 Key Visualization Outputs (Click to Enlarge)</h2>
+        <div class="card">
+            <h3>Power BI Dashboard (Analysis)</h3>
+            <p>Screenshots of the final dashboard demonstrating historical sentiment trends, source comparison, and trending entity analysis.</p>
+
+
+            <div class="chart-full-width">
+                <div class="chart-container" onclick="openLightbox('Visualization/PowerBISS/countofentitiy.png')">
+                    <h4>Trending Entity Volume </h4>
+                    <img src="Visualization/PowerBISS/countofentitiy.png" alt="Power BI Treemap showing the count of most mentioned entities (People, Orgs).">
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <!-- Power BI Image 1: Polarity Trend -->
+                <div class="chart-container" onclick="openLightbox('Visualization/PowerBISS/polarity_average.png')">
+                    <h4>Sentiment Trend Over Time</h4>
+                    <img src="Visualization/PowerBISS/polarity_average.png" alt="Power BI Line Chart showing average polarity trend over multiple days.">
+                </div>
+
+                <!-- Power BI Image 3: Geographic Focus -->
+                <div class="chart-container" onclick="openLightbox('Visualization/PowerBISS/locationPing.png')">
+                    <h4>Geographic News Focus (GPE)</h4>
+                    <img src="Visualization/PowerBISS/locationPing.png" alt="Power BI Map visual showing the frequency of GPE (location) mentions.">
+                </div>
+            </div>
+
+            <p><strong>Insight:</strong> The line chart clearly shows the volatility of sentiment, allowing for immediate identification of major tone shifts between days, such as the sharp drop in sentiment for BBC Russian on September 30th.</p>
+        </div>
+
+<h2 class="section-title">🧐 Understanding Named Entities (NER)</h2>
+<div class="card">
+    <p>The Python pipeline uses the <code>spaCy</code> library to perform Named Entity Recognition (NER), classifying every proper noun in the translated headlines into specific categories. This allows for deep thematic analysis beyond just counting keywords.</p>
+
+    <div style="padding: 10px; border: 1px dashed #ced4da; border-radius: 6px; background-color: #f8f9fa;">
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <thead>
+                <tr style="background-color: #e9ecef;">
+                    <th style="padding: 8px; border: 1px solid #dee2e6; text-align: left;">Entity Label</th>
+                    <th style="padding: 8px; border: 1px solid #dee2e6; text-align: left;">Description</th>
+                    <th style="padding: 8px; border: 1px solid #dee2e6; text-align: left;">Example in News</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><strong>PERSON</strong></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">People, including fictional characters.</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>Joe Biden</code>, <code>King Charles</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><strong>ORG</strong></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Companies, agencies, institutions, or groups.</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>United Nations</code>, <code>Central Bank</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><strong>GPE</strong></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Geopolitical Entities (Countries, cities, states).</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>Mexico</code>, <code>New Delhi</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><strong>DATE</strong></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Absolute or relative dates or periods.</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>last week</code>, <code>2025</code>, <code>September 30</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><strong>NORP</strong></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Nationalities or religious/political groups.</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>American</code>, <code>Russian</code>, <code>Communist Party</code></td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><strong>CARDINAL</strong></td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;">Numerals that do not fall under other types.</td>
+                    <td style="padding: 8px; border: 1px solid #dee2e6;"><code>1.5 million</code>, <code>six people</code>, <code>third</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p style="margin-top: 15px; font-size: 0.9em;">**Analysis Focus:** By filtering for these labels, the charts accurately track who and what is trending, showing both major topics (PERSON, ORG) and context (GPE, DATE).</p>
+</div>        <!-- Matplotlib Outputs -->
+        <h2 class="section-title">📈 Code Validation (Matplotlib Outputs)</h2>
+        <div class="card">
+            <p>These charts are generated directly by the <code>analysis_functions.py</code> script and provide static validation of the sentiment and NER processing.</p>
+
+            <!-- Standard Grid for Matplotlib Charts -->
+            <div class="chart-grid">
+                <div class="chart-container" onclick="openLightbox('Data_Processing/Data_Output/Matplotlib_Charts/sentiment_by_source.png')">
+                    <h4>Source Sentiment Comparison</h4>
+                    <img src="Data_Processing/Data_Output/Matplotlib_Charts/sentiment_by_source.png" alt="Matplotlib Bar Chart comparing average sentiment polarity across six languages.">
+                </div>
+                <div class="chart-container" onclick="openLightbox('Data_Processing/Data_Output/Matplotlib_Charts/top_entities.png')">
+                    <h4>Top Named Entities (ORG/PERSON/GPE)</h4>
+                    <img src="Data_Processing/Data_Output/Matplotlib_Charts/top_entities.png" alt="Matplotlib Horizontal Bar Chart showing the overall most frequent named entities.">
+                </div>
+            </div>
+
+        </div>
+
+        <h2 class="section-title">📁 Project Files & Code Access</h2>
+        <div class="card file-links">
+            <h3>Access the Source Data and Code</h3>
+            <p>Click the links below to view the raw and processed data files generated by the latest pipeline run, or the core Python scripts.</p>
+
+            <a href="run_full_pipeline.py">Master Run Script (run_full_pipeline.py)</a>
+            <a href="Scraping_Scripts/web_scraper.py">Scraping Logic (web_scraper.py)</a>
+            <a href="Data_Processing/analysis_function.py">Analysis Logic (analysis_function.py)</a>
+            <a href="Data_Processing/db_connector.py">MySQL Connector (db_connector.py)</a>
+            <a href="Data_Processing/processed_data_final_2025_09_30.csv">Clean Processed Data (Latest Snapshot)</a>
+            <a href="Data_Processing/raw_headlines_data.csv">Raw Scraped Data</a>
+        </div>
+    </div>
+
+    <!-- The Lightbox Modal -->
+    <div id="lightbox" onclick="closeLightbox(event)">
+        <span id="close-btn">&times;</span>
+        <div id="lightbox-content">
+            <img id="lightbox-img" src="" alt="Enlarged Chart">
+        </div>
+    </div>
+
+    <script>
+        function openLightbox(src) {
+            document.getElementById('lightbox').style.display = 'block';
+            document.getElementById('lightbox-img').src = src;
+        }
+
+        function closeLightbox(event) {
+            // Close only if the user clicks the close button or the dark background
+            if (event.target.id === 'close-btn' || event.target.id === 'lightbox') {
+                document.getElementById('lightbox').style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>
