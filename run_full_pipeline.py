@@ -1,13 +1,10 @@
-# Standard Library Imports
+
 import os
 import sys
 
-# Add the necessary folders to the Python path so we can import modules
-# This allows the script to be run from the project root smoothly.
 sys.path.append(os.path.abspath("Scraping_Scripts"))
 sys.path.append(os.path.abspath("Data_Processing"))
 
-# Import the main functions from the separate scripts
 from Scraping_Scripts.web_scraper import main as run_scraper
 from Data_Processing.analysis_function import run_analysis_pipeline
 from Data_Processing.db_connector import insert_data_to_mysql
@@ -23,12 +20,11 @@ def run_full_pipeline():
     print("        STARTING FULL NEWS HEADLINE ANALYSIS PIPELINE     ")
     print("==========================================================")
 
-    # STEP 1: Run the Web Scraper (collects data and saves raw CSV)
+
     print("\n[STEP 1/3] Running Web Scraper...")
     run_scraper()
     print("[STEP 1/3] Complete.")
 
-    # STEP 2: Run the Analysis Pipeline (cleans data, generates charts, returns DFs)
     print("\n[STEP 2/3] Running Data Cleaning and Analysis...")
     df_headlines, df_entities = run_analysis_pipeline()
 
@@ -36,8 +32,6 @@ def run_full_pipeline():
         print("\n!!! PIPELINE FAILED at Data Analysis. Check previous errors. !!!")
         return
     print("[STEP 2/3] Complete.")
-
-    # STEP 3: Insert Data into MySQL (Requires the cleaned DataFrames from Step 2)
     print("\n[STEP 3/3] Inserting Data into MySQL...")
     insert_data_to_mysql(df_headlines, df_entities)
     print("[STEP 3/3] Complete.")
