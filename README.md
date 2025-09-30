@@ -95,7 +95,7 @@ Schema Note: Data is archived in two tables linked by a One-to-Many relationship
 
 
 ```mermaid
-graph TD
+graph LR
     subgraph "Phase 1: Orchestration & Data Acquisition"
         A["Start: run_full_pipeline.py"] --> B["Configuration: site_configs.json"];
         B --> C["web_scraper.py: Fetch Headlines from BBC"];
