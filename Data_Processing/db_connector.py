@@ -1,4 +1,3 @@
-
 import os
 import sys
 
@@ -12,7 +11,7 @@ if __name__ == "__main__":
     try:
         from analysis_function import run_analysis_pipeline
     except ImportError:
-        print("Warning: analysis_functions not found. Database connector cannot run in standalone mode without data.")
+        pass
 
 DB_CONFIG = {
     'host': 'localhost',
@@ -32,6 +31,12 @@ CREATE TABLE IF NOT EXISTS headlines (
     scrape_date DATE DEFAULT (CURRENT_DATE)
 );
 """
+
+HEADLINES_UNIQUE_INDEX_SQL = """
+ALTER TABLE headlines 
+ADD UNIQUE INDEX idx_unique_headline (translated_headline(255), source_name);
+"""
+
 ENTITIES_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS entities (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -44,7 +49,6 @@ CREATE TABLE IF NOT EXISTS entities (
 
 
 def create_database_and_tables(cnx, cursor):
-    """Creates the database and tables if they do not exist."""
     try:
         cnx.database = DB_CONFIG['database']
     except mysql.connector.Error as err:
@@ -60,36 +64,33 @@ def create_database_and_tables(cnx, cursor):
                 temp_cnx.close()
 
                 cnx.database = DB_CONFIG['database']
-                print(f"   -> Database '{DB_CONFIG['database']}' created successfully.")
             except mysql.connector.Error as err:
-                print(f"   -> Failed to create database: {err}")
                 return False
         else:
-            print(f"   -> Database connection error: {err}")
             return False
 
     try:
         cursor.execute(HEADLINES_TABLE_SQL)
-        print("   -> 'headlines' table verified/created.")
+        
+        try:
+            cursor.execute(HEADLINES_UNIQUE_INDEX_SQL)
+        except mysql.connector.Error as err:
+            if err.errno != errorcode.ER_DUP_KEYNAME and "Duplicate entry" not in str(err):
+                 raise err 
+
         cursor.execute(ENTITIES_TABLE_SQL)
-        print("   -> 'entities' table verified/created.")
         return True
     except mysql.connector.Error as err:
-        print(f"   -> Error creating tables: {err}")
         return False
 
 
 def insert_data_to_mysql(df_headlines, df_entities):
-    """Inserts processed Pandas DataFrames into MySQL tables."""
-    print("\n--- Starting MySQL Data Insertion ---")
-
+    
     try:
         cnx = mysql.connector.connect(host=DB_CONFIG['host'], user=DB_CONFIG['user'], password=DB_CONFIG['password'],
-                                      port=DB_CONFIG['port'])
+                                     port=DB_CONFIG['port'])
         cursor = cnx.cursor()
     except mysql.connector.Error as err:
-        print(f"Error: Could not connect to MySQL. Check credentials and server status.")
-        print(f"Error details: {err}")
         return
 
     if not create_database_and_tables(cnx, cursor):
@@ -97,28 +98,50 @@ def insert_data_to_mysql(df_headlines, df_entities):
         cnx.close()
         return
 
-
     headline_insert_query = (
-        "INSERT INTO headlines (source_name, original_headline, translated_headline, polarity) "
-        "VALUES (%s, %s, %s, %s)"
+        "INSERT INTO headlines (source_name, original_headline, translated_headline, polarity, scrape_date) "
+        "VALUES (%s, %s, %s, %s, %s) "
+        "ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)"
     )
 
     headline_map = {}
+    headlines_inserted_count = 0
+    
+    df_headlines = df_headlines.reset_index(drop=True) 
 
     for index, row in df_headlines.iterrows():
-        headline_data = (row['Source_Name'], row['Original_Headline'], row['Translated_Headline'], row['Polarity'])
+        headline_data = (
+            row['Source_Name'], 
+            row['Original_Headline'], 
+            row['Translated_Headline'], 
+            row['Polarity'],
+            row['Scrape_Date']
+        )
         try:
             cursor.execute(headline_insert_query, headline_data)
-            headline_id = cursor.lastrowid
-            headline_map[index] = headline_id 
-        except mysql.connector.Error as err:
-            print(f"Error inserting headline: {err}")
+            
+            if cursor.rowcount == 1:
+                headline_id = cursor.lastrowid
+                headline_map[index] = headline_id
+                headlines_inserted_count += 1
+            else:
+                select_id_query = "SELECT id FROM headlines WHERE translated_headline = %s AND source_name = %s LIMIT 1"
+                cursor.execute(select_id_query, (row['Translated_Headline'], row['Source_Name']))
+                existing_id = cursor.fetchone()
+                if existing_id:
+                     headline_map[index] = existing_id[0]
+                
+        except mysql.connector.Error:
+            pass
+            
     entity_insert_query = (
         "INSERT INTO entities (headline_id, entity_text, entity_label) "
         "VALUES (%s, %s, %s)"
     )
 
     entities_inserted_count = 0
+    df_entities = df_entities.reset_index(drop=True) 
+    
     for index, row in df_entities.iterrows():
         headline_id = headline_map.get(index)
 
@@ -127,25 +150,20 @@ def insert_data_to_mysql(df_headlines, df_entities):
             try:
                 cursor.execute(entity_insert_query, entity_data)
                 entities_inserted_count += 1
-            except mysql.connector.Error as err:
-                print(f"Error inserting entity: {err}")
+            except mysql.connector.Error:
+                pass
 
     cnx.commit()
-
-    print(f"   -> Successfully inserted {len(df_headlines)} headlines and {entities_inserted_count} entities.")
-    print("--- MySQL Data Insertion Complete ---")
 
     cursor.close()
     cnx.close()
 
 
 if __name__ == "__main__":
- 
-    print("Running db_connector standalone...")
- 
+    
     try:
-        df_h, df_e = run_analysis_pipeline()
+        df_h, df_e = run_analysis_pipeline() 
         if df_h is not None:
             insert_data_to_mysql(df_h, df_e)
     except NameError:
-        print("Cannot run standalone: Missing run_analysis_pipeline import.")
+        pass
