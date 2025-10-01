@@ -1,16 +1,13 @@
-# Standard Library Imports
+
 import os
 import sys
-
-# Add the necessary folders to the Python path so we can import modules
-# This allows the script to be run from the project root smoothly.
 sys.path.append(os.path.abspath("Scraping_Scripts"))
 sys.path.append(os.path.abspath("Data_Processing"))
 
-# Import the main functions from the separate scripts
 from Scraping_Scripts.web_scraper import main as run_scraper
 from Data_Processing.analysis_function import run_analysis_pipeline
 from Data_Processing.db_connector import insert_data_to_mysql
+
 
 def run_full_pipeline():
     """
