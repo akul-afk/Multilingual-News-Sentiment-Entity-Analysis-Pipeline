@@ -71,7 +71,7 @@ Output: The script sequentially runs the scraper, cleans and processes the data,
 
 Schema Note: Data is archived in two tables linked by a One-to-Many relationship (headlines.id -> entities.headline_id), ensuring accurate count of Named Entities per headline for historical analysis.
 
-**For more POWER BI visualization and matplotlib analysis got to->** [Click](https://akul-afk.github.io/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/)
+**For more POWER BI visualization and matplotlib analysis got to->** [Click](https://multilingual-news-sentiment-entity.vercel.app/)
  
 > 📁 Project Structure
 
