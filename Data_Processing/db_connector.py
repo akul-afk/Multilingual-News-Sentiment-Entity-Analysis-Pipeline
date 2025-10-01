@@ -83,7 +83,6 @@ def insert_data_to_mysql(df_headlines, df_entities):
     """Inserts processed Pandas DataFrames into MySQL tables."""
     print("\n--- Starting MySQL Data Insertion ---")
 
-    # Establish Connection
     try:
         cnx = mysql.connector.connect(host=DB_CONFIG['host'], user=DB_CONFIG['user'], password=DB_CONFIG['password'],
                                       port=DB_CONFIG['port'])
