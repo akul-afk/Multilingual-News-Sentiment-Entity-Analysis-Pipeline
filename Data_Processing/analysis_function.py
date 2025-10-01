@@ -1,39 +1,33 @@
-
 import csv
 import os
 import ast
 import pathlib
-import sys
 from datetime import date
-
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
-INPUT_FILE = "Data_Processing/raw_headlines_data.csv"
-
-
 today = date.today().strftime("%Y_%m_%d")
+project_root = os.getcwd()
 
-OUTPUT_FILE = f"Data_Processing/processed_data_final_{today}.csv"
-ENTITIES_OUTPUT_FILE = f"Data_Processing/processed_entities_final_{today}.csv"
-CHART_DIR = "Data_Processing/Data_Output/Matplotlib_Charts"  
+INPUT_FILE = os.path.join(project_root, f"raw_csv_daily/raw_headlines_data_{today}.csv")
+
+OUTPUT_DIR = os.path.join(project_root, "cleaned_csv_daily")
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, f"processed_data_final_{today}.csv")
+ENTITIES_OUTPUT_FILE = os.path.join(OUTPUT_DIR, f"processed_entities_final_{today}.csv")
+
+CHART_DIR = os.path.join(project_root, "Data_Processing/Data_Output/Matplotlib_Charts")
 
 
 def load_and_clean_data(input_filepath):
-    """
-    Loads the raw CSV data, performs cleaning, standardization,
-    and explodes the entity data for analysis.
-    """
     try:
         df = pd.read_csv(input_filepath)
     except FileNotFoundError:
-        print(f"Error: Input file not found at {input_filepath}.")
-        print("Please ensure web_scraper.py has been run successfully.")
         return None, None
     except pd.errors.EmptyDataError:
-        print(f"Error: Input file {input_filepath} is empty.")
         return None, None
 
     def clean_source(url):
@@ -60,7 +54,6 @@ def load_and_clean_data(input_filepath):
 
     return df_headlines_clean, df_entities_clean
 def generate_visualizations(df_headlines, df_entities, chart_dir):
-    """Generates and saves Matplotlib charts."""
     pathlib.Path(chart_dir).mkdir(parents=True, exist_ok=True)
     sentiment_summary = df_headlines.groupby('Source_Name')['Polarity'].mean().sort_values()
 
@@ -74,7 +67,6 @@ def generate_visualizations(df_headlines, df_entities, chart_dir):
     plt.tight_layout()
     plt.savefig(os.path.join(chart_dir, 'sentiment_by_source.png'))
     plt.close()
-    print(f"   -> Saved: {os.path.join(chart_dir, 'sentiment_by_source.png')}")
 
     top_entities = df_entities[df_entities['Label'].isin(['ORG', 'PERSON', 'GPE'])]['Entity'].value_counts().head(10)
 
@@ -85,15 +77,13 @@ def generate_visualizations(df_headlines, df_entities, chart_dir):
     plt.ylabel('Entity Name')
     plt.grid(axis='x', linestyle='--', alpha=0.7)
     plt.tight_layout()
-    plt.savefig(os.path.join(chart_dir, 'top_entities.png'))
+    chart_date = date.today().strftime("%Y_%m_%d") 
+
+    plt.savefig(os.path.join(chart_dir, f'sentiment_by_source_{chart_date}.png'))
     plt.close()
-    print(f"   -> Saved: {os.path.join(chart_dir, 'top_entities.png')}")
 
 
 def run_analysis_pipeline():
-    """Main function to run the full data processing and visualization."""
-    print("\n--- Starting Data Cleaning, Processing, and Matplotlib Visualization ---")
-
     df_headlines, df_entities = load_and_clean_data(INPUT_FILE)
 
     if df_headlines is None:
@@ -101,15 +91,11 @@ def run_analysis_pipeline():
 
     df_headlines.to_csv(OUTPUT_FILE, index=False)
     df_entities.to_csv(ENTITIES_OUTPUT_FILE, index=False)
-    print(f"   -> Clean headlines saved to {OUTPUT_FILE}")
-    print(f"   -> Clean entities saved to {ENTITIES_OUTPUT_FILE}")
 
     generate_visualizations(df_headlines, df_entities, CHART_DIR)
 
-    print("--- Data Processing Complete ---")
     return df_headlines, df_entities
 
 
 if __name__ == "__main__":
-
     run_analysis_pipeline()
