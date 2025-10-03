@@ -5,8 +5,6 @@ import sys
 sys.path.append(os.getcwd())
 
 
-# CORRECTED IMPORTS: Now Python finds 'web_scraper' inside the 
-# 'Scraping_Scripts' folder and 'analysis_function' inside the 'Data_Processing' folder.
 from Scraping_Scripts.web_scraper import main as run_scraper
 from Data_Processing.analysis_function import run_analysis_pipeline
 from Data_Processing.db_connector import insert_data_to_mysql
