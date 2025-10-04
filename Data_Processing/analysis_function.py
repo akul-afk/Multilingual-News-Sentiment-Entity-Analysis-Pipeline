@@ -71,7 +71,7 @@ def load_and_clean_data(input_filepath):
     )
     df_entities_clean = entities_df[['Source_Name', 'Entity', 'Label']].copy()
 
-    df_headlines_clean = df[['Source_Name', 'Original_Headline', 'Translated_Headline', 'Polarity']].copy()
+    df_headlines_clean = df[['Source_Name', 'Original_Headline', 'Translated_Headline', 'Polarity','Scrape_Date']].copy()
 
     return df_headlines_clean, df_entities_clean
 
