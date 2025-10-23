@@ -9,10 +9,10 @@ jobs:
   run_and_push:
     runs-on: ubuntu-latest
     
-    # --- CRITICAL FIX ---
+    
     permissions:
       contents: write
-    # --------------------
+  
       
     env:
       DB_HOST: ${{ secrets.AIVEN_HOST }}
@@ -24,7 +24,7 @@ jobs:
     steps:
     - name: Checkout repository code
       uses: actions/checkout@v4
-      # Note: The 'token' input in the checkout action is redundant when 'permissions: contents: write' is set at the job level.
+      
         
     - name: Set up Python 3.10
       uses: actions/setup-python@v5
@@ -45,7 +45,7 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: "🤖 Daily Pipeline Run: Updated Charts and Analysis"
-        # Ensure these paths are correct relative to the root:
+        
         files: |
           index.html
           Data_Output/Matplotlib_Charts/*.png
