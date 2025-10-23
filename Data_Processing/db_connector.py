@@ -14,11 +14,13 @@ if __name__ == "__main__":
         pass
 
 DB_CONFIG = {
-    'host': os.environ.get('mysql-headlines.i.aivencloud.com', 'localhost'),
-    'database': os.environ.get('NewsHeadlines', 'NewsHeadlines'), 
-    'user': os.environ.get('avnadmin', 'root'), 
-    'password': os.environ.get('local_pass_place', 'local_password'),
-    'port': os.environ.get('25840', 3306)
+    'host': os.environ.get('DB_HOST', 'localhost'),
+    'database': os.environ.get('DB_DATABASE', 'NewsHeadlines'),
+    'user': os.environ.get('DB_USER', 'root'), 
+
+    'password': os.environ.get('DB_PASSWORD', 'local_password'),
+    
+    'port': int(os.environ.get('DB_PORT', 3306))
 }
 
 HEADLINES_TABLE_SQL = """
