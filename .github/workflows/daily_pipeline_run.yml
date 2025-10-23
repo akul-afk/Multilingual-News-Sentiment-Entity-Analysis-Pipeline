@@ -2,7 +2,6 @@ name: Daily News Sentiment Pipeline (Aiven CI/CD)
 
 on:
   schedule:
-   
     - cron: '0 8 * * *' 
   workflow_dispatch:
 
@@ -10,7 +9,11 @@ jobs:
   run_and_push:
     runs-on: ubuntu-latest
     
-    # 1. Inject Aiven Secrets as Environment Variables
+    # --- CRITICAL FIX ---
+    permissions:
+      contents: write
+    # --------------------
+      
     env:
       DB_HOST: ${{ secrets.AIVEN_HOST }}
       DB_PORT: ${{ secrets.AIVEN_PORT }}
@@ -21,9 +24,7 @@ jobs:
     steps:
     - name: Checkout repository code
       uses: actions/checkout@v4
-      with:
-        # Crucial: Allows the action to commit and push files back to the repository
-        token: ${{ secrets.GITHUB_TOKEN }}
+      # Note: The 'token' input in the checkout action is redundant when 'permissions: contents: write' is set at the job level.
         
     - name: Set up Python 3.10
       uses: actions/setup-python@v5
@@ -31,24 +32,20 @@ jobs:
         python-version: '3.10'
         
     - name: Install dependencies
-      # Use sudo for package manager to install system dependencies needed for libraries like mysql-connector
       run: |
         sudo apt-get update
         sudo apt-get install -y libmysqlclient-dev
         pip install -r requirements.txt
         python -m spacy download en_core_web_sm
         
-   
-    - name: Execute Full Pipeline
-      # This runs the run_full_pipeline.py from the root
+    - name: Execute Full Python Pipeline
       run: python run_full_pipeline.py
       
-    # 3. Commit and Push Charts/Reports
-    - name: Commit and push new reports and charts
+    - name: Commit and push new reports
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        # Files to commit: index.html (updated charts), and the generated PNGs
         commit_message: "🤖 Daily Pipeline Run: Updated Charts and Analysis"
+        # Ensure these paths are correct relative to the root:
         files: |
           index.html
           Data_Output/Matplotlib_Charts/*.png
