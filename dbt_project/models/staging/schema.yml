@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_articles
+    description: "Denormalized staging view of all articles with source and date dimensions joined."
+    columns:
+      - name: article_key
+        description: "Primary key for the article"
+        tests:
+          - unique
+          - not_null
+
+      - name: translated_headline
+        description: "English-translated headline text"
+        tests:
+          - not_null
+
+      - name: polarity
+        description: "Sentiment polarity score from -1 to +1"
+
+      - name: source_name
+        description: "BBC language service name"
+
+      - name: scrape_date
+        description: "Date the article was scraped"

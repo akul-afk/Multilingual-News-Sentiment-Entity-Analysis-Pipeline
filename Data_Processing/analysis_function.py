@@ -4,6 +4,7 @@ import ast
 import pathlib
 from datetime import date
 import glob
+import sys
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -69,7 +70,7 @@ def load_and_clean_data(input_filepath):
     entities_df[['Entity', 'Label']] = pd.DataFrame(
         entities_df['Entities_List'].tolist(), index=entities_df.index
     )
-    df_entities_clean = entities_df[['Source_Name', 'Entity', 'Label']].copy()
+    df_entities_clean = entities_df[['Source_Name', 'Entity', 'Label', 'Scrape_Date']].copy()
 
     df_headlines_clean = df[['Source_Name', 'Original_Headline', 'Translated_Headline', 'Polarity','Scrape_Date']].copy()
 
@@ -118,6 +119,19 @@ def run_analysis_pipeline():
     df_entities_cumulative = load_cumulative_entities(OUTPUT_DIR)
     
     generate_visualizations(df_headlines, df_entities_cumulative, CHART_DIR)
+
+    # Generate dashboard JSON data
+    try:
+        from Data_Processing.data_aggregator import generate_dashboard_data
+        print("\n[STEP 2.5] Generating dashboard JSON data...")
+        generate_dashboard_data()
+    except ImportError:
+        try:
+            from data_aggregator import generate_dashboard_data
+            print("\n[STEP 2.5] Generating dashboard JSON data...")
+            generate_dashboard_data()
+        except ImportError:
+            print("  [WARNING] data_aggregator module not found, skipping JSON generation.")
 
     return df_headlines, df_entities
 

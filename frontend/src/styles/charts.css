@@ -1,0 +1,176 @@
+/* ── Chart Containers ──────────────────────────────────────── */
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  animation: fadeIn var(--duration-slow) ease 200ms both;
+}
+
+.chart-wrapper canvas {
+  max-width: 100%;
+}
+
+/* ── Treemap ───────────────────────────────────────────────── */
+.treemap {
+  display: grid;
+  gap: 3px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  min-height: 350px;
+}
+
+.treemap__cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    opacity var(--duration-fast) ease,
+    transform var(--duration-normal) var(--ease-spring),
+    box-shadow var(--duration-normal) ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 60px;
+}
+
+.treemap__cell:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
+  z-index: 2;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.treemap__cell:active {
+  transform: scale(0.98);
+}
+
+/* Glow on hover */
+.treemap__cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.treemap__cell:hover::before { opacity: 1; }
+
+.treemap__cell-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.treemap__cell-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.1;
+}
+
+.treemap__cell-count {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.5);
+  margin-top: 2px;
+}
+
+/* ── Network Graph ─────────────────────────────────────────── */
+.network-canvas {
+  width: 100%;
+  height: 300px;
+  border-radius: var(--radius-md);
+  background: var(--surface-lowest);
+  transition: box-shadow var(--duration-normal) ease;
+}
+
+.network-canvas:hover {
+  box-shadow: inset 0 0 30px rgba(88, 166, 255, 0.05);
+}
+
+/* ── Gauge ──────────────────────────────────────────────────── */
+.gauge-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+.gauge-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.gauge__center-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--text);
+  animation: countUp var(--duration-slow) var(--ease-out-expo);
+}
+
+/* ── Leaflet Map Overrides ─────────────────────────────────── */
+.map-container {
+  width: 100%;
+  height: 450px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface-lowest);
+  transition: box-shadow var(--duration-normal) ease;
+}
+
+.map-container:hover {
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.leaflet-container {
+  background: var(--bg) !important;
+}
+
+.leaflet-control-zoom a {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--glass-border) !important;
+}
+
+.map-tooltip {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: var(--space-3) var(--space-4) !important;
+  color: var(--text) !important;
+  font-family: var(--font-body) !important;
+  font-size: 0.8rem !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.map-tooltip .tooltip-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.map-tooltip .tooltip-stat {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* ── Sparkline ─────────────────────────────────────────────── */
+.sparkline-container {
+  height: 40px;
+  width: 100%;
+}
+
+.sparkline-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}

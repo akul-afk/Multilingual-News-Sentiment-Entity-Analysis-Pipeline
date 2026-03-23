@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: fct_daily_sentiment
+    description: "Daily sentiment aggregation by source. Powers trend charts and reports."
+    columns:
+      - name: scrape_date
+        description: "Date of the scrape"
+        tests:
+          - not_null
+
+      - name: source_name
+        description: "BBC language service name"
+        tests:
+          - not_null
+
+      - name: headline_count
+        description: "Number of headlines scraped from this source on this date"
+        tests:
+          - not_null
+
+      - name: avg_polarity
+        description: "Average sentiment polarity for the day-source combination"
+
+  - name: dim_entity_summary
+    description: "Entity frequency and sentiment analysis across all sources and dates."
+    columns:
+      - name: entity_text
+        description: "Named entity text"
+        tests:
+          - not_null
+
+      - name: article_count
+        description: "Number of articles mentioning this entity"
+        tests:
+          - not_null

@@ -1,0 +1,92 @@
+{
+  "file": "raw_headlines_data_2026_01_06.csv",
+  "timestamp": "2026-03-24T01:28:07.949456",
+  "overall_status": "PASS",
+  "checks": [
+    {
+      "name": "schema_validation",
+      "status": "PASS",
+      "expected_columns": [
+        "Entities_Raw",
+        "Original_Headline",
+        "Polarity",
+        "Scrape_Date",
+        "Source_Language_Code",
+        "Source_URL",
+        "Translated_Headline"
+      ],
+      "missing_columns": [],
+      "extra_columns": [],
+      "detail": "All expected columns present"
+    },
+    {
+      "name": "minimum_row_count",
+      "status": "PASS",
+      "expected_min": 10,
+      "actual": 52,
+      "detail": "52 rows found (min: 10)"
+    },
+    {
+      "name": "no_null_headlines",
+      "status": "PASS",
+      "null_translated": 0,
+      "null_original": 0,
+      "detail": "Null translated: 0, null original: 0"
+    },
+    {
+      "name": "polarity_in_range",
+      "status": "PASS",
+      "expected_range": [
+        -1.0,
+        1.0
+      ],
+      "actual_range": [
+        -0.4,
+        0.4
+      ],
+      "detail": "Range: [-0.4000, 0.4000]"
+    },
+    {
+      "name": "source_diversity",
+      "status": "PASS",
+      "expected_min_sources": 3,
+      "actual_sources": 6,
+      "source_list": [
+        "https://www.bbc.com/mundo",
+        "https://www.bbc.com/hindi",
+        "https://www.bbc.com/portuguese",
+        "https://www.bbc.com/russian",
+        "https://www.bbc.com/japanese",
+        "https://www.bbc.com/swahili"
+      ],
+      "detail": "6 unique sources found (min: 3)"
+    },
+    {
+      "name": "no_duplicate_headlines",
+      "status": "PASS",
+      "duplicate_count": 0,
+      "detail": "0 duplicate headline-source pairs found"
+    },
+    {
+      "name": "headline_length_reasonable",
+      "status": "PASS",
+      "too_short": 0,
+      "too_long": 0,
+      "detail": "Short (<10 chars): 0, Long (>500 chars): 0"
+    },
+    {
+      "name": "date_format_valid",
+      "status": "PASS",
+      "sample_date": "2026_01_06",
+      "expected_format": "YYYY_MM_DD",
+      "detail": "Sample date: 2026_01_06"
+    }
+  ],
+  "summary": {
+    "total_checks": 8,
+    "passed": 8,
+    "warnings": 0,
+    "failed": 0,
+    "row_count": 52
+  }
+}
