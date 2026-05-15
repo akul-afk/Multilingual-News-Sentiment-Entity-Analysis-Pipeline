@@ -1,7 +1,17 @@
-import csv
-import subprocess
+"""
+Web Scraper Module
+Scrapes headlines from 6 BBC World Service language sites,
+translates them to English, and performs sentiment + NER analysis.
+"""
+
 import os
+import re
+import csv
+import json
+import logging
 from datetime import date
+from typing import List, Dict, Optional, Tuple
+import subprocess
 import requests
 from bs4 import BeautifulSoup
 from deep_translator import GoogleTranslator
@@ -21,7 +31,7 @@ nlp = spacy.load('en_core_web_sm')
 # ── HuggingFace Inference API Config ────────────────────────────────────────
 HF_API_TOKEN = os.environ.get('HF_API_TOKEN', '')
 HF_MODEL = "cardiffnlp/twitter-roberta-base-sentiment-latest"
-HF_API_URL = f"https://api-inference.huggingface.co/models/{HF_MODEL}"
+HF_API_URL = f"https://router.huggingface.co/models/{HF_MODEL}"
 
 # Label mapping: RoBERTa outputs → polarity float
 # Model labels: negative, neutral, positive
@@ -35,37 +45,37 @@ SITE_CONFIGS = [
     {
         "url": "https://www.bbc.com/mundo",
         "tag": "h3",
-        "class": "bbc-pam0zn e47bds20",
+        "class": "ez3pb4d0",
         "src_language": "es"
     },
     {
         "url": "https://www.bbc.com/hindi",
         "tag": "h3",
-        "class": "bbc-1kr00f0 e47bds20",
+        "class": "ez3pb4d0",
         "src_language": "hi"
     },
     {
         "url": "https://www.bbc.com/portuguese",
         "tag": "h3",
-        "class": "bbc-pam0zn e47bds20",
+        "class": "ez3pb4d0",
         "src_language": "pt"
     },
     {
         "url": "https://www.bbc.com/russian",
         "tag": "h3",
-        "class": "bbc-pam0zn e47bds20",
+        "class": "ez3pb4d0",
         "src_language": "ru"
     },
     {
         "url": "https://www.bbc.com/japanese",
         "tag": "h3",
-        "class": "bbc-7k6nqm e47bds20",
+        "class": "ez3pb4d0",
         "src_language": "ja"
     },
     {
         "url": "https://www.bbc.com/swahili",
         "tag": "h3",
-        "class": "bbc-pam0zn e47bds20",
+        "class": "ez3pb4d0",
         "src_language": "sw"  # Swahili (East Africa)
     }
 ]
@@ -74,8 +84,6 @@ SITE_CONFIGS = [
 def fetch_headlines(url, headline_tag, headline_class):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
     }
 
     try:
@@ -83,23 +91,23 @@ def fetch_headlines(url, headline_tag, headline_class):
         page.raise_for_status()
         soup = BeautifulSoup(page.content, 'html.parser')
 
-        main_list = soup.find('ul', class_='bbc-1rrncb9')
+        # Try direct search first
+        headline_elements = soup.find_all(headline_tag, class_=headline_class)
 
-        if not main_list:
-             main_list = soup.find('div', class_='bbc-1ajedpd')
-             if not main_list:
-                 return []
+        # Fallback to general h3 inside specific containers if needed
+        if not headline_elements:
+            main_list = soup.find('ul', class_='bbc-1rrncb9') or soup.find('div', class_='bbc-1ajedpd')
+            if main_list:
+                headline_elements = main_list.find_all('h3')
+
+        if not headline_elements:
+            return []
 
         headlines = []
-
-        for item in main_list.find_all('li', recursive=False):
-            headline_element = item.find('h3')
-
-            if headline_element:
-                headline_text = headline_element.a.get_text(strip=True) if headline_element.a else headline_element.get_text(strip=True)
-
-                if len(headline_text) > 10:
-                    headlines.append(headline_text)
+        for el in headline_elements:
+            headline_text = el.a.get_text(strip=True) if getattr(el, 'a', None) else el.get_text(strip=True)
+            if len(headline_text) > 10:
+                headlines.append(headline_text)
 
             if len(headlines) >= 10:
                 break
@@ -110,7 +118,8 @@ def fetch_headlines(url, headline_tag, headline_class):
         return []
 
 
-def translate_headline(headline, src_language):
+def translate_headline(headline: str, src_language: str) -> str:
+    """Translate a headline from source language to English."""
     translator = GoogleTranslator(source=src_language, target='en')
     try:
         if not headline.strip():

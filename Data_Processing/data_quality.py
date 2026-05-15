@@ -6,20 +6,94 @@ Outputs JSON validation reports to Data_Output/quality_reports/.
 
 import os
 import json
+import logging
+from pathlib import Path
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional
+
 import pandas as pd
 from datetime import datetime
 
+logger = logging.getLogger(__name__)
 
-def validate_raw_data(csv_path, report_dir=None):
+# ── Project root resolved from this file's location ───────────
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+
+# ═══════════════════════════════════════════════════════════════
+#  Assertion Helpers (used by unit tests & internal checks)
+# ═══════════════════════════════════════════════════════════════
+
+@dataclass
+class DataQualityConfig:
+    """Configuration for data quality validation thresholds."""
+    min_rows: int = 10
+    min_sources: int = 3
+    polarity_range: tuple = (-1.0, 1.0)
+    min_headline_length: int = 10
+    max_headline_length: int = 500
+    expected_columns: List[str] = field(default_factory=lambda: [
+        'Scrape_Date', 'Source_URL', 'Source_Language_Code',
+        'Original_Headline', 'Translated_Headline', 'Polarity', 'Entities_Raw'
+    ])
+
+
+def _assert_not_null(df: pd.DataFrame, column: str) -> Dict[str, Any]:
+    """Assert that a column has no null values."""
+    null_count = int(df[column].isna().sum())
+    return {
+        'check': 'not_null',
+        'column': column,
+        'passed': null_count == 0,
+        'failed_count': null_count,
+        'total_rows': len(df),
+        'detail': f'{null_count} null values in {column}'
+    }
+
+
+def _assert_unique(df: pd.DataFrame, column: str) -> Dict[str, Any]:
+    """Assert that a column has no duplicate values."""
+    dupe_count = int(df[column].duplicated().sum())
+    return {
+        'check': 'unique',
+        'column': column,
+        'passed': dupe_count == 0,
+        'failed_count': dupe_count,
+        'total_rows': len(df),
+        'detail': f'{dupe_count} duplicate values in {column}'
+    }
+
+
+def _assert_value_range(
+    df: pd.DataFrame, column: str,
+    min_val: float = float('-inf'), max_val: float = float('inf')
+) -> Dict[str, Any]:
+    """Assert that all values in a numeric column fall within [min_val, max_val]."""
+    out_of_range = int(((df[column] < min_val) | (df[column] > max_val)).sum())
+    return {
+        'check': 'value_range',
+        'column': column,
+        'passed': out_of_range == 0,
+        'failed_count': out_of_range,
+        'expected_range': [min_val, max_val],
+        'total_rows': len(df),
+        'detail': f'{out_of_range} values outside [{min_val}, {max_val}]'
+    }
+
+
+def validate_raw_data(csv_path: str, report_dir: Optional[str] = None) -> Dict[str, Any]:
     """
     Run data quality checks on a raw scraped CSV file.
+
+    Args:
+        csv_path: Path to the raw CSV file.
+        report_dir: Directory to save the JSON report. Defaults to Data_Output/quality_reports/.
 
     Returns:
         dict: Validation report with pass/fail status for each check.
     """
     if report_dir is None:
-        project_root = os.getcwd()
-        report_dir = os.path.join(project_root, "Data_Output", "quality_reports")
+        report_dir = str(PROJECT_ROOT / "Data_Output" / "quality_reports")
 
     os.makedirs(report_dir, exist_ok=True)
 

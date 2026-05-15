@@ -1,31 +1,39 @@
-import csv
+"""
+Analysis & Cleaning Module
+Cleans raw scraped CSVs, categorizes sources, extracts entities,
+and generates Matplotlib visualizations.
+"""
 import os
 import ast
-import pathlib
+import logging
+from pathlib import Path
 from datetime import date
 import glob
-import sys
+from typing import Optional, Tuple
 
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 today = date.today().strftime("%Y_%m_%d")
-project_root = os.getcwd() 
+PROJECT_ROOT = Path(__file__).resolve().parent
+INPUT_FILE = PROJECT_ROOT / f"raw_csv_daily/raw_headlines_data_{today}.csv"
 
-INPUT_FILE = os.path.join(project_root, f"raw_csv_daily/raw_headlines_data_{today}.csv")
+OUTPUT_DIR = PROJECT_ROOT / "cleaned_csv_daily"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-OUTPUT_DIR = os.path.join(project_root, "cleaned_csv_daily")
-os.makedirs(OUTPUT_DIR, exist_ok=True) 
+OUTPUT_FILE = OUTPUT_DIR / f"processed_data_final_{today}.csv"
+ENTITIES_OUTPUT_FILE = OUTPUT_DIR / f"processed_entities_final_{today}.csv"
 
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, f"processed_data_final_{today}.csv")
-ENTITIES_OUTPUT_FILE = os.path.join(OUTPUT_DIR, f"processed_entities_final_{today}.csv")
-
-
-CHART_DIR = os.path.join(project_root, "Data_Output/Matplotlib_Charts")
+CHART_DIR = PROJECT_ROOT / "Data_Output/Matplotlib_Charts"
 
 
-def load_cumulative_entities(entities_dir):
+def load_cumulative_entities(entities_dir: Path) -> pd.DataFrame:
+    """Load all entity CSVs in the directory and merge them into one DataFrame."""
     all_files = glob.glob(os.path.join(entities_dir, "processed_entities_final_*.csv"))
     
     if not all_files:
@@ -44,15 +52,16 @@ def load_cumulative_entities(entities_dir):
     return pd.concat(df_list, ignore_index=True)
 
 
-def load_and_clean_data(input_filepath):
+def load_and_clean_data(input_filepath: Path) -> Tuple[Optional[pd.DataFrame], Optional[pd.DataFrame]]:
+    """Load raw CSV data, clean it, categorize sources, and return (headlines_df, entities_df)."""
     try:
         df = pd.read_csv(input_filepath)
-    except FileNotFoundError:
-        return None, None
-    except pd.errors.EmptyDataError:
+    except (FileNotFoundError, pd.errors.EmptyDataError):
+        logger.error(f"File not found or empty: {input_filepath}")
         return None, None
 
-    def clean_source(url):
+    def clean_source(url: str) -> str:
+        """Map a raw source URL to its human-readable BBC service name."""
         parts = url.split('/')
         if 'mundo' in parts: return 'BBC Spanish'
         if 'hindi' in parts: return 'BBC Hindi'

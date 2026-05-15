@@ -7,19 +7,28 @@ Loads cleaned CSV data into a dimensional model:
 
 import os
 import glob
+import logging
+from pathlib import Path
+from typing import Dict, List, Optional, Set
+
 import duckdb
 import pandas as pd
 from datetime import datetime, timedelta
 
+logger = logging.getLogger(__name__)
 
-WAREHOUSE_PATH = os.path.join(os.getcwd(), "Data_Output", "warehouse.duckdb")
+# ── Project root resolved from this file's location ───────────
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
-def build_warehouse(cleaned_dir=None, warehouse_path=None):
+WAREHOUSE_PATH = str(PROJECT_ROOT / "Data_Output" / "warehouse.duckdb")
+
+
+def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[str] = None) -> Optional[str]:
     """Build or refresh the DuckDB star-schema warehouse from cleaned CSVs."""
 
     if cleaned_dir is None:
-        cleaned_dir = os.path.join(os.getcwd(), "cleaned_csv_daily")
+        cleaned_dir = str(PROJECT_ROOT / "cleaned_csv_daily")
     if warehouse_path is None:
         warehouse_path = WAREHOUSE_PATH
 

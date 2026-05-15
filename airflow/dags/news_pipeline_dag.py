@@ -98,6 +98,14 @@ def task_generate_dashboard_json(**context):
     print("[AIRFLOW] Dashboard JSON generated.")
 
 
+def task_generate_ai_summaries(**context):
+    """Step 7: Generate AI executive summaries passing JSON payload to Gemini."""
+    from Data_Processing.summary_generator import generate_all_summaries
+    print("[AIRFLOW] Generating AI executive summaries...")
+    generate_all_summaries()
+    print("[AIRFLOW] AI Summaries generated.")
+
+
 # ── DAG Definition ────────────────────────────────────────────
 with DAG(
     dag_id='news_sentiment_pipeline',
@@ -154,8 +162,14 @@ with DAG(
         python_callable=task_generate_dashboard_json,
     )
 
+    # Step 8: AI Summaries
+    t_ai_summaries = PythonOperator(
+        task_id='generate_ai_summaries',
+        python_callable=task_generate_ai_summaries,
+    )
+
     # ── Task Dependencies ─────────────────────────────────────
-    # scrape → quality → analyze → [warehouse, mysql] → dbt → dashboard
+    # scrape → quality → analyze → [warehouse, mysql] → dbt → dashboard → ai_summaries
     t_scrape >> t_quality >> t_analyze
     t_analyze >> [t_warehouse, t_mysql]
-    t_warehouse >> t_dbt >> t_dashboard
+    t_warehouse >> t_dbt >> t_dashboard >> t_ai_summaries

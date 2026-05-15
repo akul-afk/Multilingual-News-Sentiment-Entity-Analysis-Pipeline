@@ -36,6 +36,9 @@ jobs:
         pip install -r Requirements.txt
         python -m spacy download en_core_web_sm
 
+    - name: Run Database Migrations
+      run: python db/run_migrations.py
+
     - name: Execute Full Pipeline (7-Step Airflow-Compatible)
       run: python run_full_pipeline.py
 

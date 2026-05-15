@@ -1,9 +1,20 @@
+"""
+Database Connector Module
+Handles MySQL (Aiven) and SQLite (local fallback) data persistence.
+Supports upsert semantics for idempotent headline/entity ingestion.
+"""
+
 import os
 import sys
+import logging
+import sqlite3
+from typing import Dict, Optional, Tuple
 
 import mysql.connector
 import pandas as pd
 from mysql.connector import errorcode
+
+logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
 
@@ -49,8 +60,74 @@ CREATE TABLE IF NOT EXISTS entities (
 );
 """
 
+def get_auth_connection(is_sqlite=False):
+    """Returns an active connection for auth queries."""
+    if is_sqlite:
+        conn = sqlite3.connect('Data_Processing/news_headlines.db', check_same_thread=False)
+        return conn
+    else:
+        try:
+            return mysql.connector.connect(host=DB_CONFIG['host'], user=DB_CONFIG['user'], password=DB_CONFIG['password'], port=DB_CONFIG['port'], database=DB_CONFIG['database'])
+        except Exception as e:
+            logger.error(f"MySQL auth connection failed: {e}")
+            return sqlite3.connect('Data_Processing/news_headlines.db', check_same_thread=False)
 
-def create_database_and_tables(cnx, cursor):
+def ensure_auth_tables(cursor, is_sqlite=False):
+    """Ensure auth tables exist for dual-write."""
+    # SQLite fallback creation (MySQL is done via migrations script if possible, but let's ensure here too)
+    sqls = [
+        """CREATE TABLE IF NOT EXISTS dim_users (
+            user_id VARCHAR(36) PRIMARY KEY,
+            username VARCHAR(255) UNIQUE NOT NULL,
+            email VARCHAR(255) UNIQUE NOT NULL,
+            password_hash VARCHAR(255) NOT NULL,
+            role VARCHAR(50) DEFAULT 'viewer',
+            status VARCHAR(20) DEFAULT 'active',
+            last_login_at TIMESTAMP NULL,
+            failed_attempts INTEGER DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )""",
+        """CREATE TABLE IF NOT EXISTS dim_sessions (
+            session_id VARCHAR(36) PRIMARY KEY,
+            user_id VARCHAR(36) NOT NULL,
+            refresh_token TEXT NOT NULL,
+            ip_address VARCHAR(45),
+            user_agent TEXT,
+            revoked BOOLEAN DEFAULT FALSE,
+            expires_at TIMESTAMP NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES dim_users(user_id)
+        )""",
+        """CREATE TABLE IF NOT EXISTS dim_token_blacklist (
+            jti VARCHAR(36) PRIMARY KEY,
+            expires_at TIMESTAMP NOT NULL,
+            blacklisted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )""",
+        """CREATE TABLE IF NOT EXISTS dim_guest_sessions (
+            guest_token VARCHAR(36) PRIMARY KEY,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            expires_at TIMESTAMP NOT NULL,
+            ip_address VARCHAR(45),
+            page_views INTEGER DEFAULT 0
+        )""",
+        """CREATE TABLE IF NOT EXISTS dim_audit_log (
+            log_id %s,
+            user_id VARCHAR(36),
+            event_type VARCHAR(50) NOT NULL,
+            description TEXT,
+            ip_address VARCHAR(45),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )""" % ("INTEGER PRIMARY KEY AUTOINCREMENT" if is_sqlite else "INT AUTO_INCREMENT PRIMARY KEY")
+    ]
+    for sql in sqls:
+        try:
+            cursor.execute(sql)
+        except Exception as e:
+            logger.warning(f"Error creating auth tables: {e}")
+
+
+def create_database_and_tables(cnx, cursor) -> bool:
+    """Create the database and tables if they don't exist. Returns True on success."""
     try:
         cnx.database = DB_CONFIG['database']
     except mysql.connector.Error as err:
@@ -81,24 +158,100 @@ def create_database_and_tables(cnx, cursor):
                  raise err 
 
         cursor.execute(ENTITIES_TABLE_SQL)
+        ensure_auth_tables(cursor, is_sqlite=False)
         return True
     except mysql.connector.Error as err:
         return False
 
 
-def insert_data_to_mysql(df_headlines, df_entities):
+def insert_data_to_sqlite(df_headlines: pd.DataFrame, df_entities: pd.DataFrame) -> Tuple[int, int]:
+    """Fallback to local SQLite if MySQL is unreachable. Returns (headlines_count, entities_count)."""
+    logger.warning("Falling back to local SQLite database...")
+    try:
+        conn = sqlite3.connect('Data_Processing/news_headlines.db')
+        cursor = conn.cursor()
+        
+        ensure_auth_tables(cursor, is_sqlite=True)
+        
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS headlines (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            source_name TEXT NOT NULL,
+            original_headline TEXT,
+            translated_headline TEXT,
+            polarity REAL,
+            scrape_date TEXT DEFAULT (DATE('now')),
+            UNIQUE(translated_headline, source_name)
+        );
+        """)
+        
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS entities (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            headline_id INTEGER NOT NULL,
+            entity_text TEXT NOT NULL,
+            entity_label TEXT NOT NULL,
+            FOREIGN KEY (headline_id) REFERENCES headlines(id) ON DELETE CASCADE
+        );
+        """)
+        
+        headline_map = {}
+        df_headlines = df_headlines.reset_index(drop=True)
+        
+        for index, row in df_headlines.iterrows():
+            try:
+                # SQLite uses ? instead of %s
+                cursor.execute(
+                    "INSERT OR IGNORE INTO headlines (source_name, original_headline, translated_headline, polarity, scrape_date) VALUES (?, ?, ?, ?, ?)",
+                    (row['Source_Name'], row['Original_Headline'], row['Translated_Headline'], row['Polarity'], row['Scrape_Date'])
+                )
+                
+                # Get the ID (either newly inserted or existing)
+                cursor.execute("SELECT id FROM headlines WHERE translated_headline = ? AND source_name = ? LIMIT 1", 
+                               (row['Translated_Headline'], row['Source_Name']))
+                res = cursor.fetchone()
+                if res:
+                    headline_map[index] = res[0]
+            except sqlite3.Error as e:
+                print(f"Error inserting headline to SQLite: {e}")
+
+        df_entities = df_entities.reset_index(drop=True)
+        for index, row in df_entities.iterrows():
+            headline_id = headline_map.get(index)
+            if headline_id:
+                try:
+                    cursor.execute(
+                        "INSERT INTO entities (headline_id, entity_text, entity_label) VALUES (?, ?, ?)",
+                        (headline_id, row['Entity'], row['Label'])
+                    )
+                except sqlite3.Error as e:
+                    print(f"Error inserting entity to SQLite: {e}")
+                    
+        conn.commit()
+        logger.info(f"Successfully inserted data to local SQLite (Data_Processing/news_headlines.db): {len(headline_map)} headlines, {entities_inserted_count} entities")
+        cursor.close()
+        conn.close()
+        return len(headline_map), entities_inserted_count
+    except Exception as e:
+        logger.error(f"SQLite fallback failed: {e}")
+        return 0, 0
+
+def insert_data_to_mysql(df_headlines: pd.DataFrame, df_entities: pd.DataFrame) -> Tuple[int, int]:
+    """Insert headline and entity DataFrames into MySQL with upsert semantics. Returns (headlines_count, entities_count)."""
     
     try:
         cnx = mysql.connector.connect(host=DB_CONFIG['host'], user=DB_CONFIG['user'], password=DB_CONFIG['password'],
-                                     port=DB_CONFIG['port'])
+                                     port=DB_CONFIG['port'], connection_timeout=5)
         cursor = cnx.cursor()
     except mysql.connector.Error as err:
-        return
+        logger.error(f"MySQL connection failed ({err.errno}).")
+        return insert_data_to_sqlite(df_headlines, df_entities)
 
     if not create_database_and_tables(cnx, cursor):
+        logger.error("Database/Table creation failed.")
         cursor.close()
         cnx.close()
-        return
+        return insert_data_to_sqlite(df_headlines, df_entities)
 
     headline_insert_query = (
         "INSERT INTO headlines (source_name, original_headline, translated_headline, polarity, scrape_date) "
@@ -159,6 +312,8 @@ def insert_data_to_mysql(df_headlines, df_entities):
 
     cursor.close()
     cnx.close()
+    
+    return headlines_inserted_count, entities_inserted_count
 
 
 if __name__ == "__main__":

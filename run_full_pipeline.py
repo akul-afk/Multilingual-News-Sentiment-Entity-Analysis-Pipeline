@@ -1,62 +1,110 @@
+"""
+Pipeline Orchestrator
+Runs the full 8-step ETL pipeline: Scrape → Quality → Clean → Warehouse → dbt → MySQL → JSON → AI Summaries.
+"""
+
 import os
 import sys
-sys.path.append(os.getcwd())
+import logging
+from pathlib import Path
+from datetime import date
+import glob
+import pandas as pd
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# ── Project root resolved from this file's location ───────────
+PROJECT_ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+# ── Logging configuration ─────────────────────────────────────
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s  %(levelname)-7s  %(name)s  %(message)s",
+    datefmt="%H:%M:%S",
+)
+logger = logging.getLogger("pipeline")
 
 from Scraping_Scripts.web_scraper import main as run_scraper
 from Data_Processing.analysis_function import run_analysis_pipeline
 from Data_Processing.db_connector import insert_data_to_mysql
 from Data_Processing.data_quality import validate_raw_data
 from Data_Processing.warehouse import build_warehouse
-from datetime import date
 
 
-def run_full_pipeline():
+def run_full_pipeline() -> None:
+    """Execute the complete news intelligence pipeline."""
+
     print("==========================================================")
-    print("    MULTILINGUAL NEWS SENTIMENT & ENTITY ANALYSIS PIPELINE ")
+    print("    GLOBAL NEWS PULSE — Intelligence Pipeline              ")
     print("    Airflow-Compatible  |  RoBERTa Sentiment  |  DuckDB   ")
     print("==========================================================")
 
     today = date.today().strftime("%Y_%m_%d")
-    project_root = os.getcwd()
 
-    # ── Step 1: Scrape Headlines ───────────────────────────────
-    print("\n[STEP 1/7] Scraping Headlines (HF RoBERTa Sentiment)...")
+    # ── Step 1/8: Scrape Headlines ─────────────────────────────
+    logger.info("[STEP 1/8] Scraping Headlines (HF RoBERTa Sentiment)...")
     run_scraper()
-    print("[STEP 1/7] Complete.")
+    logger.info("[STEP 1/8] Complete.")
 
-    # ── Step 2: Data Quality Validation ────────────────────────
-    print("\n[STEP 2/7] Running Data Quality Checks...")
-    raw_csv = os.path.join(project_root, f"raw_csv_daily/raw_headlines_data_{today}.csv")
+    # ── Step 2/8: Data Quality Validation ──────────────────────
+    logger.info("[STEP 2/8] Running Data Quality Checks...")
+    raw_csv = str(PROJECT_ROOT / "raw_csv_daily" / f"raw_headlines_data_{today}.csv")
     if os.path.exists(raw_csv):
         report = validate_raw_data(raw_csv)
         if report.get('overall_status') == 'FAIL':
-            print("  WARNING: Data quality failures detected. Continuing with available data.")
+            logger.warning("Data quality failures detected. Continuing with available data.")
     else:
-        print(f"  WARNING: Raw CSV not found at {raw_csv}. Skipping validation.")
-    print("[STEP 2/7] Complete.")
+        logger.warning(f"Raw CSV not found at {raw_csv}. Skipping validation.")
+    logger.info("[STEP 2/8] Complete.")
 
-    # ── Step 3: Data Cleaning & Analysis ───────────────────────
-    print("\n[STEP 3/7] Running Data Cleaning and Analysis...")
+    # ── Step 3/8: Data Cleaning & Analysis ─────────────────────
+    logger.info("[STEP 3/8] Running Data Cleaning and Analysis...")
     df_headlines, df_entities = run_analysis_pipeline()
 
     if df_headlines is None:
-        print("\n!!! PIPELINE FAILED at Data Analysis. Check previous errors. !!!")
+        logger.error("PIPELINE FAILED at Data Analysis. Check previous errors.")
         return
 
-    print("[STEP 3/7] Complete.")
+    logger.info("[STEP 3/8] Complete.")
 
-    # ── Step 4: Load DuckDB Warehouse ──────────────────────────
-    print("\n[STEP 4/7] Loading DuckDB Star-Schema Warehouse...")
+    # ── Step 4/8: Load DuckDB Warehouse ────────────────────────
+    logger.info("[STEP 4/8] Loading DuckDB Star-Schema Warehouse...")
     try:
         build_warehouse()
     except Exception as e:
-        print(f"  WARNING: Warehouse load failed: {e}")
-    print("[STEP 4/7] Complete.")
+        logger.warning(f"Warehouse load failed: {e}")
+    logger.info("[STEP 4/8] Complete.")
 
-    # ── Step 5: Run dbt Models ─────────────────────────────────
-    print("\n[STEP 5/7] Running dbt Transformations...")
-    dbt_dir = os.path.join(project_root, "dbt_project")
+    # ── Step 5/8: Insert to MySQL (Load from Disk) ──────────────
+    logger.info("[STEP 5/8] Loading latest processed data and inserting to MySQL...")
+    try:
+        cleaned_dir = PROJECT_ROOT / "cleaned_csv_daily"
+        headline_files = sorted(list(cleaned_dir.glob("processed_data_final_*.csv")))
+        entity_files = sorted(list(cleaned_dir.glob("processed_entities_final_*.csv")))
+
+        if not headline_files or not entity_files:
+            logger.error("[DB] No processed CSV files found in cleaned_csv_daily/.")
+        else:
+            latest_h_csv = headline_files[-1]
+            latest_e_csv = entity_files[-1]
+            logger.info(f"[DB] Loading {latest_h_csv.name} and {latest_e_csv.name}...")
+            
+            df_h = pd.read_csv(latest_h_csv)
+            df_e = pd.read_csv(latest_e_csv)
+            
+            h_count, e_count = insert_data_to_mysql(df_h, df_e)
+            logger.info(f"[DB] Inserted {h_count} headline rows, {e_count} entity rows")
+    except Exception as e:
+        logger.error(f"[DB] Step failed: {e}")
+        logger.info("Continuing pipeline regardless of DB failure.")
+    logger.info("[STEP 5/8] Complete.")
+
+    # ── Step 6/8: Run dbt Models ───────────────────────────────
+    logger.info("[STEP 6/8] Running dbt Transformations...")
+    dbt_dir = str(PROJECT_ROOT / "dbt_project")
     if os.path.exists(dbt_dir):
         try:
             import subprocess
@@ -64,41 +112,44 @@ def run_full_pipeline():
                 ["dbt", "run", "--profiles-dir", "."],
                 cwd=dbt_dir, capture_output=True, text=True, timeout=120
             )
-            print(result.stdout)
+            logger.info(result.stdout)
             if result.returncode != 0:
-                print(f"  WARNING: dbt run returned non-zero: {result.stderr}")
+                logger.warning(f"dbt run returned non-zero: {result.stderr}")
 
             result_test = subprocess.run(
                 ["dbt", "test", "--profiles-dir", "."],
                 cwd=dbt_dir, capture_output=True, text=True, timeout=120
             )
-            print(result_test.stdout)
+            logger.info(result_test.stdout)
         except FileNotFoundError:
-            print("  WARNING: dbt not installed. Skipping dbt transformations.")
+            logger.warning("dbt not installed. Skipping dbt transformations.")
         except Exception as e:
-            print(f"  WARNING: dbt failed: {e}")
+            logger.warning(f"dbt failed: {e}")
     else:
-        print("  WARNING: dbt_project/ not found. Skipping.")
-    print("[STEP 5/7] Complete.")
+        logger.warning("dbt_project/ not found. Skipping.")
+    logger.info("[STEP 6/8] Complete.")
 
-    # ── Step 6: Insert to MySQL ────────────────────────────────
-    print("\n[STEP 6/7] Inserting Data into MySQL...")
-    insert_data_to_mysql(df_headlines, df_entities)
-    print("[STEP 6/7] Complete.")
-
-    # ── Step 7: Generate Dashboard JSON ────────────────────────
-    # (Already called inside run_analysis_pipeline, but we ensure it ran)
-    print("\n[STEP 7/7] Dashboard JSON generation...")
+    # ── Step 7/8: Generate Dashboard JSON ──────────────────────
+    logger.info("[STEP 7/8] Dashboard JSON generation...")
     try:
         from Data_Processing.data_aggregator import generate_dashboard_data
         generate_dashboard_data()
     except Exception as e:
-        print(f"  WARNING: Dashboard JSON generation failed: {e}")
-    print("[STEP 7/7] Complete.")
+        logger.warning(f"Dashboard JSON generation failed: {e}")
+    logger.info("[STEP 7/8] Complete.")
+
+    # ── Step 8/8: Generate AI Executive Summaries ──────────────
+    logger.info("[STEP 8/8] Generating AI Executive Summaries (Gemini)...")
+    try:
+        from Data_Processing.summary_generator import generate_all_summaries
+        generate_all_summaries()
+    except Exception as e:
+        logger.warning(f"AI Summary generation failed: {e}")
+    logger.info("[STEP 8/8] Complete.")
 
     print("\n==========================================================")
     print("    PIPELINE SUCCESSFUL!                                   ")
-    print("    Data → DuckDB Warehouse → dbt Models → MySQL → JSON   ")
+    print("    Data → DuckDB → dbt → MySQL → JSON → AI Summaries     ")
     print("==========================================================")
 
 

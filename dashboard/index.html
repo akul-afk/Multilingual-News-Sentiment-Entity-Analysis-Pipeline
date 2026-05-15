@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global News Pulse — Strategic Intelligence Dashboard</title>
+  <meta name="description" content="Multilingual news sentiment analysis and entity tracking.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%238b0000' stroke-width='8'><circle cx='50' cy='50' r='40'/><path d='M10 50h80M50 10v80M15 30c30 0 40 20 40 40M85 30c-30 0-40 20-40 40'/></svg>">
+  
+  <!-- Libraries (CDN) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            desk: '#24211e',
+            paper: '#f4e9d9',
+            ink: '#2d1b0d',
+            accent: '#8b0000',
+          },
+          fontFamily: {
+            heading: ['"Old Standard TT"', 'serif'],
+            body: ['"IBM Plex Serif"', 'serif'],
+            mono: ['"Courier New"', 'Courier', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&family=IBM+Plex+Serif:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Indie+Flower&display=swap" rel="stylesheet">
+  
+  <!-- Dashboard Styles -->
+  <!-- Dashboard Styles (Modular) -->
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/animations.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/visuals.css">
+  
+  <style>
+    /* Inline overrides for the static version if needed */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: var(--bg);
+      font-family: var(--font-heading);
+    }
+    .loading__spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--outline);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  
+  <!-- Sketchy SVG Filters -->
+  <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <defs>
+      <filter id="rough-edges">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="ink-bleed">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0.5" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="ink" />
+      </filter>
+    </defs>
+  </svg>
+
+  <script type="module" src="scripts/main.js"></script>
+</body>
+</html>

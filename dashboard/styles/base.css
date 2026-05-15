@@ -1,0 +1,212 @@
+/* â”€â”€ Vintage Press Color Tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+:root {
+  --color-background-tertiary: var(--surface-lowest, #1a1610);
+  --color-paper: var(--bg, #ede0c4);
+  --color-paper-dark: var(--surface-low, #c9b98a);
+  --color-text-primary: var(--text, #1c1007);
+  --color-text-secondary: var(--text-muted, #7a6040);
+  --color-stamp-red: var(--primary, #8b1515);
+
+  /* Semantic UI Tokens */
+  --color-sentiment-pos: #2d5a1b;
+  --color-sentiment-neu: #6b5c00;
+  --color-card-shadow: rgba(0, 0, 0, 0.38);
+  --color-tear-overlay: rgba(139, 21, 21, 0.1);
+  --color-desk-lines: rgba(255, 255, 255, 0.018);
+}
+
+[data-theme='dark'] {
+  --color-background-tertiary: var(--surface-lowest, #0d0d0d);
+  --color-paper: var(--surface, #2c2820);
+  --color-paper-dark: var(--surface-low, #1a1814);
+  --color-text-primary: var(--text, #f5f0e6);
+  --color-text-secondary: var(--text-muted, #d0c8b8);
+  --color-stamp-red: var(--primary, #ff5555);
+
+  /* Semantic UI Tokens (Dark Adjustments) */
+  --color-sentiment-pos: #4ade80;
+  --color-sentiment-neu: #eab308;
+  --color-card-shadow: rgba(0, 0, 0, 0.6);
+  --color-tear-overlay: rgba(255, 85, 85, 0.15);
+  --color-desk-lines: rgba(255, 255, 255, 0.03);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Indie+Flower&display=swap');
+
+:root {
+  --bg: #f4ecd8;
+  --surface: #ffffff;
+  --surface-low: #ebe1c5;
+  --surface-high: #ffffff;
+  --surface-highest: #fdfaf2;
+  --surface-lowest: #e2d8b8;
+
+  --primary: #8b0000;
+  --primary-light: #b22222;
+  --primary-dim: #4a0000;
+  --secondary: #2f4f4f;
+  --secondary-dim: #1a2a2a;
+  --tertiary: #1b4d3e;
+  --tertiary-dim: #0a211a;
+  --error: #8b0000;
+  --error-dim: #4a0000;
+
+  --text: #1a1a1a;
+  --text-muted: #3d3d3d;
+  --text-dim: #5c5c5c;
+  --outline: #1a1a1a;
+
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Crimson Pro', serif;
+  --font-sketch: 'Indie Flower', cursive;
+
+  --lh-body: 1.6;
+  --lh-heading: 1.2;
+
+  --sketch-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  --sketch-border: 1px solid var(--outline);
+  --sketch-filter: url(#rough-edges);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+
+  --shadow-sm: none;
+  --shadow-card: none;
+  --shadow-hover: none;
+  --shadow-glow-primary: none;
+  --shadow-glow-tertiary: none;
+  --shadow-glow-error: none;
+
+  --glass-bg: transparent;
+  --glass-border: var(--outline);
+  --glass-blur: none;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+}
+
+[data-theme='dark'] {
+  --bg: #0a0a0a;
+  --surface: #1e1b16;
+  --surface-low: #14120f;
+  --surface-high: #2d2922;
+  --surface-highest: #3d372e;
+  --surface-lowest: #050505;
+
+  --primary: #ff5555;
+  --primary-light: #ff7777;
+  --secondary: #7fb4f5;
+  --tertiary: #52e07d;
+  
+  --text: #f5f0e6;
+  --text-muted: #d0c8b8;
+  --text-dim: #9b9485;
+  --outline: #4a453c;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: var(--lh-body, 1.6);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color var(--duration-normal) ease, color var(--duration-normal) ease;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity var(--duration-normal) ease;
+}
+
+[data-theme='dark'] body::before {
+  opacity: 0.1;
+  filter: invert(1);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  line-height: var(--lh-heading, 1.2);
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: opacity var(--duration-fast) ease;
+}
+
+a:hover { opacity: 0.8; }
+
+img { 
+  max-width: 100%; 
+  filter: sepia(0.2) contrast(1.1);
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--bg);
+}
+
+.text-muted { color: var(--text-muted); }
+.text-dim { color: var(--text-dim); }
+.text-primary { color: var(--primary); }
+.text-tertiary { color: var(--tertiary); }
+.text-error { color: var(--error); }
+.text-secondary { color: var(--secondary); }
+.font-heading { font-family: var(--font-heading); }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--surface-low); }
+::-webkit-scrollbar-thumb { background: var(--text); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }

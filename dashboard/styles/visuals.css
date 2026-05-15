@@ -1,0 +1,114 @@
+/* â”€â”€ Visual Effects & Chart Containers â€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* Torn Edge Containers (Dynamic Polygon Styles) */
+.torn-wrapper {
+  position: relative;
+  filter: drop-shadow(6px 6px 10px rgba(0, 0, 0, 0.4));
+  transition: filter 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+.torn-wrapper:hover {
+  filter: drop-shadow(12px 12px 15px rgba(0, 0, 0, 0.6));
+  transform: translateY(-5px);
+  z-index: 10;
+}
+
+.torn-container, .vintage-card {
+  background-color: var(--surface);
+  color: var(--text);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 2px solid var(--outline);
+  box-shadow: inset 0 0 0 4px var(--surface), inset 0 0 0 6px var(--outline);
+  clip-path: var(--base-clip, polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%));
+  transition: clip-path 0.25s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+}
+
+.torn-wrapper:hover .torn-container,
+.torn-wrapper:hover .vintage-card {
+  clip-path: var(--torn-clip);
+  background-color: var(--surface-highest);
+}
+
+/* Torn Edge Polygon Utilities */
+.torn-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 96%, 95% 100%, 90% 96%, 85% 100%, 80% 96%, 75% 100%, 70% 96%, 65% 100%, 60% 96%, 55% 100%, 50% 96%, 45% 100%, 40% 96%, 35% 100%, 30% 96%, 25% 100%, 20% 96%, 15% 100%, 10% 96%, 5% 100%, 0 96%);
+  filter: drop-shadow(0px 4px 2px rgba(0,0,0,0.5));
+}
+
+.torn-top {
+  clip-path: polygon(0 4%, 5% 0, 10% 4%, 15% 0, 20% 4%, 25% 0, 30% 4%, 35% 0, 40% 4%, 45% 0, 50% 4%, 55% 0, 60% 4%, 65% 0, 70% 4%, 75% 0, 80% 4%, 85% 0, 90% 4%, 95% 0, 100% 4%, 100% 100%, 0 100%);
+}
+
+.torn-right {
+  clip-path: polygon(0 0, 96% 0, 100% 10%, 96% 20%, 100% 30%, 96% 40%, 100% 50%, 96% 60%, 100% 70%, 96% 80%, 100% 90%, 96% 100%, 0 100%);
+}
+
+/* Chart & Graph Containers */
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.network-canvas {
+  width: 100%;
+  height: 300px;
+  background: var(--surface-lowest);
+  border: 1px solid var(--outline);
+}
+
+.gauge-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+.gauge__center-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
+.map-container {
+  width: 100%;
+  height: 450px;
+  border: 2px solid var(--outline);
+  overflow: hidden;
+  background: var(--surface-lowest);
+}
+
+.treemap {
+  display: grid;
+  gap: 5px;
+  min-height: 350px;
+}
+
+.treemap__cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-4);
+  cursor: pointer;
+  transition: all var(--duration-normal) ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--outline);
+}
+
+.treemap__cell:hover {
+  transform: scale(1.02);
+  z-index: 2;
+  box-shadow: 4px 4px 0px var(--outline);
+}

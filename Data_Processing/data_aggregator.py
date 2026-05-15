@@ -7,20 +7,78 @@ Generates: daily_summary, weekly_reports, monthly_reports, entities, geo_data, r
 import os
 import json
 import glob
+import logging
+from pathlib import Path
 from datetime import datetime, timedelta
 from collections import Counter, defaultdict
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
+logger = logging.getLogger(__name__)
 
-# ── Region mapping for heatmap ──────────────────────────────────────────────
-SOURCE_GEO_MAP = {
-    'BBC Spanish':    {'region': 'Latin America',     'lat': 19.43, 'lng': -99.13, 'lang_code': 'es'},
-    'BBC Hindi':      {'region': 'South Asia',        'lat': 20.59, 'lng': 78.96,  'lang_code': 'hi'},
-    'BBC Portuguese': {'region': 'South America',     'lat': -14.24, 'lng': -51.93, 'lang_code': 'pt'},
-    'BBC Russian':    {'region': 'Eastern Europe',    'lat': 55.75, 'lng': 37.62,  'lang_code': 'ru'},
-    'BBC Japanese':   {'region': 'East Asia',         'lat': 36.20, 'lng': 138.25, 'lang_code': 'ja'},
-    'BBC Swahili':    {'region': 'East Africa',       'lat': -1.29, 'lng': 36.82,  'lang_code': 'sw'},
+# ── Project root resolved from this file's location ───────────
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+
+# ── Global Geopolitical Entity Mapping (GPE/LOC) ───────────────────────────
+GPE_LAT_LNG = {
+    # Nations & Major Regions
+    'US': {'lat': 37.09, 'lng': -95.71, 'region': 'North America'},
+    'United States': {'lat': 37.09, 'lng': -95.71, 'region': 'North America'},
+    'USA': {'lat': 37.09, 'lng': -95.71, 'region': 'North America'},
+    'Ukraine': {'lat': 48.37, 'lng': 31.16, 'region': 'Eastern Europe'},
+    'Russia': {'lat': 61.52, 'lng': 105.31, 'region': 'Northern Eurasia'},
+    'China': {'lat': 35.86, 'lng': 104.19, 'region': 'East Asia'},
+    'India': {'lat': 20.59, 'lng': 78.96, 'region': 'South Asia'},
+    'Israel': {'lat': 31.04, 'lng': 34.85, 'region': 'Middle East'},
+    'Palestine': {'lat': 31.95, 'lng': 35.23, 'region': 'Middle East'},
+    'Gaza': {'lat': 31.35, 'lng': 34.30, 'region': 'Middle East'},
+    'Iran': {'lat': 32.42, 'lng': 53.68, 'region': 'Middle East'},
+    'UAE': {'lat': 23.42, 'lng': 53.84, 'region': 'Middle East'},
+    'Saudi Arabia': {'lat': 23.88, 'lng': 45.07, 'region': 'Middle East'},
+    'UK': {'lat': 55.37, 'lng': -3.43, 'region': 'Western Europe'},
+    'Britain': {'lat': 55.37, 'lng': -3.43, 'region': 'Western Europe'},
+    'France': {'lat': 46.22, 'lng': 2.21, 'region': 'Western Europe'},
+    'Germany': {'lat': 51.16, 'lng': 10.45, 'region': 'Western Europe'},
+    'Brazil': {'lat': -14.23, 'lng': -51.92, 'region': 'South America'},
+    'Venezuela': {'lat': 6.42, 'lng': -66.58, 'region': 'South America'},
+    'Tanzania': {'lat': -6.36, 'lng': 34.88, 'region': 'East Africa'},
+    'Japan': {'lat': 36.20, 'lng': 138.25, 'region': 'East Asia'},
+    'South Korea': {'lat': 35.90, 'lng': 127.76, 'region': 'East Asia'},
+    'North Korea': {'lat': 40.33, 'lng': 127.51, 'region': 'East Asia'},
+    'Australia': {'lat': -25.27, 'lng': 133.77, 'region': 'Oceania'},
+    'Canada': {'lat': 56.13, 'lng': -106.34, 'region': 'North America'},
+    'Mexico': {'lat': 23.63, 'lng': -102.55, 'region': 'North America'},
+    'Spain': {'lat': 40.46, 'lng': -3.74, 'region': 'Southern Europe'},
+    'Italy': {'lat': 41.87, 'lng': 12.56, 'region': 'Southern Europe'},
+    'Turkey': {'lat': 38.96, 'lng': 35.24, 'region': 'Middle East'},
+    'Egypt': {'lat': 26.82, 'lng': 30.80, 'region': 'North Africa'},
+    'South Africa': {'lat': -30.55, 'lng': 22.93, 'region': 'Southern Africa'},
+    'Nigeria': {'lat': 9.08, 'lng': 8.67, 'region': 'West Africa'},
+    'Pakistan': {'lat': 30.37, 'lng': 69.34, 'region': 'South Asia'},
+    'Bangladesh': {'lat': 23.68, 'lng': 90.35, 'region': 'South Asia'},
+    'Afghanistan': {'lat': 33.93, 'lng': 67.70, 'region': 'South Asia'},
+    'Syria': {'lat': 34.80, 'lng': 38.99, 'region': 'Middle East'},
+    'Iraq': {'lat': 33.22, 'lng': 43.67, 'region': 'Middle East'},
+    'Yemen': {'lat': 15.55, 'lng': 48.51, 'region': 'Middle East'},
+    'Lebanon': {'lat': 33.85, 'lng': 35.86, 'region': 'Middle East'},
+    'Taiwan': {'lat': 23.69, 'lng': 120.96, 'region': 'East Asia'},
+    'Philippines': {'lat': 12.87, 'lng': 121.77, 'region': 'Southeast Asia'},
+    'Vietnam': {'lat': 14.05, 'lng': 108.27, 'region': 'Southeast Asia'},
+    'Thailand': {'lat': 15.87, 'lng': 100.99, 'region': 'Southeast Asia'},
+    'Indonesia': {'lat': -0.78, 'lng': 113.92, 'region': 'Southeast Asia'},
+    'Poland': {'lat': 51.91, 'lng': 19.14, 'region': 'Central Europe'},
+    'Sweden': {'lat': 60.12, 'lng': 18.64, 'region': 'Northern Europe'},
+    'Norway': {'lat': 60.47, 'lng': 8.46, 'region': 'Northern Europe'},
+    'Finland': {'lat': 61.92, 'lng': 25.74, 'region': 'Northern Europe'},
+    'Greece': {'lat': 39.07, 'lng': 21.82, 'region': 'Southern Europe'},
+    'Argentina': {'lat': -38.41, 'lng': -63.61, 'region': 'South America'},
+    'Colombia': {'lat': 4.57, 'lng': -74.29, 'region': 'South America'},
+    'Chile': {'lat': -35.67, 'lng': -71.54, 'region': 'South America'},
+    'Kenya': {'lat': -0.02, 'lng': 37.90, 'region': 'East Africa'},
+    'Ethiopia': {'lat': 9.14, 'lng': 40.48, 'region': 'East Africa'},
+    'Sudan': {'lat': 12.86, 'lng': 30.21, 'region': 'North Africa'},
 }
 
 
@@ -273,51 +331,58 @@ def _build_entity_data(df_entities):
     return {'entities': entities, 'co_occurrence': co_occurrence}
 
 
-def _build_geo_data(df_headlines):
-    """Build geographic heatmap data."""
-    if df_headlines.empty:
+def _build_geo_data(df_headlines, df_entities):
+    """Build geographic heatmap data based on GPE/LOC entities mentioned in headlines."""
+    if df_entities.empty:
         return []
 
+    # Filter for geographic entities
+    geo_entities = df_entities[df_entities['Label'].isin(['GPE', 'LOC'])].copy()
+    if geo_entities.empty:
+        return []
+
+    # Aggregate mentions per entity
+    entity_counts = geo_entities.groupby('Entity').size().reset_index(name='total_mentions')
+    
+    # Merge with headlines to get sentiment per mention
+    # Note: This is an approximation since multiple entities can exist in one headline
+    # We group by source and date to get a sentiment proxy for those mentions
+    source_date_sentiment = df_headlines.groupby(['Source_Name', 'Scrape_Date'])['Polarity'].mean().reset_index()
+    geo_with_sentiment = pd.merge(geo_entities, source_date_sentiment, on=['Source_Name', 'Scrape_Date'], how='left')
+    
+    entity_sentiment = geo_with_sentiment.groupby('Entity')['Polarity'].mean().reset_index()
+    
     geo_data = []
-    for source_name, geo_info in SOURCE_GEO_MAP.items():
-        source_df = df_headlines[df_headlines['Source_Name'] == source_name]
-        if source_df.empty:
+    for _, row in entity_counts.iterrows():
+        name = row['Entity']
+        mentions = int(row['total_mentions'])
+        
+        # Check if we have coordinates for this entity
+        coords = GPE_LAT_LNG.get(name)
+        
+        # Simple fuzzy match for 'the United States' etc.
+        if not coords:
+            clean_name = name.replace('the ', '').strip()
+            coords = GPE_LAT_LNG.get(clean_name)
+
+        if not coords:
             continue
 
-        # Last 7 days activity
-        source_df_copy = source_df.copy()
-        source_df_copy['parsed_date'] = source_df_copy['Scrape_Date'].apply(_parse_date)
-        source_df_copy = source_df_copy.dropna(subset=['parsed_date'])
-
-        daily_counts = source_df_copy.groupby('parsed_date').size().to_dict()
-        last_7 = sorted(daily_counts.items(), key=lambda x: x[0])[-7:]
-        activity_timeline = [{'date': d.strftime('%Y-%m-%d'), 'count': int(c)} for d, c in last_7]
-
-        # Sentiment distribution
-        sentiments = source_df['Polarity'].apply(_sentiment_label).value_counts()
-        total = len(source_df)
-
-        # Top entities for this source
-        # (We'd need entity data linked to source, handled separately)
+        avg_pol = entity_sentiment[entity_sentiment['Entity'] == name]['Polarity'].values[0]
+        avg_pol = round(float(avg_pol), 4) if not pd.isna(avg_pol) else 0.0
 
         geo_data.append({
-            'source_name': source_name,
-            'region': geo_info['region'],
-            'lat': geo_info['lat'],
-            'lng': geo_info['lng'],
-            'lang_code': geo_info['lang_code'],
-            'total_headlines': int(total),
-            'avg_polarity': round(float(source_df['Polarity'].mean()), 4),
-            'sentiment': {
-                'positive': int(sentiments.get('Positive', 0)),
-                'neutral': int(sentiments.get('Neutral', 0)),
-                'negative': int(sentiments.get('Negative', 0)),
-            },
-            'activity_timeline': activity_timeline,
-            'intensity': min(1.0, total / 100),  # Normalized 0-1 for heatmap
+            'location_name': name,
+            'region': coords['region'],
+            'lat': coords['lat'],
+            'lng': coords['lng'],
+            'total_mentions': mentions,
+            'avg_polarity': avg_pol,
+            'intensity': min(1.0, mentions / 20),  # Normalized intensity
+            'type': 'entity_mention'
         })
 
-    return geo_data
+    return sorted(geo_data, key=lambda x: x['total_mentions'], reverse=True)
 
 
 def _build_recent_headlines(df_headlines, days=7):
@@ -342,11 +407,10 @@ def _build_recent_headlines(df_headlines, days=7):
     return records
 
 
-def generate_dashboard_data():
+def generate_dashboard_data() -> None:
     """Main entry point: reads all CSVs and writes dashboard_data.json."""
-    project_root = os.getcwd()
-    cleaned_dir = os.path.join(project_root, 'cleaned_csv_daily')
-    output_dir = os.path.join(project_root, 'Data_Output')
+    cleaned_dir = str(PROJECT_ROOT / 'cleaned_csv_daily')
+    output_dir = str(PROJECT_ROOT / 'Data_Output')
     os.makedirs(output_dir, exist_ok=True)
 
     print("  [AGGREGATOR] Loading all processed headline CSVs...")
@@ -383,7 +447,7 @@ def generate_dashboard_data():
         entity_data = _build_entity_data(df_entities)
 
         print("  [AGGREGATOR] Building geo heatmap data...")
-        geo_data = _build_geo_data(df_headlines)
+        geo_data = _build_geo_data(df_headlines, df_entities)
 
         print("  [AGGREGATOR] Building recent headlines...")
         recent_headlines = _build_recent_headlines(df_headlines)
@@ -407,6 +471,12 @@ def generate_dashboard_data():
             'entities': entity_data,
             'geo_data': geo_data,
             'recent_headlines': recent_headlines,
+            'pipeline_health': {
+                'last_run_timestamp': datetime.now().isoformat(),
+                'records_today': int(len(df_headlines[df_headlines['Scrape_Date'] == datetime.now().strftime('%Y_%m_%d')])),
+                'avg_records_7d': int(len(df_headlines) / 7), # Approximate for UI scaling
+                'data_freshness_hours': 0
+            }
         }
 
     output_path = os.path.join(output_dir, 'dashboard_data.json')
