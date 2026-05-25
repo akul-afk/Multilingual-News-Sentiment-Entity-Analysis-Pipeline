@@ -5,7 +5,7 @@ export function mountLogin(container, onLogin) {
         <div class="login-screen torn-wrapper">
             <div class="login-card torn-container">
                 <div class="card-header">
-                    <span class="stamp">SECURITY CLEARANCE REQUIRED</span>
+                    <span class="stamp">SIGN IN</span>
                     <h1 class="vintage-title">Global News Pulse</h1>
                 </div>
                 
@@ -13,24 +13,20 @@ export function mountLogin(container, onLogin) {
                     <div id="loginError" class="error-msg hidden">Invalid credentials. Access denied.</div>
                     
                     <div class="input-group">
-                        <label for="username">Operator ID</label>
+                        <label for="username">Username</label>
                         <input type="text" id="username" placeholder="Username" autocomplete="username">
                     </div>
                     
                     <div class="input-group">
-                        <label for="password">Access Code</label>
+                        <label for="password">Password</label>
                         <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
                     </div>
                     
-                    <button id="loginBtn" class="btn-stamp primary-btn">AUTHORIZE ACCESS</button>
+                    <button id="loginBtn" class="btn-stamp primary-btn">SIGN IN</button>
                     
                     <div class="divider">OR</div>
                     
-                    <button id="guestBtn" class="btn-stamp secondary-btn">GUEST ACCESS (READ-ONLY)</button>
-                </div>
-                
-                <div class="card-footer">
-                    <p class="small italic">Warning: All access is logged and monitored. Unauthorised entry attempt will trigger a lockdown.</p>
+                    <button id="guestBtn" class="btn-stamp secondary-btn">ENTER AS GUEST</button>
                 </div>
             </div>
         </div>
@@ -44,24 +40,24 @@ export function mountLogin(container, onLogin) {
 
     const handleLogin = async () => {
         try {
-            loginBtn.innerText = 'AUTHORIZING...';
+            loginBtn.innerText = 'SIGNING IN...';
             await auth.login(usernameInput.value, passwordInput.value);
             onLogin();
         } catch (err) {
             errorMsg.classList.remove('hidden');
-            loginBtn.innerText = 'AUTHORIZE ACCESS';
+            loginBtn.innerText = 'SIGN IN';
         }
     };
 
     const handleGuest = async () => {
         try {
-            guestBtn.innerText = 'REQUESTING...';
+            guestBtn.innerText = 'LOADING...';
             await auth.guest();
             onLogin();
         } catch (err) {
             errorMsg.innerText = 'Guest system offline.';
             errorMsg.classList.remove('hidden');
-            guestBtn.innerText = 'GUEST ACCESS (READ-ONLY)';
+            guestBtn.innerText = 'ENTER AS GUEST';
         }
     };
 

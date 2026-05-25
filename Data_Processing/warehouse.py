@@ -34,7 +34,7 @@ def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[
 
     os.makedirs(os.path.dirname(warehouse_path), exist_ok=True)
 
-    print(f"\n  [WAREHOUSE] Building star schema in {warehouse_path}")
+    logger.info(f"Building star schema in {warehouse_path}")
 
     con = duckdb.connect(warehouse_path)
 
@@ -47,7 +47,7 @@ def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[
     entity_files = sorted(glob.glob(os.path.join(cleaned_dir, "processed_entities_final_*.csv")))
 
     if not headline_files:
-        print("  [WAREHOUSE] No headline CSVs found. Skipping.")
+        logger.warning("No headline CSVs found. Skipping.")
         con.close()
         return
 
@@ -59,10 +59,10 @@ def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[
             if not df.empty:
                 headline_frames.append(df)
         except Exception as e:
-            print(f"  [WAREHOUSE] Skipping {os.path.basename(f)}: {e}")
+            logger.error(f"Skipping {os.path.basename(f)}: {e}")
 
     if not headline_frames:
-        print("  [WAREHOUSE] No valid headline data. Skipping.")
+        logger.warning("No valid headline data. Skipping.")
         con.close()
         return
 
@@ -81,7 +81,7 @@ def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[
 
     df_entities = pd.concat(entity_frames, ignore_index=True) if entity_frames else pd.DataFrame()
 
-    print(f"  [WAREHOUSE] Loaded {len(df_headlines)} headlines, {len(df_entities)} entity records")
+    logger.info(f"Loaded {len(df_headlines)} headlines, {len(df_entities)} entity records")
 
     # ═══════════════════════════════════════════════════════════
     #  DIMENSION TABLES
@@ -98,23 +98,29 @@ def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[
         )
     """)
 
-    source_map = {
-        'BBC Spanish':    ('es', 'Latin America',    'https://www.bbc.com/mundo'),
-        'BBC Hindi':      ('hi', 'South Asia',       'https://www.bbc.com/hindi'),
-        'BBC Portuguese': ('pt', 'South America',    'https://www.bbc.com/portuguese'),
-        'BBC Russian':    ('ru', 'Eastern Europe',   'https://www.bbc.com/russian'),
-        'BBC Japanese':   ('ja', 'East Asia',        'https://www.bbc.com/japanese'),
-        'BBC Swahili':    ('sw', 'East Africa',      'https://www.bbc.com/swahili'),
+    known_metadata = {
+        'BBC Mundo':      ('es', 'Latin America', 'https://www.bbc.com/mundo'),
+        'BBC Hindi':      ('hi', 'South Asia',    'https://www.bbc.com/hindi'),
+        'BBC Portuguese': ('pt', 'Latin America', 'https://www.bbc.com/portuguese'),
+        'BBC Russian':    ('ru', 'Eastern Europe', 'https://www.bbc.com/russian'),
+        'BBC Japanese':   ('ja', 'East Asia',     'https://www.bbc.com/japanese'),
+        'BBC Swahili':    ('sw', 'Africa',        'https://www.bbc.com/swahili'),
+        'Al Jazeera':     ('en', 'Middle East',   'https://www.aljazeera.com/news'),
+        'France 24':      ('en', 'Global',        'https://www.france24.com/en'),
+        'The Hindu':      ('en', 'South Asia',    'https://www.thehindu.com'),
+        'BBC World RSS':  ('en', 'Global',        'https://feeds.bbci.co.uk/news/world/rss.xml'),
+        'NYT World RSS':  ('en', 'Global',        'https://rss.nytimes.com/services/xml/rss/nyt/World.xml'),
     }
 
-    for i, (name, (lang, region, url)) in enumerate(source_map.items(), 1):
+    unique_sources = df_headlines['Source_Name'].unique()
+    src_keys = {}
+    for i, name in enumerate(unique_sources, 1):
+        lang, region, url = known_metadata.get(name, ('en', 'Global', 'Unknown'))
         con.execute(
             "INSERT INTO dim_source VALUES (?, ?, ?, ?, ?)",
             [i, name, lang, region, url]
         )
-
-    # Create lookup dict: source_name -> source_key
-    src_keys = {name: i for i, name in enumerate(source_map.keys(), 1)}
+        src_keys[name] = i
 
     # ── dim_date ───────────────────────────────────────────────
     con.execute("""
@@ -165,7 +171,7 @@ def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[
             date_key += 1
             current += timedelta(days=1)
 
-    print(f"  [WAREHOUSE] dim_date: {len(date_keys)} date records")
+    logger.info(f"dim_date: {len(date_keys)} date records")
 
     # ── dim_entity ─────────────────────────────────────────────
     con.execute("""
@@ -186,7 +192,7 @@ def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[
             )
             entity_keys[(str(row['Entity']), str(row['Label']))] = i
 
-    print(f"  [WAREHOUSE] dim_entity: {len(entity_keys)} unique entities")
+    logger.info(f"dim_entity: {len(entity_keys)} unique entities")
 
     # ═══════════════════════════════════════════════════════════
     #  FACT TABLE
@@ -244,7 +250,7 @@ def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[
 
         article_key += 1
 
-    print(f"  [WAREHOUSE] fact_articles: {article_key - 1} records")
+    logger.info(f"fact_articles: {article_key - 1} records")
 
     # ═══════════════════════════════════════════════════════════
     #  BRIDGE TABLE (article <-> entity)
@@ -290,19 +296,19 @@ def build_warehouse(cleaned_dir: Optional[str] = None, warehouse_path: Optional[
                     except Exception:
                         pass
 
-    print(f"  [WAREHOUSE] bridge_article_entity: {bridge_count} links")
+    logger.info(f"bridge_article_entity: {bridge_count} links")
 
     # ── Verify ─────────────────────────────────────────────────
     tables = con.execute("SHOW TABLES").fetchall()
-    print(f"\n  [WAREHOUSE] Tables created: {[t[0] for t in tables]}")
+    logger.info(f"Tables created: {[t[0] for t in tables]}")
 
     for table_row in tables:
         table_name = table_row[0]
         count = con.execute(f"SELECT COUNT(*) FROM {table_name}").fetchone()[0]
-        print(f"    {table_name}: {count} rows")
+        logger.info(f"    {table_name}: {count} rows")
 
     con.close()
-    print(f"  [WAREHOUSE] Star schema built successfully at {warehouse_path}")
+    logger.info(f"Star schema built successfully at {warehouse_path}")
     return warehouse_path
 
 

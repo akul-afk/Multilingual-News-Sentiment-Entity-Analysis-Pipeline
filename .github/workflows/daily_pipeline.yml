@@ -1,0 +1,104 @@
+name: Daily News Intelligence Pipeline
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Needed to compare with previous day
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libmysqlclient-dev
+          pip install --upgrade pip
+          pip install -r Requirements.txt
+          python -m spacy download en_core_web_sm
+
+      - name: Run Full Pipeline
+        env:
+          HF_API_TOKEN: ${{ secrets.HUGGINGFACE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DB_HOST: ${{ secrets.MYSQL_HOST }}
+          DB_USER: ${{ secrets.MYSQL_USER }}
+          DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          DB_DATABASE: ${{ secrets.MYSQL_DB }}
+          DB_PORT: 3306
+        run: python run_full_pipeline.py
+
+      - name: Sync Dashboard Data
+        run: |
+          mkdir -p dashboard/data
+          cp -f Data_Output/dashboard_data.json dashboard/data/dashboard_data.json || true
+
+      - name: Check for new headlines
+        id: check_data
+        run: |
+          TODAY=$(date +"%Y_%m_%d")
+          LATEST_FILE="raw_csv_daily/raw_headlines_data_${TODAY}.csv"
+          
+          if [ ! -f "$LATEST_FILE" ]; then
+            echo "No data file found for today ($LATEST_FILE)."
+            echo "new_data=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Check if file has only header (1 line)
+          LINES=$(wc -l < "$LATEST_FILE")
+          if [ "$LINES" -le 1 ]; then
+            echo "Today's data file is empty (only header)."
+            echo "new_data=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          # Compare with the most recent previous file (ignoring the Scrape_Date column)
+          PREV_FILE=$(ls -t raw_csv_daily/raw_headlines_data_*.csv | sed -n '2p')
+          if [ -n "$PREV_FILE" ] && [ "$LATEST_FILE" != "$PREV_FILE" ]; then
+            cut -d',' -f2- "$LATEST_FILE" > today_content.tmp
+            cut -d',' -f2- "$PREV_FILE" > prev_content.tmp
+            if diff -q today_content.tmp prev_content.tmp > /dev/null; then
+              echo "Today's data is identical to the previous run ($PREV_FILE)."
+              echo "new_data=false" >> $GITHUB_OUTPUT
+              rm today_content.tmp prev_content.tmp
+              exit 0
+            fi
+            rm today_content.tmp prev_content.tmp
+          fi
+          
+          echo "New unique headlines found today."
+          echo "new_data=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and Push Changes
+        if: steps.check_data.outputs.new_data == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Add new CSVs and updated dashboard JSON
+          git add raw_csv_daily/*.csv
+          git add cleaned_csv_daily/*.csv
+          git add dashboard/data/dashboard_data.json
+          
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes detected in files, skipping commit."
+          else
+            git commit -m "Automated Daily Update: $(date +'%Y-%m-%d') [Skip CI]"
+            git push
+          fi

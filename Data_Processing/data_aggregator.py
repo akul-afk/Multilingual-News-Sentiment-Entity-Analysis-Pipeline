@@ -13,6 +13,22 @@ from datetime import datetime, timedelta
 from collections import Counter, defaultdict
 from typing import Any, Dict, List, Optional
 
+try:
+    # Try relative import first
+    import Data_Processing.summary_generator as summary_generator
+    generate_all_briefings = summary_generator.generate_all_briefings
+    SOURCE_REGION_MAP = summary_generator.SOURCE_REGION_MAP
+except ImportError:
+    try:
+        # Try local import
+        import summary_generator
+        generate_all_briefings = summary_generator.generate_all_briefings
+        SOURCE_REGION_MAP = summary_generator.SOURCE_REGION_MAP
+    except ImportError:
+        print("  [AGGREGATOR] CRITICAL: summary_generator module not found.")
+        generate_all_briefings = None
+        SOURCE_REGION_MAP = {}
+
 import pandas as pd
 
 logger = logging.getLogger(__name__)
@@ -155,8 +171,8 @@ def _generate_executive_summary(df_period, df_prev_period, period_label):
     return summary
 
 
-def _build_daily_summary(df_headlines):
-    """Build per-date, per-source aggregated stats."""
+def _build_daily_summary(df_headlines, df_entities=None):
+    """Build per-date, per-source aggregated stats with sentiment breakdown and top entities."""
     if df_headlines.empty:
         return []
 
@@ -176,11 +192,43 @@ def _build_daily_summary(df_headlines):
             'avg_polarity': round(float(row['avg_polarity']), 4)
         }
 
-    # Add totals per day
+    # Add totals, sentiment breakdown, and top entities per day
     for date_key, data in result.items():
         day_df = df_headlines[df_headlines['Scrape_Date'] == date_key]
-        data['total_headlines'] = len(day_df)
+        total = len(day_df)
+        data['total_headlines'] = total
         data['avg_polarity'] = round(float(day_df['Polarity'].mean()), 4)
+
+        # Sentiment distribution
+        sentiments = day_df['Polarity'].apply(_sentiment_label).value_counts()
+        pos = int(sentiments.get('Positive', 0))
+        neu = int(sentiments.get('Neutral', 0))
+        neg = int(sentiments.get('Negative', 0))
+        data['sentiment_distribution'] = {
+            'positive': pos,
+            'neutral': neu,
+            'negative': neg,
+            'positive_pct': round(pos / total * 100, 1) if total else 0,
+            'neutral_pct': round(neu / total * 100, 1) if total else 0,
+            'negative_pct': round(neg / total * 100, 1) if total else 0,
+        }
+
+        # Most positive / negative source
+        src_sent = data['sources']
+        if src_sent:
+            data['most_positive_source'] = max(src_sent, key=lambda s: src_sent[s]['avg_polarity'])
+            data['most_negative_source'] = min(src_sent, key=lambda s: src_sent[s]['avg_polarity'])
+
+        # Top 5 entities for this day
+        if df_entities is not None and not df_entities.empty and 'Scrape_Date' in df_entities.columns:
+            day_ents = df_entities[df_entities['Scrape_Date'] == date_key]
+            if not day_ents.empty and 'Entity' in day_ents.columns:
+                ent_counts = Counter(day_ents['Entity'].tolist())
+                data['top_entities'] = dict(ent_counts.most_common(5))
+            else:
+                data['top_entities'] = {}
+        else:
+            data['top_entities'] = {}
 
     return list(result.values())
 
@@ -407,7 +455,7 @@ def _build_recent_headlines(df_headlines, days=7):
     return records
 
 
-def generate_dashboard_data() -> None:
+def generate_dashboard_data(force_summaries: bool = False) -> None:
     """Main entry point: reads all CSVs and writes dashboard_data.json."""
     cleaned_dir = str(PROJECT_ROOT / 'cleaned_csv_daily')
     output_dir = str(PROJECT_ROOT / 'Data_Output')
@@ -435,7 +483,7 @@ def generate_dashboard_data() -> None:
             df_entities['Scrape_Date'] = 'unknown'
 
         print("  [AGGREGATOR] Building daily summary...")
-        daily_summary = _build_daily_summary(df_headlines)
+        daily_summary = _build_daily_summary(df_headlines, df_entities)
 
         print("  [AGGREGATOR] Building weekly reports...")
         weekly_reports = _build_period_reports(df_headlines, df_entities, 'weekly')
@@ -457,6 +505,50 @@ def generate_dashboard_data() -> None:
         if not df_entities.empty and 'Scrape_Date' in df_entities.columns:
             df_entities['Scrape_Date'] = df_entities['Scrape_Date'].astype(str)
 
+        # Generate AI intelligence briefings
+        print("  [AGGREGATOR] Generating intelligence briefings...")
+        briefings = {}
+        if generate_all_briefings:
+            try:
+                briefings = generate_all_briefings(force_regenerate=force_summaries)
+            except Exception as e:
+                print(f"  [AGGREGATOR] Briefing generation failed: {e}")
+
+        # Build the reports structure with briefings + supporting entity data
+        top_entity_list = entity_data.get('entities', [])[:10]
+        top_entities_compact = [{'text': e['name'], 'label': e.get('label', ''), 'count': e['count']} for e in top_entity_list]
+
+        reports = {}
+        for period in ['daily', 'weekly', 'monthly']:
+            b = briefings.get(period, {})
+            period_label = ''
+            if period == 'daily':
+                period_label = b.get('period_start', datetime.now().strftime('%Y-%m-%d'))
+            elif period == 'weekly':
+                period_label = f"{b.get('period_start', '')} – {b.get('period_end', '')}"
+            else:
+                try:
+                    period_label = datetime.strptime(b.get('period_start', ''), '%Y-%m-%d').strftime('%B %Y')
+                except Exception:
+                    period_label = b.get('period_start', '')
+
+            reports[period] = {
+                'date': b.get('period_start', ''),
+                'period': period_label,
+                'sources_count': b.get('sources_count', 0),
+                'headlines_analyzed': b.get('headlines_analyzed', 0),
+                'briefing': b.get('briefing', f'No {period} briefing available yet.'),
+                'top_entities': top_entities_compact[:5] if period == 'daily' else top_entities_compact,
+            }
+
+        # Determine most active region for weekly
+        if weekly_reports:
+            latest_weekly = weekly_reports[-1]
+            src_sent = latest_weekly.get('source_sentiment', {})
+            if src_sent:
+                most_active_src = max(src_sent, key=lambda k: abs(src_sent[k]))
+                reports.get('weekly', {})['most_active_region'] = SOURCE_REGION_MAP.get(most_active_src, 'Global')
+
         dashboard_data = {
             'generated_at': datetime.now().isoformat(),
             'total_headlines': int(len(df_headlines)),
@@ -465,6 +557,7 @@ def generate_dashboard_data() -> None:
                 'start': str(sorted(df_headlines['Scrape_Date'].unique())[0]),
                 'end': str(sorted(df_headlines['Scrape_Date'].unique())[-1]),
             },
+            'reports': reports,
             'daily_summary': daily_summary,
             'weekly_reports': weekly_reports,
             'monthly_reports': monthly_reports,
@@ -474,7 +567,7 @@ def generate_dashboard_data() -> None:
             'pipeline_health': {
                 'last_run_timestamp': datetime.now().isoformat(),
                 'records_today': int(len(df_headlines[df_headlines['Scrape_Date'] == datetime.now().strftime('%Y_%m_%d')])),
-                'avg_records_7d': int(len(df_headlines) / 7), # Approximate for UI scaling
+                'avg_records_7d': int(len(df_headlines) / 7),
                 'data_freshness_hours': 0
             }
         }

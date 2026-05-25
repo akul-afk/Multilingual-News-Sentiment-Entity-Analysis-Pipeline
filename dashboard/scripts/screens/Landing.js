@@ -3,7 +3,7 @@ import { auth } from '../utils/auth.js';
 export function mountLanding(container, onLogin) {
     container.innerHTML = `
         <div id="landing-wrapper" class="min-h-screen w-full flex items-center justify-center overflow-hidden text-ink font-body relative bg-desk">
-            <!-- Background Tactical Intelligence Desk -->
+            <!-- Background Tactical Desk -->
             <div class="absolute inset-0 opacity-50 pointer-events-none z-0" style="background-image: url('./assets/tactical_intelligence_bg.png'); background-size: cover; background-position: center; filter: brightness(0.6) contrast(1.1) blur(1px);"></div>
 
             <!-- LAYER 1: The Login Desk (Z-index 0) -->
@@ -16,13 +16,12 @@ export function mountLanding(container, onLogin) {
                     <div class="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-ink"></div>
 
                     <div class="text-center mb-8">
-                        <h3 class="font-mono text-accent tracking-[0.2em] text-sm font-bold mb-2">RESTRICTED AREA</h3>
-                        <h2 class="text-3xl font-heading font-black uppercase border-b-2 border-ink pb-4 inline-block">Archive Access</h2>
+                        <h2 class="text-3xl font-heading font-black uppercase border-b-2 border-ink pb-4 inline-block">Dashboard Login</h2>
                     </div>
 
                     <div class="pt-6 flex flex-col space-y-4">
                         <button id="loginRouteBtn" class="w-full bg-ink text-paper py-3 font-bold uppercase tracking-widest hover:bg-accent transition-colors duration-300 border-2 border-transparent">
-                            OPERATOR LOGIN
+                            USER LOGIN
                         </button>
                         <button id="guestAccessBtn" class="w-full bg-transparent border-2 border-ink text-ink py-3 font-bold uppercase tracking-widest hover:bg-ink hover:text-paper transition-colors duration-300">
                             ENTER AS GUEST
@@ -48,7 +47,7 @@ export function mountLanding(container, onLogin) {
                     <button id="tear-btn" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 
                                                  bg-accent text-paper border-4 border-paper font-mono font-bold tracking-[0.15em] 
                                                  text-base px-8 py-4 uppercase shadow-xl hover:scale-110 transition-all duration-300 whitespace-nowrap">
-                        UNLOCK THE TRUTH
+                        ENTER PORTAL
                     </button>
                 </div>
             </div>
@@ -62,8 +61,8 @@ export function mountLanding(container, onLogin) {
                         <span>MAY 2026</span>
                         <span>PRICE: TWO CENTS</span>
                     </div>
-                    <h1 class="text-5xl lg:text-7xl font-heading font-black uppercase tracking-tight leading-none mb-2">INTELLIGENCE LEDGER</h1>
-                    <h2 class="text-xl lg:text-2xl font-body font-bold italic opacity-80">Strategic Analysis & Sentiment Tracking — Unit 2024</h2>
+                    <h1 class="text-5xl lg:text-7xl font-heading font-black uppercase tracking-tight leading-none mb-2">GLOBAL NEWS PULSE</h1>
+                    <h2 class="text-xl lg:text-2xl font-body font-bold italic opacity-80">Global News Sentiment & Entity Analysis Pipeline</h2>
                     
                     <!-- Decorative Page-Tear SVG -->
                     <div class="page-tear-wrapper mt-4">
@@ -73,18 +72,13 @@ export function mountLanding(container, onLogin) {
                     </div>
                 </div>
 
-                <h3 class="font-heading font-bold text-xl uppercase mb-3 text-center border-b border-ink pb-2">Classified Operations Protocol</h3>
+                <h3 class="font-heading font-bold text-xl uppercase mb-3 text-center border-b border-ink pb-2">Platform Overview</h3>
                 <p class="mb-4 leading-relaxed first-letter:text-5xl first-letter:font-black first-letter:float-left first-letter:mr-2 first-letter:mt-[-4px]">
-                    The ledger provides a centralized nexus for the surveillance of global information flows. By aggregating data streams from six linguistic theaters, we decode the tactical sentiment underlying international discourse.
+                    This dashboard provides a centralized overview of global multilingual news. By aggregating articles and processing headlines through NLP models, it extracts key sentiment trends and tracks named entities across several international sources.
                 </p>
                 <p class="mb-4 leading-relaxed">
-                    This intelligence suite is designed for the rapid identification of geopolitical shifts and narrative trends. Entry into this sector requires highest-level clearance or verified guest credentials.
+                    Use the navigation panel on the left to browse sentiment trends, explore connections in the entity database, view geographic node activity, or generate aggregated reports.
                 </p>
-                
-                <div class="mt-8 border-4 border-ink p-4 text-center">
-                    <h4 class="font-heading font-black text-2xl uppercase mb-1">Eyes Only</h4>
-                    <p class="font-mono text-sm uppercase tracking-widest">Confidential Security Protocol active.</p>
-                </div>
             </div>
         </template>
 

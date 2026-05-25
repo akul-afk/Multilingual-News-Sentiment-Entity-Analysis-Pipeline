@@ -37,7 +37,7 @@ async function boot() {
                 
                 // Update timestamp if sidebar exists
                 const timeEl = document.getElementById('lastUpdated');
-                if (timeEl) timeEl.textContent = `Last Dispatch: ${new Date().toLocaleTimeString()}`;
+                if (timeEl) timeEl.textContent = `Last Updated: ${new Date().toLocaleTimeString()}`;
                 
                 console.log('Background Sync: Data ingestion complete.');
             } catch (err) {

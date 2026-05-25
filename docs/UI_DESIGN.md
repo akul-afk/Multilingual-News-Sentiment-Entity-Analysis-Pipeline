@@ -73,7 +73,10 @@ A comparative view showing current vs. historical sentiment per language, highli
 An interactive actor database. Users filter by type (Person, Org, GPE) and select rows to populate a detailed **Dossier** on the left.
 
 ### 5. Geographic Heatmap (Spatial Nodes)
-A Leaflet-based world map utilizing a custom sepia filter. Mentions are represented as "Intelligence Nodes" that reveal metadata on hover.
+A Leaflet-based world map rendered on a full-width dark-themed canvas (utilizing Esri World Dark Gray Base and Reference map tiles) with a sepia-filtered overlay for a warm, weathered look. Key features:
+*   **Floating Source Bias Filter**: A compact dropdown positioned in the top-right corner of the map allowing users to toggle between different news outlets (e.g., BBC Hindi, BBC Russian) to dynamically re-render geocoded bubbles.
+*   **Custom Map Tooltips**: Premium dark-background popups styled in `#1a1008` (ink black) and `#c9a96e` (parchment gold) displaying location names in `Old Standard TT`, raw counts, sentiment polarity ratings, active media outlets, and representative headlines.
+*   **Tri-Panel Dossier Grid**: Positioned below the map containing Coverage Intensity (ranked mention list with proportional horizontal fill-bars), Regional Tone (color-coded polarity scores), and Coverage Gaps (missing geocoded regions to highlight reporting blind spots).
 
 ### 6. Archival Reports
 A deep-dive section (accessible via the Sidebar) that serves long-form, AI-generated executive summaries. These reports are formatted as full-page news briefings with:

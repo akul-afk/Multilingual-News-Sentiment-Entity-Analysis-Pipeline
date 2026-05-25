@@ -81,6 +81,9 @@ export const iconClipboard = (s = 18, c = 'currentColor') =>
 export const iconRefresh = (s = 14, c = 'currentColor') =>
   `<svg ${d(s,c)}><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`;
 
+export const iconShield = (s = 18, c = 'currentColor') =>
+  `<svg ${d(s,c)}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+
 // ── Country/Region Flag Icons (styled circles with region codes) ──
 export const iconFlag = (code = '', s = 18) => {
   const colors = {

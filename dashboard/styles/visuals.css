@@ -112,3 +112,20 @@
   z-index: 2;
   box-shadow: 4px 4px 0px var(--outline);
 }
+
+.leaflet-tile {
+  filter: sepia(0.4) contrast(0.9) brightness(1.05);
+}
+
+/* Reverse torn effect for KPI cards, chart card, and top headlines card: torn by default, clean on hover */
+.torn-container.kpi,
+.torn-container.chart-card,
+.torn-container.headlines-card {
+  clip-path: var(--torn-clip);
+}
+
+.torn-wrapper:hover .torn-container.kpi,
+.torn-wrapper:hover .torn-container.chart-card,
+.torn-wrapper:hover .torn-container.headlines-card {
+  clip-path: var(--base-clip, polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%));
+}

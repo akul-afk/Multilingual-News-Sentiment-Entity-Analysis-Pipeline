@@ -215,8 +215,13 @@ def insert_data_to_sqlite(df_headlines: pd.DataFrame, df_entities: pd.DataFrame)
             except sqlite3.Error as e:
                 print(f"Error inserting headline to SQLite: {e}")
 
-        df_entities = df_entities.reset_index(drop=True)
+        entities_inserted_count = 0
+        # To correctly link entities, we should NOT reset_index(drop=True) on df_entities
+        # if the indices correspond to the original df_headlines indices.
+        # analysis_function.py returns df_entities where the index matches df_headlines.
+        
         for index, row in df_entities.iterrows():
+            # index here refers to the headline's index in df_headlines
             headline_id = headline_map.get(index)
             if headline_id:
                 try:
@@ -224,11 +229,12 @@ def insert_data_to_sqlite(df_headlines: pd.DataFrame, df_entities: pd.DataFrame)
                         "INSERT INTO entities (headline_id, entity_text, entity_label) VALUES (?, ?, ?)",
                         (headline_id, row['Entity'], row['Label'])
                     )
+                    entities_inserted_count += 1
                 except sqlite3.Error as e:
-                    print(f"Error inserting entity to SQLite: {e}")
-                    
+                    print(f"    [DB] Error inserting entity: {e}")
+
         conn.commit()
-        logger.info(f"Successfully inserted data to local SQLite (Data_Processing/news_headlines.db): {len(headline_map)} headlines, {entities_inserted_count} entities")
+        logger.info(f"Successfully inserted data to local SQLite: {len(headline_map)} headlines, {entities_inserted_count} entities")
         cursor.close()
         conn.close()
         return len(headline_map), entities_inserted_count

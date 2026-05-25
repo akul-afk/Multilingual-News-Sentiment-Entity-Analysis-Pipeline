@@ -58,10 +58,10 @@ function buildShell() {
                 const newData = await loadDashboardData();
                 await reloadData(newData);
                 const timeEl = sidebarContainer.querySelector('#lastUpdated');
-                if (timeEl) timeEl.textContent = `Last Dispatch: ${new Date().toLocaleTimeString()}`;
+                if (timeEl) timeEl.textContent = `Last Updated: ${new Date().toLocaleTimeString()}`;
             } catch (err) {
                 console.error('Refresh failed:', err);
-                alert('Intelligence feed synchronization failed.');
+                alert('News feed synchronization failed.');
             } finally {
                 refreshBtn.disabled = false;
                 refreshBtn.innerHTML = `${iconRefresh(12)} REFRESH FEED`;

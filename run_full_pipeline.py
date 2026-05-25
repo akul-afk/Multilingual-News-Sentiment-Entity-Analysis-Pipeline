@@ -6,6 +6,7 @@ Runs the full 8-step ETL pipeline: Scrape → Quality → Clean → Warehouse �
 import os
 import sys
 import logging
+import argparse
 from pathlib import Path
 from datetime import date
 import glob
@@ -34,7 +35,7 @@ from Data_Processing.data_quality import validate_raw_data
 from Data_Processing.warehouse import build_warehouse
 
 
-def run_full_pipeline() -> None:
+def run_full_pipeline(force_summaries: bool = False) -> None:
     """Execute the complete news intelligence pipeline."""
 
     print("==========================================================")
@@ -129,29 +130,24 @@ def run_full_pipeline() -> None:
         logger.warning("dbt_project/ not found. Skipping.")
     logger.info("[STEP 6/8] Complete.")
 
-    # ── Step 7/8: Generate Dashboard JSON ──────────────────────
-    logger.info("[STEP 7/8] Dashboard JSON generation...")
+    # ── Step 7/8: Generate Dashboard JSON & AI Briefings ──────
+    logger.info("[STEP 7/8] Dashboard JSON & AI Briefing generation...")
     try:
         from Data_Processing.data_aggregator import generate_dashboard_data
-        generate_dashboard_data()
+        generate_dashboard_data(force_summaries=force_summaries)
     except Exception as e:
         logger.warning(f"Dashboard JSON generation failed: {e}")
     logger.info("[STEP 7/8] Complete.")
 
-    # ── Step 8/8: Generate AI Executive Summaries ──────────────
-    logger.info("[STEP 8/8] Generating AI Executive Summaries (Gemini)...")
-    try:
-        from Data_Processing.summary_generator import generate_all_summaries
-        generate_all_summaries()
-    except Exception as e:
-        logger.warning(f"AI Summary generation failed: {e}")
-    logger.info("[STEP 8/8] Complete.")
-
     print("\n==========================================================")
     print("    PIPELINE SUCCESSFUL!                                   ")
-    print("    Data → DuckDB → dbt → MySQL → JSON → AI Summaries     ")
+    print("    Data → DuckDB → dbt → MySQL → JSON + AI Briefings     ")
     print("==========================================================")
 
 
 if __name__ == "__main__":
-    run_full_pipeline()
+    parser = argparse.ArgumentParser(description="Run the full news intelligence pipeline.")
+    parser.add_argument("--force-summaries", action="store_true", help="Force regeneration of AI summaries.")
+    args = parser.parse_args()
+    
+    run_full_pipeline(force_summaries=args.force_summaries)

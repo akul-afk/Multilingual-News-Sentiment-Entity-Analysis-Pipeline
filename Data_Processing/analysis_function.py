@@ -6,6 +6,7 @@ and generates Matplotlib visualizations.
 import os
 import ast
 import logging
+import pathlib
 from pathlib import Path
 from datetime import date
 import glob
@@ -20,7 +21,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 today = date.today().strftime("%Y_%m_%d")
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 INPUT_FILE = PROJECT_ROOT / f"raw_csv_daily/raw_headlines_data_{today}.csv"
 
 OUTPUT_DIR = PROJECT_ROOT / "cleaned_csv_daily"
@@ -60,18 +61,21 @@ def load_and_clean_data(input_filepath: Path) -> Tuple[Optional[pd.DataFrame], O
         logger.error(f"File not found or empty: {input_filepath}")
         return None, None
 
-    def clean_source(url: str) -> str:
-        """Map a raw source URL to its human-readable BBC service name."""
-        parts = url.split('/')
-        if 'mundo' in parts: return 'BBC Spanish'
-        if 'hindi' in parts: return 'BBC Hindi'
-        if 'portuguese' in parts: return 'BBC Portuguese'
-        if 'russian' in parts: return 'BBC Russian'
-        if 'japanese' in parts: return 'BBC Japanese'
-        if 'swahili' in parts: return 'BBC Swahili'
-        return 'Other'
-
-    df['Source_Name'] = df['Source_URL'].apply(clean_source)
+    if 'Source_Name' not in df.columns:
+        def clean_source(url: str) -> str:
+            """Fallback mapping for legacy CSVs without Source_Name."""
+            url_low = str(url).lower()
+            if 'mundo' in url_low: return 'BBC Spanish'
+            if 'hindi' in url_low: return 'BBC Hindi'
+            if 'portuguese' in url_low: return 'BBC Portuguese'
+            if 'russian' in url_low: return 'BBC Russian'
+            if 'japanese' in url_low: return 'BBC Japanese'
+            if 'swahili' in url_low: return 'BBC Swahili'
+            if 'aljazeera' in url_low: return 'Al Jazeera'
+            if 'france24' in url_low: return 'France 24'
+            if 'thehindu' in url_low: return 'The Hindu'
+            return 'Other'
+        df['Source_Name'] = df['Source_URL'].apply(clean_source)
 
     df['Entities_List'] = df['Entities_Raw'].apply(lambda x: ast.literal_eval(x) if pd.notna(x) and x.strip() else [])
 
