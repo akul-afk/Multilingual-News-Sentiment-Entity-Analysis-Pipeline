@@ -1,11 +1,10 @@
 
-  
-    
     
 
     create  table
       "warehouse"."main"."dim_entity_summary__dbt_tmp"
   
+    
     as (
       -- dim_entity_summary.sql
 -- Mart model: entity frequency analysis with sentiment correlation.
@@ -60,5 +59,5 @@ GROUP BY entity_text, entity_label
 HAVING COUNT(DISTINCT article_key) >= 2
 ORDER BY article_count DESC
     );
-  
+    
   

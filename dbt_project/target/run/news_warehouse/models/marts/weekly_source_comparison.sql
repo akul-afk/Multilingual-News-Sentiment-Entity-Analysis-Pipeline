@@ -1,11 +1,10 @@
 
-  
-    
     
 
     create  table
       "warehouse"."main"."weekly_source_comparison__dbt_tmp"
   
+    
     as (
       
 
@@ -32,5 +31,5 @@ LEFT JOIN weekly_stats prev
     AND curr.week_start = prev.week_start + INTERVAL 7 DAY
 ORDER BY curr.week_start DESC, curr.Source_Name
     );
-  
+    
   

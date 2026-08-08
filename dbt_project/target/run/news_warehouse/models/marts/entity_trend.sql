@@ -1,11 +1,10 @@
 
-  
-    
     
 
     create  table
       "warehouse"."main"."entity_trend__dbt_tmp"
   
+    
     as (
       
 
@@ -33,5 +32,5 @@ LEFT JOIN entity_weekly prev
     AND curr.week_start = prev.week_start + INTERVAL 7 DAY
 ORDER BY curr.week_start DESC, curr.mention_count DESC
     );
-  
+    
   

@@ -1,11 +1,10 @@
 
-  
-    
     
 
     create  table
       "warehouse"."main"."fct_daily_sentiment__dbt_tmp"
   
+    
     as (
       -- fct_daily_sentiment.sql
 -- Mart model: daily sentiment aggregation by source.
@@ -51,5 +50,5 @@ GROUP BY
     sa.day_of_week, sa.week_of_year, sa.month, sa.year, sa.quarter, sa.is_weekend
 ORDER BY sa.scrape_date DESC, sa.source_name
     );
-  
+    
   
