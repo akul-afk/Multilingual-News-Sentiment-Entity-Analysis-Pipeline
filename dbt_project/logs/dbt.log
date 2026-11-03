@@ -41543,3 +41543,1157 @@ having count(*) > 1
 [0m17:43:20.448308 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f20240a3820>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f20232ed960>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f201adbc310>]}
 [0m17:43:20.448642 [debug] [MainThread]: Flushing usage events
 [0m17:43:20.581675 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:47:51.278453 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09b91a7910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09b7a9ad70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09b7a9ad10>]}
+
+
+============================== 15:47:51.281629 | 11c507ca-c6ce-4101-9a56-60bcaf987d02 ==============================
+[0m15:47:51.281629 [info ] [MainThread]: Running with dbt=1.12.6
+[0m15:47:51.282495 [debug] [MainThread]: running dbt with arguments {'no_print': 'None', 'write_json': 'True', 'static_parser': 'True', 'maximum_seed_size_mib': '1', 'use_colors': 'True', 'quiet': 'False', 'log_cache_events': 'False', 'empty': 'False', 'cache_selected_only': 'False', 'printer_width': '80', 'introspect': 'True', 'log_path': '/home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/logs', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'warn_error': 'None', 'use_experimental_parser': 'False', 'profiles_dir': '.', 'debug': 'False', 'target_path': 'None', 'send_anonymous_usage_stats': 'True', 'invocation_command': 'dbt run --profiles-dir .', 'fail_fast': 'False', 'indirect_selection': 'eager', 'hints_enabled': 'True', 'partial_parse': 'True', 'log_format': 'default', 'version_check': 'True'}
+[0m15:47:51.638807 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09bace88b0>]}
+[0m15:47:51.721996 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09b7a139a0>]}
+[0m15:47:51.724481 [info ] [MainThread]: Registered adapter: duckdb=1.11.1
+[0m15:47:51.829467 [debug] [MainThread]: checksum: fbb38fa76b29c52dc299e6f8cb04c947c91da3e53851e28162c0604404c45d0d, vars: {}, profile: news_warehouse, target: dev, version: 1.12.6
+[0m15:47:52.019542 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m15:47:52.020182 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m15:47:52.020675 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m15:47:52.035249 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09b77daf80>]}
+[0m15:47:52.250133 [debug] [MainThread]: Wrote artifact WritableManifest to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/manifest.json
+[0m15:47:52.253607 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/semantic_manifest.json
+[0m15:47:52.267326 [debug] [MainThread]: Wrote artifact OsiDocument to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/osi_document.json
+[0m15:47:52.281748 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09af6fc640>]}
+[0m15:47:52.282563 [info ] [MainThread]: Found 7 models, 8 data tests, 5 sources, 511 macros
+[0m15:47:52.283123 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09af6fc880>]}
+[0m15:47:52.285391 [info ] [MainThread]: 
+[0m15:47:52.285974 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m15:47:52.286507 [info ] [MainThread]: 
+[0m15:47:52.287259 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m15:47:52.294321 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_warehouse'
+[0m15:47:52.332053 [debug] [ThreadPool]: Using duckdb connection "list_warehouse"
+[0m15:47:52.332683 [debug] [ThreadPool]: On list_warehouse: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "connection_name": "list_warehouse"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"warehouse"'
+    
+  
+  
+[0m15:47:52.333198 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m15:47:52.348536 [debug] [ThreadPool]: SQL status: OK in 0.015 seconds
+[0m15:47:52.350095 [debug] [ThreadPool]: On list_warehouse: Close
+[0m15:47:52.351133 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_warehouse, now create_warehouse_main)
+[0m15:47:52.351872 [debug] [ThreadPool]: Creating schema "database: "warehouse"
+schema: "main"
+"
+[0m15:47:52.360979 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m15:47:52.361547 [debug] [ThreadPool]: On create_warehouse_main: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "connection_name": "create_warehouse_main"} */
+
+    
+        select type from duckdb_databases()
+        where lower(database_name)='warehouse'
+        and type != 'duckdb'
+    
+  
+[0m15:47:52.362058 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:52.363278 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m15:47:52.364741 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m15:47:52.365260 [debug] [ThreadPool]: On create_warehouse_main: BEGIN
+[0m15:47:52.365929 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m15:47:52.366459 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m15:47:52.366933 [debug] [ThreadPool]: On create_warehouse_main: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "connection_name": "create_warehouse_main"} */
+
+    
+    
+        create schema if not exists "warehouse"."main"
+    
+[0m15:47:52.367763 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m15:47:52.368776 [debug] [ThreadPool]: On create_warehouse_main: COMMIT
+[0m15:47:52.369321 [debug] [ThreadPool]: Using duckdb connection "create_warehouse_main"
+[0m15:47:52.369804 [debug] [ThreadPool]: On create_warehouse_main: COMMIT
+[0m15:47:52.370586 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m15:47:52.371100 [debug] [ThreadPool]: On create_warehouse_main: Close
+[0m15:47:52.373073 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly create_warehouse_main, now list_warehouse_main)
+[0m15:47:52.378655 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m15:47:52.379205 [debug] [ThreadPool]: On list_warehouse_main: BEGIN
+[0m15:47:52.379682 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:47:52.380474 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m15:47:52.381551 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m15:47:52.382058 [debug] [ThreadPool]: On list_warehouse_main: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "connection_name": "list_warehouse_main"} */
+select
+      'warehouse' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'warehouse'
+  
+[0m15:47:52.385400 [debug] [ThreadPool]: SQL status: OK in 0.003 seconds
+[0m15:47:52.387004 [debug] [ThreadPool]: On list_warehouse_main: ROLLBACK
+[0m15:47:52.387730 [debug] [ThreadPool]: On list_warehouse_main: Close
+[0m15:47:52.390586 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09b7bf2980>]}
+[0m15:47:52.391284 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:47:52.391793 [debug] [MainThread]: On master: BEGIN
+[0m15:47:52.392286 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m15:47:52.393083 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m15:47:52.393653 [debug] [MainThread]: On master: COMMIT
+[0m15:47:52.394185 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:47:52.394749 [debug] [MainThread]: On master: COMMIT
+[0m15:47:52.395462 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m15:47:52.395980 [debug] [MainThread]: On master: Close
+[0m15:47:52.400555 [debug] [Thread-1 (]: Began running node model.news_warehouse.dim_entity_summary
+[0m15:47:52.401209 [debug] [Thread-2 (]: Began running node model.news_warehouse.stg_articles
+[0m15:47:52.401981 [info ] [Thread-1 (]: 1 of 7 START sql table model main.dim_entity_summary ........................... [RUN]
+[0m15:47:52.402731 [debug] [Thread-3 (]: Began running node model.news_warehouse.stg_entities
+[0m15:47:52.404007 [debug] [Thread-4 (]: Began running node model.news_warehouse.stg_headlines
+[0m15:47:52.403439 [info ] [Thread-2 (]: 2 of 7 START sql view model main.stg_articles .................................. [RUN]
+[0m15:47:52.404968 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_warehouse_main, now model.news_warehouse.dim_entity_summary)
+[0m15:47:52.405728 [info ] [Thread-3 (]: 3 of 7 START sql view model main.stg_entities .................................. [RUN]
+[0m15:47:52.406525 [info ] [Thread-4 (]: 4 of 7 START sql view model main.stg_headlines ................................. [RUN]
+[0m15:47:52.407359 [debug] [Thread-2 (]: Acquiring new duckdb connection 'model.news_warehouse.stg_articles'
+[0m15:47:52.407961 [debug] [Thread-1 (]: Began compiling node model.news_warehouse.dim_entity_summary
+[0m15:47:52.408727 [debug] [Thread-3 (]: Acquiring new duckdb connection 'model.news_warehouse.stg_entities'
+[0m15:47:52.409485 [debug] [Thread-4 (]: Acquiring new duckdb connection 'model.news_warehouse.stg_headlines'
+[0m15:47:52.410071 [debug] [Thread-2 (]: Began compiling node model.news_warehouse.stg_articles
+[0m15:47:52.418125 [debug] [Thread-1 (]: Writing injected SQL for node "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.418803 [debug] [Thread-3 (]: Began compiling node model.news_warehouse.stg_entities
+[0m15:47:52.419489 [debug] [Thread-4 (]: Began compiling node model.news_warehouse.stg_headlines
+[0m15:47:52.421834 [debug] [Thread-2 (]: Writing injected SQL for node "model.news_warehouse.stg_articles"
+[0m15:47:52.424790 [debug] [Thread-3 (]: Writing injected SQL for node "model.news_warehouse.stg_entities"
+[0m15:47:52.428054 [debug] [Thread-4 (]: Writing injected SQL for node "model.news_warehouse.stg_headlines"
+[0m15:47:52.428788 [debug] [Thread-1 (]: Began executing node model.news_warehouse.dim_entity_summary
+[0m15:47:52.430056 [debug] [Thread-2 (]: Began executing node model.news_warehouse.stg_articles
+[0m15:47:52.431427 [debug] [Thread-1 (]: Using duckdb connection "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.432907 [debug] [Thread-3 (]: Began executing node model.news_warehouse.stg_entities
+[0m15:47:52.433510 [debug] [Thread-4 (]: Began executing node model.news_warehouse.stg_headlines
+[0m15:47:52.434121 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.dim_entity_summary"} */
+select database_name, type from duckdb_databases()
+[0m15:47:52.436290 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m15:47:52.437702 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.439272 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.stg_articles"
+[0m15:47:52.439850 [debug] [Thread-2 (]: On model.news_warehouse.stg_articles: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_articles"} */
+
+                    select table_name, constraint_type from duckdb_constraints()
+                    where lower(database_name) = lower('warehouse')
+                      and lower(schema_name) = lower('main')
+                      and constraint_type in ('PRIMARY KEY', 'UNIQUE', 'FOREIGN KEY')
+                    
+[0m15:47:52.440416 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m15:47:52.442019 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m15:47:52.507780 [debug] [Thread-2 (]: Writing runtime sql for node "model.news_warehouse.stg_articles"
+[0m15:47:52.511580 [debug] [Thread-4 (]: Writing runtime sql for node "model.news_warehouse.stg_headlines"
+[0m15:47:52.513137 [debug] [Thread-3 (]: Writing runtime sql for node "model.news_warehouse.stg_entities"
+[0m15:47:52.544844 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.stg_articles"
+[0m15:47:52.549769 [debug] [Thread-1 (]: Writing runtime sql for node "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.550674 [debug] [Thread-2 (]: On model.news_warehouse.stg_articles: BEGIN
+[0m15:47:52.551510 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.stg_headlines"
+[0m15:47:52.552123 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.stg_entities"
+[0m15:47:52.553227 [debug] [Thread-4 (]: On model.news_warehouse.stg_headlines: BEGIN
+[0m15:47:52.553843 [debug] [Thread-1 (]: Using duckdb connection "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.554508 [debug] [Thread-3 (]: On model.news_warehouse.stg_entities: BEGIN
+[0m15:47:52.555095 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m15:47:52.555736 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m15:47:52.556373 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: BEGIN
+[0m15:47:52.556966 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m15:47:52.557596 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.stg_articles"
+[0m15:47:52.558832 [debug] [Thread-4 (]: SQL status: OK in 0.003 seconds
+[0m15:47:52.559475 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.560132 [debug] [Thread-2 (]: On model.news_warehouse.stg_articles: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_articles"} */
+
+  
+  create view "warehouse"."main"."stg_articles__dbt_tmp" as (
+    -- stg_articles.sql
+-- Staging model: joins fact_articles with dimension tables to produce
+-- a clean, denormalized view of all articles for downstream analytics.
+
+
+
+SELECT
+    fa.article_key,
+    fa.original_headline,
+    fa.translated_headline,
+    fa.polarity,
+    fa.sentiment_label,
+
+    -- Source dimension
+    ds.source_name,
+    ds.language_code,
+    ds.region,
+    ds.base_url,
+
+    -- Date dimension
+    dd.full_date       AS scrape_date,
+    dd.day,
+    dd.month,
+    dd.year,
+    dd.day_of_week,
+    dd.week_of_year,
+    dd.quarter,
+    dd.is_weekend,
+
+    -- Computed fields
+    LENGTH(fa.translated_headline) AS headline_length,
+    CASE
+        WHEN fa.polarity > 0.05  THEN 'positive'
+        WHEN fa.polarity < -0.05 THEN 'negative'
+        ELSE 'neutral'
+    END AS polarity_bucket
+
+FROM fact_articles fa
+LEFT JOIN dim_source ds ON fa.source_key = ds.source_key
+LEFT JOIN dim_date dd   ON fa.date_key = dd.date_key
+  );
+
+[0m15:47:52.560817 [debug] [Thread-3 (]: SQL status: OK in 0.004 seconds
+[0m15:47:52.561424 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.stg_headlines"
+[0m15:47:52.562042 [debug] [Thread-1 (]: Using duckdb connection "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.562995 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.stg_entities"
+[0m15:47:52.563790 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.564423 [debug] [Thread-4 (]: On model.news_warehouse.stg_headlines: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_headlines"} */
+
+  
+  create view "warehouse"."main"."stg_headlines__dbt_tmp" as (
+    -- stg_headlines.sql
+-- Mapping fact_articles to the 'stg_headlines' expected by marks/entity_trend.sql
+
+
+
+SELECT
+    fa.article_key as Headline_ID,
+    ds.source_name as Source_Name,
+    fa.translated_headline,
+    fa.polarity,
+    fa.sentiment_label,
+    dd.full_date as Date_Extracted
+FROM "warehouse"."main"."fact_articles" fa
+JOIN "warehouse"."main"."dim_date" dd ON fa.date_key = dd.date_key
+JOIN "warehouse"."main"."dim_source" ds ON fa.source_key = ds.source_key
+  );
+
+[0m15:47:52.565096 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.dim_entity_summary"} */
+
+    
+
+    create  table
+      "warehouse"."main"."dim_entity_summary__dbt_tmp"
+  
+    
+    as (
+      -- dim_entity_summary.sql
+-- Mart model: entity frequency analysis with sentiment correlation.
+-- Shows which entities appear most and their average sentiment context.
+
+
+
+WITH entity_articles AS (
+    SELECT
+        de.entity_key,
+        de.entity_text,
+        de.entity_label,
+        fa.article_key,
+        fa.polarity,
+        fa.sentiment_label,
+        ds.source_name,
+        dd.full_date AS scrape_date
+    FROM bridge_article_entity bae
+    JOIN dim_entity de       ON bae.entity_key = de.entity_key
+    JOIN fact_articles fa     ON bae.article_key = fa.article_key
+    LEFT JOIN dim_source ds   ON fa.source_key = ds.source_key
+    LEFT JOIN dim_date dd     ON fa.date_key = dd.date_key
+)
+
+SELECT
+    entity_text,
+    entity_label,
+
+    -- Frequency
+    COUNT(DISTINCT article_key)                  AS article_count,
+    COUNT(DISTINCT source_name)                  AS source_count,
+    COUNT(DISTINCT scrape_date)                  AS days_active,
+
+    -- Sentiment correlation
+    ROUND(AVG(polarity), 4)                      AS avg_polarity,
+    ROUND(STDDEV(polarity), 4)                   AS stddev_polarity,
+
+    -- Sentiment distribution
+    COUNT(CASE WHEN polarity > 0.05  THEN 1 END) AS positive_mentions,
+    COUNT(CASE WHEN polarity < -0.05 THEN 1 END) AS negative_mentions,
+    COUNT(CASE WHEN polarity BETWEEN -0.05 AND 0.05 THEN 1 END) AS neutral_mentions,
+
+    -- Source spread
+    LISTAGG(DISTINCT source_name, ', ')           AS mentioned_in_sources,
+
+    -- Recency
+    MAX(scrape_date)                              AS last_seen,
+    MIN(scrape_date)                              AS first_seen
+
+FROM entity_articles
+GROUP BY entity_text, entity_label
+HAVING COUNT(DISTINCT article_key) >= 2
+ORDER BY article_count DESC
+    );
+    
+  
+[0m15:47:52.565816 [debug] [Thread-3 (]: On model.news_warehouse.stg_entities: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_entities"} */
+
+  
+  create view "warehouse"."main"."stg_entities__dbt_tmp" as (
+    -- stg_entities.sql
+-- Mapping dim_entity and bridge_article_entity back to the 'stg_entities' expected by entity_trend.sql
+
+
+
+SELECT
+    de.entity_text as Entity_Name,
+    de.entity_label as Entity_Label,
+    bae.article_key as Headline_ID
+FROM "warehouse"."main"."dim_entity" de
+JOIN "warehouse"."main"."bridge_article_entity" bae ON de.entity_key = bae.entity_key
+  );
+
+[0m15:47:52.572354 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.stg_articles"
+[0m15:47:52.573761 [debug] [Thread-2 (]: On model.news_warehouse.stg_articles: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_articles"} */
+alter view "warehouse"."main"."stg_articles" rename to "stg_articles__dbt_backup"
+[0m15:47:52.574529 [debug] [Thread-4 (]: SQL status: OK in 0.002 seconds
+[0m15:47:52.575581 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m15:47:52.580840 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.stg_headlines"
+[0m15:47:52.581936 [debug] [Thread-2 (]: SQL status: OK in 0.007 seconds
+[0m15:47:52.585895 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.stg_entities"
+[0m15:47:52.588457 [debug] [Thread-4 (]: On model.news_warehouse.stg_headlines: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_headlines"} */
+alter view "warehouse"."main"."stg_headlines" rename to "stg_headlines__dbt_backup"
+[0m15:47:52.597408 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.595749 [debug] [Thread-3 (]: On model.news_warehouse.stg_entities: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_entities"} */
+alter view "warehouse"."main"."stg_entities" rename to "stg_entities__dbt_backup"
+[0m15:47:52.603011 [debug] [Thread-3 (]: SQL status: OK in 0.000 seconds
+[0m15:47:52.594748 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.stg_articles"
+[0m15:47:52.601664 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.stg_headlines"
+[0m15:47:52.609322 [debug] [Thread-4 (]: On model.news_warehouse.stg_headlines: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_headlines"} */
+alter view "warehouse"."main"."stg_headlines__dbt_tmp" rename to "stg_headlines"
+[0m15:47:52.606978 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.stg_entities"
+[0m15:47:52.608056 [debug] [Thread-2 (]: On model.news_warehouse.stg_articles: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_articles"} */
+alter view "warehouse"."main"."stg_articles__dbt_tmp" rename to "stg_articles"
+[0m15:47:52.613516 [debug] [Thread-2 (]: SQL status: OK in 0.000 seconds
+[0m15:47:52.610624 [debug] [Thread-4 (]: SQL status: OK in 0.000 seconds
+[0m15:47:52.611993 [debug] [Thread-3 (]: On model.news_warehouse.stg_entities: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_entities"} */
+alter view "warehouse"."main"."stg_entities__dbt_tmp" rename to "stg_entities"
+[0m15:47:52.651589 [debug] [Thread-3 (]: SQL status: OK in 0.026 seconds
+[0m15:47:52.662375 [debug] [Thread-4 (]: On model.news_warehouse.stg_headlines: COMMIT
+[0m15:47:52.672563 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.stg_headlines"
+[0m15:47:52.657196 [debug] [Thread-2 (]: On model.news_warehouse.stg_articles: COMMIT
+[0m15:47:52.673594 [debug] [Thread-4 (]: On model.news_warehouse.stg_headlines: COMMIT
+[0m15:47:52.667631 [debug] [Thread-3 (]: On model.news_warehouse.stg_entities: COMMIT
+[0m15:47:52.679338 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.stg_entities"
+[0m15:47:52.680351 [debug] [Thread-3 (]: On model.news_warehouse.stg_entities: COMMIT
+[0m15:47:52.677538 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.stg_articles"
+[0m15:47:52.681464 [debug] [Thread-2 (]: On model.news_warehouse.stg_articles: COMMIT
+[0m15:47:52.683902 [debug] [Thread-4 (]: SQL status: OK in 0.005 seconds
+[0m15:47:52.693133 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.stg_headlines"
+[0m15:47:52.695519 [debug] [Thread-4 (]: On model.news_warehouse.stg_headlines: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_headlines"} */
+
+      drop view if exists "warehouse"."main"."stg_headlines__dbt_backup" cascade
+    
+[0m15:47:52.694775 [debug] [Thread-2 (]: SQL status: OK in 0.012 seconds
+[0m15:47:52.694111 [debug] [Thread-3 (]: SQL status: OK in 0.013 seconds
+[0m15:47:52.698997 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.stg_articles"
+[0m15:47:52.701321 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.stg_entities"
+[0m15:47:52.701990 [debug] [Thread-1 (]: SQL status: OK in 0.129 seconds
+[0m15:47:52.702609 [debug] [Thread-4 (]: SQL status: OK in 0.006 seconds
+[0m15:47:52.703211 [debug] [Thread-2 (]: On model.news_warehouse.stg_articles: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_articles"} */
+
+      drop view if exists "warehouse"."main"."stg_articles__dbt_backup" cascade
+    
+[0m15:47:52.703825 [debug] [Thread-3 (]: On model.news_warehouse.stg_entities: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.stg_entities"} */
+
+      drop view if exists "warehouse"."main"."stg_entities__dbt_backup" cascade
+    
+[0m15:47:52.709709 [debug] [Thread-1 (]: Using duckdb connection "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.712747 [debug] [Thread-4 (]: On model.news_warehouse.stg_headlines: Close
+[0m15:47:52.713834 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.dim_entity_summary"} */
+
+    SELECT index_name
+    FROM duckdb_indexes()
+    WHERE database_name = 'warehouse'
+      AND schema_name = 'main'
+      AND table_name = 'dim_entity_summary'
+  
+[0m15:47:52.716304 [debug] [Thread-3 (]: SQL status: OK in 0.003 seconds
+[0m15:47:52.716941 [debug] [Thread-2 (]: SQL status: OK in 0.004 seconds
+[0m15:47:52.718813 [debug] [Thread-3 (]: On model.news_warehouse.stg_entities: Close
+[0m15:47:52.719462 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09af602e30>]}
+[0m15:47:52.720113 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m15:47:52.721641 [debug] [Thread-2 (]: On model.news_warehouse.stg_articles: Close
+[0m15:47:52.722647 [info ] [Thread-4 (]: 4 of 7 OK created sql view model main.stg_headlines ............................ [[32mOK[0m in 0.31s]
+[0m15:47:52.723480 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09ae297e20>]}
+[0m15:47:52.729604 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09ae297b20>]}
+[0m15:47:52.730270 [debug] [Thread-1 (]: Using duckdb connection "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.731091 [debug] [Thread-4 (]: Finished running node model.news_warehouse.stg_headlines
+[0m15:47:52.731972 [info ] [Thread-3 (]: 3 of 7 OK created sql view model main.stg_entities ............................. [[32mOK[0m in 0.31s]
+[0m15:47:52.732881 [info ] [Thread-2 (]: 2 of 7 OK created sql view model main.stg_articles ............................. [[32mOK[0m in 0.32s]
+[0m15:47:52.733577 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.dim_entity_summary"} */
+alter table "warehouse"."main"."dim_entity_summary" rename to "dim_entity_summary__dbt_backup"
+[0m15:47:52.734557 [debug] [Thread-4 (]: Began running node model.news_warehouse.weekly_source_comparison
+[0m15:47:52.735328 [debug] [Thread-3 (]: Finished running node model.news_warehouse.stg_entities
+[0m15:47:52.736118 [debug] [Thread-2 (]: Finished running node model.news_warehouse.stg_articles
+[0m15:47:52.737088 [info ] [Thread-4 (]: 5 of 7 START sql table model main.weekly_source_comparison ..................... [RUN]
+[0m15:47:52.737812 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.738707 [debug] [Thread-3 (]: Began running node model.news_warehouse.entity_trend
+[0m15:47:52.739610 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly model.news_warehouse.stg_headlines, now model.news_warehouse.weekly_source_comparison)
+[0m15:47:52.740275 [debug] [Thread-2 (]: Began running node model.news_warehouse.fct_daily_sentiment
+[0m15:47:52.743039 [debug] [Thread-1 (]: Using duckdb connection "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.743820 [info ] [Thread-3 (]: 6 of 7 START sql table model main.entity_trend ................................. [RUN]
+[0m15:47:52.744571 [debug] [Thread-4 (]: Began compiling node model.news_warehouse.weekly_source_comparison
+[0m15:47:52.745315 [info ] [Thread-2 (]: 7 of 7 START sql table model main.fct_daily_sentiment .......................... [RUN]
+[0m15:47:52.746017 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.dim_entity_summary"} */
+alter table "warehouse"."main"."dim_entity_summary__dbt_tmp" rename to "dim_entity_summary"
+[0m15:47:52.746767 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly model.news_warehouse.stg_entities, now model.news_warehouse.entity_trend)
+[0m15:47:52.749251 [debug] [Thread-4 (]: Writing injected SQL for node "model.news_warehouse.weekly_source_comparison"
+[0m15:47:52.749947 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly model.news_warehouse.stg_articles, now model.news_warehouse.fct_daily_sentiment)
+[0m15:47:52.750848 [debug] [Thread-3 (]: Began compiling node model.news_warehouse.entity_trend
+[0m15:47:52.751547 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.752313 [debug] [Thread-2 (]: Began compiling node model.news_warehouse.fct_daily_sentiment
+[0m15:47:52.755028 [debug] [Thread-3 (]: Writing injected SQL for node "model.news_warehouse.entity_trend"
+[0m15:47:52.755726 [debug] [Thread-4 (]: Began executing node model.news_warehouse.weekly_source_comparison
+[0m15:47:52.765093 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: COMMIT
+[0m15:47:52.767882 [debug] [Thread-2 (]: Writing injected SQL for node "model.news_warehouse.fct_daily_sentiment"
+[0m15:47:52.772844 [debug] [Thread-4 (]: Writing runtime sql for node "model.news_warehouse.weekly_source_comparison"
+[0m15:47:52.773676 [debug] [Thread-1 (]: Using duckdb connection "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.774641 [debug] [Thread-3 (]: Began executing node model.news_warehouse.entity_trend
+[0m15:47:52.775418 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: COMMIT
+[0m15:47:52.780138 [debug] [Thread-3 (]: Writing runtime sql for node "model.news_warehouse.entity_trend"
+[0m15:47:52.780874 [debug] [Thread-2 (]: Began executing node model.news_warehouse.fct_daily_sentiment
+[0m15:47:52.782053 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.weekly_source_comparison"
+[0m15:47:52.788598 [debug] [Thread-2 (]: Writing runtime sql for node "model.news_warehouse.fct_daily_sentiment"
+[0m15:47:52.789341 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.entity_trend"
+[0m15:47:52.789942 [debug] [Thread-1 (]: SQL status: OK in 0.008 seconds
+[0m15:47:52.790560 [debug] [Thread-4 (]: On model.news_warehouse.weekly_source_comparison: BEGIN
+[0m15:47:52.791291 [debug] [Thread-3 (]: On model.news_warehouse.entity_trend: BEGIN
+[0m15:47:52.793591 [debug] [Thread-1 (]: Using duckdb connection "model.news_warehouse.dim_entity_summary"
+[0m15:47:52.794296 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m15:47:52.794987 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.fct_daily_sentiment"
+[0m15:47:52.795604 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m15:47:52.796233 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.dim_entity_summary"} */
+
+      drop table if exists "warehouse"."main"."dim_entity_summary__dbt_backup" cascade
+    
+[0m15:47:52.797046 [debug] [Thread-2 (]: On model.news_warehouse.fct_daily_sentiment: BEGIN
+[0m15:47:52.797704 [debug] [Thread-4 (]: SQL status: OK in 0.003 seconds
+[0m15:47:52.798696 [debug] [Thread-3 (]: SQL status: OK in 0.003 seconds
+[0m15:47:52.799288 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m15:47:52.799910 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.weekly_source_comparison"
+[0m15:47:52.800599 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.entity_trend"
+[0m15:47:52.801275 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m15:47:52.802061 [debug] [Thread-4 (]: On model.news_warehouse.weekly_source_comparison: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.weekly_source_comparison"} */
+
+    
+
+    create  table
+      "warehouse"."main"."weekly_source_comparison__dbt_tmp"
+  
+    
+    as (
+      
+
+WITH weekly_stats AS (
+    SELECT
+        Source_Name,
+        DATE_TRUNC('week', CAST(Date_Extracted AS DATE)) AS week_start,
+        COUNT(*) as headline_count,
+        AVG(Polarity) as avg_sentiment
+    FROM "warehouse"."main"."stg_headlines"
+    GROUP BY Source_Name, DATE_TRUNC('week', CAST(Date_Extracted AS DATE))
+)
+
+SELECT
+    curr.Source_Name,
+    curr.week_start,
+    curr.headline_count,
+    curr.avg_sentiment as current_sentiment,
+    prev.avg_sentiment as previous_sentiment,
+    (curr.avg_sentiment - prev.avg_sentiment) as sentiment_shift
+FROM weekly_stats curr
+LEFT JOIN weekly_stats prev 
+    ON curr.Source_Name = prev.Source_Name
+    AND curr.week_start = prev.week_start + INTERVAL 7 DAY
+ORDER BY curr.week_start DESC, curr.Source_Name
+    );
+    
+  
+[0m15:47:52.802720 [debug] [Thread-2 (]: SQL status: OK in 0.003 seconds
+[0m15:47:52.803363 [debug] [Thread-3 (]: On model.news_warehouse.entity_trend: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.entity_trend"} */
+
+    
+
+    create  table
+      "warehouse"."main"."entity_trend__dbt_tmp"
+  
+    
+    as (
+      
+
+WITH entity_weekly AS (
+    SELECT
+        e.Entity_Name,
+        e.Entity_Label,
+        DATE_TRUNC('week', CAST(h.Date_Extracted AS DATE)) AS week_start,
+        COUNT(*) as mention_count
+    FROM "warehouse"."main"."stg_entities" e
+    JOIN "warehouse"."main"."stg_headlines" h ON e.Headline_ID = h.Headline_ID
+    GROUP BY e.Entity_Name, e.Entity_Label, DATE_TRUNC('week', CAST(h.Date_Extracted AS DATE))
+)
+
+SELECT
+    curr.Entity_Name,
+    curr.Entity_Label,
+    curr.week_start,
+    curr.mention_count as current_mentions,
+    COALESCE(prev.mention_count, 0) as previous_mentions,
+    (curr.mention_count - COALESCE(prev.mention_count, 0)) as mention_diff
+FROM entity_weekly curr
+LEFT JOIN entity_weekly prev 
+    ON curr.Entity_Name = prev.Entity_Name
+    AND curr.week_start = prev.week_start + INTERVAL 7 DAY
+ORDER BY curr.week_start DESC, curr.mention_count DESC
+    );
+    
+  
+[0m15:47:52.805042 [debug] [Thread-1 (]: On model.news_warehouse.dim_entity_summary: Close
+[0m15:47:52.805905 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.fct_daily_sentiment"
+[0m15:47:52.808498 [debug] [Thread-2 (]: On model.news_warehouse.fct_daily_sentiment: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.fct_daily_sentiment"} */
+
+    
+
+    create  table
+      "warehouse"."main"."fct_daily_sentiment__dbt_tmp"
+  
+    
+    as (
+      -- fct_daily_sentiment.sql
+-- Mart model: daily sentiment aggregation by source.
+-- Powers the dashboard trend charts and weekly/monthly reports.
+
+
+
+SELECT
+    sa.scrape_date,
+    sa.source_name,
+    sa.region,
+    sa.language_code,
+
+    -- Measures
+    COUNT(*)                                    AS headline_count,
+    ROUND(AVG(sa.polarity), 4)                  AS avg_polarity,
+    ROUND(STDDEV(sa.polarity), 4)               AS stddev_polarity,
+    ROUND(MEDIAN(sa.polarity), 4)               AS median_polarity,
+    MIN(sa.polarity)                            AS min_polarity,
+    MAX(sa.polarity)                            AS max_polarity,
+
+    -- Sentiment distribution
+    COUNT(CASE WHEN sa.polarity_bucket = 'positive' THEN 1 END) AS positive_count,
+    COUNT(CASE WHEN sa.polarity_bucket = 'neutral'  THEN 1 END) AS neutral_count,
+    COUNT(CASE WHEN sa.polarity_bucket = 'negative' THEN 1 END) AS negative_count,
+
+    -- Percentages
+    ROUND(COUNT(CASE WHEN sa.polarity_bucket = 'positive' THEN 1 END) * 100.0 / COUNT(*), 1) AS positive_pct,
+    ROUND(COUNT(CASE WHEN sa.polarity_bucket = 'negative' THEN 1 END) * 100.0 / COUNT(*), 1) AS negative_pct,
+
+    -- Date dimensions
+    sa.day_of_week,
+    sa.week_of_year,
+    sa.month,
+    sa.year,
+    sa.quarter,
+    sa.is_weekend
+
+FROM "warehouse"."main"."stg_articles" sa
+WHERE sa.scrape_date IS NOT NULL
+GROUP BY
+    sa.scrape_date, sa.source_name, sa.region, sa.language_code,
+    sa.day_of_week, sa.week_of_year, sa.month, sa.year, sa.quarter, sa.is_weekend
+ORDER BY sa.scrape_date DESC, sa.source_name
+    );
+    
+  
+[0m15:47:52.807367 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09ae2978b0>]}
+[0m15:47:52.812248 [info ] [Thread-1 (]: 1 of 7 OK created sql table model main.dim_entity_summary ...................... [[32mOK[0m in 0.40s]
+[0m15:47:52.813583 [debug] [Thread-1 (]: Finished running node model.news_warehouse.dim_entity_summary
+[0m15:47:52.815652 [debug] [Thread-4 (]: SQL status: OK in 0.010 seconds
+[0m15:47:52.817902 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.weekly_source_comparison"
+[0m15:47:52.818846 [debug] [Thread-4 (]: On model.news_warehouse.weekly_source_comparison: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.weekly_source_comparison"} */
+
+    SELECT index_name
+    FROM duckdb_indexes()
+    WHERE database_name = 'warehouse'
+      AND schema_name = 'main'
+      AND table_name = 'weekly_source_comparison'
+  
+[0m15:47:52.823977 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.830108 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.weekly_source_comparison"
+[0m15:47:52.831067 [debug] [Thread-2 (]: SQL status: OK in 0.020 seconds
+[0m15:47:52.831828 [debug] [Thread-4 (]: On model.news_warehouse.weekly_source_comparison: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.weekly_source_comparison"} */
+alter table "warehouse"."main"."weekly_source_comparison" rename to "weekly_source_comparison__dbt_backup"
+[0m15:47:52.833749 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.fct_daily_sentiment"
+[0m15:47:52.835057 [debug] [Thread-2 (]: On model.news_warehouse.fct_daily_sentiment: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.fct_daily_sentiment"} */
+
+    SELECT index_name
+    FROM duckdb_indexes()
+    WHERE database_name = 'warehouse'
+      AND schema_name = 'main'
+      AND table_name = 'fct_daily_sentiment'
+  
+[0m15:47:52.836346 [debug] [Thread-4 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.842346 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.weekly_source_comparison"
+[0m15:47:52.843092 [debug] [Thread-2 (]: SQL status: OK in 0.007 seconds
+[0m15:47:52.843944 [debug] [Thread-4 (]: On model.news_warehouse.weekly_source_comparison: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.weekly_source_comparison"} */
+alter table "warehouse"."main"."weekly_source_comparison__dbt_tmp" rename to "weekly_source_comparison"
+[0m15:47:52.847897 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.fct_daily_sentiment"
+[0m15:47:52.848595 [debug] [Thread-2 (]: On model.news_warehouse.fct_daily_sentiment: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.fct_daily_sentiment"} */
+alter table "warehouse"."main"."fct_daily_sentiment" rename to "fct_daily_sentiment__dbt_backup"
+[0m15:47:52.849207 [debug] [Thread-4 (]: SQL status: OK in 0.004 seconds
+[0m15:47:52.849824 [debug] [Thread-3 (]: SQL status: OK in 0.043 seconds
+[0m15:47:52.853015 [debug] [Thread-4 (]: On model.news_warehouse.weekly_source_comparison: COMMIT
+[0m15:47:52.853677 [debug] [Thread-2 (]: SQL status: OK in 0.003 seconds
+[0m15:47:52.855102 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.entity_trend"
+[0m15:47:52.855760 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.weekly_source_comparison"
+[0m15:47:52.858408 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.fct_daily_sentiment"
+[0m15:47:52.859050 [debug] [Thread-3 (]: On model.news_warehouse.entity_trend: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.entity_trend"} */
+
+    SELECT index_name
+    FROM duckdb_indexes()
+    WHERE database_name = 'warehouse'
+      AND schema_name = 'main'
+      AND table_name = 'entity_trend'
+  
+[0m15:47:52.859853 [debug] [Thread-4 (]: On model.news_warehouse.weekly_source_comparison: COMMIT
+[0m15:47:52.860506 [debug] [Thread-2 (]: On model.news_warehouse.fct_daily_sentiment: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.fct_daily_sentiment"} */
+alter table "warehouse"."main"."fct_daily_sentiment__dbt_tmp" rename to "fct_daily_sentiment"
+[0m15:47:52.861869 [debug] [Thread-2 (]: SQL status: OK in 0.000 seconds
+[0m15:47:52.862645 [debug] [Thread-3 (]: SQL status: OK in 0.002 seconds
+[0m15:47:52.865563 [debug] [Thread-2 (]: On model.news_warehouse.fct_daily_sentiment: COMMIT
+[0m15:47:52.866190 [debug] [Thread-4 (]: SQL status: OK in 0.005 seconds
+[0m15:47:52.867028 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.fct_daily_sentiment"
+[0m15:47:52.870142 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.entity_trend"
+[0m15:47:52.872280 [debug] [Thread-4 (]: Using duckdb connection "model.news_warehouse.weekly_source_comparison"
+[0m15:47:52.872887 [debug] [Thread-2 (]: On model.news_warehouse.fct_daily_sentiment: COMMIT
+[0m15:47:52.873524 [debug] [Thread-3 (]: On model.news_warehouse.entity_trend: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.entity_trend"} */
+alter table "warehouse"."main"."entity_trend" rename to "entity_trend__dbt_backup"
+[0m15:47:52.874136 [debug] [Thread-4 (]: On model.news_warehouse.weekly_source_comparison: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.weekly_source_comparison"} */
+
+      drop table if exists "warehouse"."main"."weekly_source_comparison__dbt_backup" cascade
+    
+[0m15:47:52.875325 [debug] [Thread-3 (]: SQL status: OK in 0.000 seconds
+[0m15:47:52.878048 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.entity_trend"
+[0m15:47:52.878716 [debug] [Thread-2 (]: SQL status: OK in 0.004 seconds
+[0m15:47:52.879529 [debug] [Thread-4 (]: SQL status: OK in 0.004 seconds
+[0m15:47:52.880097 [debug] [Thread-3 (]: On model.news_warehouse.entity_trend: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.entity_trend"} */
+alter table "warehouse"."main"."entity_trend__dbt_tmp" rename to "entity_trend"
+[0m15:47:52.882253 [debug] [Thread-2 (]: Using duckdb connection "model.news_warehouse.fct_daily_sentiment"
+[0m15:47:52.883870 [debug] [Thread-4 (]: On model.news_warehouse.weekly_source_comparison: Close
+[0m15:47:52.884669 [debug] [Thread-2 (]: On model.news_warehouse.fct_daily_sentiment: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.fct_daily_sentiment"} */
+
+      drop table if exists "warehouse"."main"."fct_daily_sentiment__dbt_backup" cascade
+    
+[0m15:47:52.885340 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.886252 [debug] [Thread-4 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09b8ed6c80>]}
+[0m15:47:52.889379 [debug] [Thread-3 (]: On model.news_warehouse.entity_trend: COMMIT
+[0m15:47:52.891233 [debug] [Thread-2 (]: SQL status: OK in 0.004 seconds
+[0m15:47:52.890569 [info ] [Thread-4 (]: 5 of 7 OK created sql table model main.weekly_source_comparison ................ [[32mOK[0m in 0.15s]
+[0m15:47:52.892018 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.entity_trend"
+[0m15:47:52.893647 [debug] [Thread-2 (]: On model.news_warehouse.fct_daily_sentiment: Close
+[0m15:47:52.894484 [debug] [Thread-4 (]: Finished running node model.news_warehouse.weekly_source_comparison
+[0m15:47:52.895095 [debug] [Thread-3 (]: On model.news_warehouse.entity_trend: COMMIT
+[0m15:47:52.896049 [debug] [Thread-2 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09af7aa950>]}
+[0m15:47:52.897258 [info ] [Thread-2 (]: 7 of 7 OK created sql table model main.fct_daily_sentiment ..................... [[32mOK[0m in 0.15s]
+[0m15:47:52.898143 [debug] [Thread-2 (]: Finished running node model.news_warehouse.fct_daily_sentiment
+[0m15:47:52.900913 [debug] [Thread-3 (]: SQL status: OK in 0.004 seconds
+[0m15:47:52.903124 [debug] [Thread-3 (]: Using duckdb connection "model.news_warehouse.entity_trend"
+[0m15:47:52.903719 [debug] [Thread-3 (]: On model.news_warehouse.entity_trend: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "model.news_warehouse.entity_trend"} */
+
+      drop table if exists "warehouse"."main"."entity_trend__dbt_backup" cascade
+    
+[0m15:47:52.904970 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m15:47:52.906572 [debug] [Thread-3 (]: On model.news_warehouse.entity_trend: Close
+[0m15:47:52.907406 [debug] [Thread-3 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '11c507ca-c6ce-4101-9a56-60bcaf987d02', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09ae1b2980>]}
+[0m15:47:52.908248 [info ] [Thread-3 (]: 6 of 7 OK created sql table model main.entity_trend ............................ [[32mOK[0m in 0.16s]
+[0m15:47:52.909077 [debug] [Thread-3 (]: Finished running node model.news_warehouse.entity_trend
+[0m15:47:52.910833 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:47:52.911389 [debug] [MainThread]: On master: BEGIN
+[0m15:47:52.911869 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m15:47:52.913091 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m15:47:52.913655 [debug] [MainThread]: On master: COMMIT
+[0m15:47:52.914149 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:47:52.914688 [debug] [MainThread]: On master: COMMIT
+[0m15:47:52.915411 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m15:47:52.915924 [debug] [MainThread]: On master: Close
+[0m15:47:52.916583 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m15:47:52.917056 [debug] [MainThread]: Connection 'model.news_warehouse.dim_entity_summary' was properly closed.
+[0m15:47:52.917561 [debug] [MainThread]: Connection 'model.news_warehouse.fct_daily_sentiment' was properly closed.
+[0m15:47:52.918020 [debug] [MainThread]: Connection 'model.news_warehouse.entity_trend' was properly closed.
+[0m15:47:52.918524 [debug] [MainThread]: Connection 'model.news_warehouse.weekly_source_comparison' was properly closed.
+[0m15:47:52.919108 [info ] [MainThread]: 
+[0m15:47:52.919736 [info ] [MainThread]: Finished running 4 table models, 3 view models in 0 hours 0 minutes and 0.63 seconds (0.63s).
+[0m15:47:52.921620 [debug] [MainThread]: Command end result
+[0m15:47:52.966654 [debug] [MainThread]: Wrote artifact WritableManifest to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/manifest.json
+[0m15:47:52.970099 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/semantic_manifest.json
+[0m15:47:52.973240 [debug] [MainThread]: Wrote artifact OsiDocument to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/osi_document.json
+[0m15:47:52.982665 [debug] [MainThread]: Wrote artifact RunExecutionResult to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/run_results.json
+[0m15:47:52.983286 [info ] [MainThread]: 
+[0m15:47:52.983939 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m15:47:52.984547 [info ] [MainThread]: 
+[0m15:47:52.985129 [info ] [MainThread]: Done. PASS=7 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=7
+[0m15:47:52.986368 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": true, "command_wall_clock_time": 1.8106642, "process_in_blocks": "0", "process_kernel_time": 0.248518, "process_mem_max_rss": "258852", "process_out_blocks": "8712", "process_user_time": 3.612072}
+[0m15:47:52.987034 [debug] [MainThread]: Command `dbt run` succeeded at 15:47:52.986928 after 1.81 seconds
+[0m15:47:52.987623 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09b91a7910>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09af7c22c0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f09bace88b0>]}
+[0m15:47:52.988223 [debug] [MainThread]: Flushing usage events
+[0m15:47:53.055470 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:47:55.075683 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa953363760>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa951a5ecb0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa951a5ec50>]}
+
+
+============================== 15:47:55.078748 | 738be65f-46ff-4e4c-a624-20f3620f3ddd ==============================
+[0m15:47:55.078748 [info ] [MainThread]: Running with dbt=1.12.6
+[0m15:47:55.079567 [debug] [MainThread]: running dbt with arguments {'log_cache_events': 'False', 'send_anonymous_usage_stats': 'True', 'maximum_seed_size_mib': '1', 'version_check': 'True', 'fail_fast': 'False', 'empty': 'None', 'no_print': 'None', 'log_path': '/home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/logs', 'partial_parse': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'static_parser': 'True', 'printer_width': '80', 'introspect': 'True', 'use_experimental_parser': 'False', 'debug': 'False', 'cache_selected_only': 'False', 'warn_error': 'None', 'invocation_command': 'dbt test --profiles-dir .', 'log_format': 'default', 'hints_enabled': 'True', 'use_colors': 'True', 'quiet': 'False', 'write_json': 'True', 'indirect_selection': 'eager', 'profiles_dir': '.'}
+[0m15:47:55.430112 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '738be65f-46ff-4e4c-a624-20f3620f3ddd', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa951bea920>]}
+[0m15:47:55.513815 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '738be65f-46ff-4e4c-a624-20f3620f3ddd', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa9529a76a0>]}
+[0m15:47:55.516260 [info ] [MainThread]: Registered adapter: duckdb=1.11.1
+[0m15:47:55.619982 [debug] [MainThread]: checksum: fbb38fa76b29c52dc299e6f8cb04c947c91da3e53851e28162c0604404c45d0d, vars: {}, profile: news_warehouse, target: dev, version: 1.12.6
+[0m15:47:55.809806 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m15:47:55.810460 [debug] [MainThread]: Nothing changed, skipping partial parsing.
+[0m15:47:55.810932 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m15:47:55.824913 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '738be65f-46ff-4e4c-a624-20f3620f3ddd', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa9498e3fa0>]}
+[0m15:47:56.039816 [debug] [MainThread]: Wrote artifact WritableManifest to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/manifest.json
+[0m15:47:56.043288 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/semantic_manifest.json
+[0m15:47:56.057113 [debug] [MainThread]: Wrote artifact OsiDocument to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/osi_document.json
+[0m15:47:56.075035 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '738be65f-46ff-4e4c-a624-20f3620f3ddd', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa9498c6c80>]}
+[0m15:47:56.075845 [info ] [MainThread]: Found 7 models, 8 data tests, 5 sources, 511 macros
+[0m15:47:56.076452 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '738be65f-46ff-4e4c-a624-20f3620f3ddd', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa9498c7130>]}
+[0m15:47:56.078824 [info ] [MainThread]: 
+[0m15:47:56.079449 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m15:47:56.079979 [info ] [MainThread]: 
+[0m15:47:56.080792 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m15:47:56.088020 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_warehouse_main'
+[0m15:47:56.124799 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m15:47:56.125423 [debug] [ThreadPool]: On list_warehouse_main: BEGIN
+[0m15:47:56.125921 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m15:47:56.139911 [debug] [ThreadPool]: SQL status: OK in 0.014 seconds
+[0m15:47:56.140521 [debug] [ThreadPool]: Using duckdb connection "list_warehouse_main"
+[0m15:47:56.141029 [debug] [ThreadPool]: On list_warehouse_main: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "connection_name": "list_warehouse_main"} */
+select
+      'warehouse' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'warehouse'
+  
+[0m15:47:56.144781 [debug] [ThreadPool]: SQL status: OK in 0.003 seconds
+[0m15:47:56.146521 [debug] [ThreadPool]: On list_warehouse_main: ROLLBACK
+[0m15:47:56.147329 [debug] [ThreadPool]: On list_warehouse_main: Close
+[0m15:47:56.150303 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '738be65f-46ff-4e4c-a624-20f3620f3ddd', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa954d3f610>]}
+[0m15:47:56.150982 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:47:56.151533 [debug] [MainThread]: On master: BEGIN
+[0m15:47:56.152019 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m15:47:56.152865 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m15:47:56.153434 [debug] [MainThread]: On master: COMMIT
+[0m15:47:56.153935 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:47:56.154466 [debug] [MainThread]: On master: COMMIT
+[0m15:47:56.155198 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m15:47:56.155716 [debug] [MainThread]: On master: Close
+[0m15:47:56.158649 [debug] [Thread-1 (]: Began running node test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88
+[0m15:47:56.159332 [debug] [Thread-2 (]: Began running node test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb
+[0m15:47:56.159959 [info ] [Thread-1 (]: 1 of 8 START test not_null_dim_entity_summary_article_count .................... [RUN]
+[0m15:47:56.160772 [debug] [Thread-3 (]: Began running node test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da
+[0m15:47:56.161387 [info ] [Thread-2 (]: 2 of 8 START test not_null_dim_entity_summary_entity_text ...................... [RUN]
+[0m15:47:56.162082 [debug] [Thread-4 (]: Began running node test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093
+[0m15:47:56.162777 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_warehouse_main, now test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88)
+[0m15:47:56.163467 [info ] [Thread-3 (]: 3 of 8 START test not_null_fct_daily_sentiment_headline_count .................. [RUN]
+[0m15:47:56.164305 [debug] [Thread-2 (]: Acquiring new duckdb connection 'test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb'
+[0m15:47:56.164925 [info ] [Thread-4 (]: 4 of 8 START test not_null_fct_daily_sentiment_scrape_date ..................... [RUN]
+[0m15:47:56.165638 [debug] [Thread-1 (]: Began compiling node test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88
+[0m15:47:56.166419 [debug] [Thread-3 (]: Acquiring new duckdb connection 'test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da'
+[0m15:47:56.167021 [debug] [Thread-2 (]: Began compiling node test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb
+[0m15:47:56.167779 [debug] [Thread-4 (]: Acquiring new duckdb connection 'test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093'
+[0m15:47:56.178710 [debug] [Thread-3 (]: Began compiling node test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da
+[0m15:47:56.191347 [debug] [Thread-1 (]: Writing injected SQL for node "test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88"
+[0m15:47:56.199596 [debug] [Thread-2 (]: Writing injected SQL for node "test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb"
+[0m15:47:56.200290 [debug] [Thread-4 (]: Began compiling node test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093
+[0m15:47:56.208816 [debug] [Thread-3 (]: Writing injected SQL for node "test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da"
+[0m15:47:56.209917 [debug] [Thread-1 (]: Began executing node test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88
+[0m15:47:56.217911 [debug] [Thread-4 (]: Writing injected SQL for node "test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093"
+[0m15:47:56.218523 [debug] [Thread-2 (]: Began executing node test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb
+[0m15:47:56.220112 [debug] [Thread-1 (]: Using duckdb connection "test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88"
+[0m15:47:56.221803 [debug] [Thread-1 (]: On test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88"} */
+select database_name, type from duckdb_databases()
+[0m15:47:56.222504 [debug] [Thread-4 (]: Began executing node test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093
+[0m15:47:56.223082 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m15:47:56.223733 [debug] [Thread-3 (]: Began executing node test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da
+[0m15:47:56.226290 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m15:47:56.227820 [debug] [Thread-2 (]: Using duckdb connection "test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb"
+[0m15:47:56.228472 [debug] [Thread-2 (]: On test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb"} */
+
+                    select table_name, constraint_type from duckdb_constraints()
+                    where lower(database_name) = lower('warehouse')
+                      and lower(schema_name) = lower('main_dbt_test__audit')
+                      and constraint_type in ('PRIMARY KEY', 'UNIQUE', 'FOREIGN KEY')
+                    
+[0m15:47:56.229023 [debug] [Thread-2 (]: Opening a new connection, currently in state init
+[0m15:47:56.230568 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m15:47:56.269482 [debug] [Thread-2 (]: Writing runtime sql for node "test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb"
+[0m15:47:56.267193 [debug] [Thread-1 (]: Writing runtime sql for node "test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88"
+[0m15:47:56.271905 [debug] [Thread-4 (]: Writing runtime sql for node "test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093"
+[0m15:47:56.273934 [debug] [Thread-3 (]: Writing runtime sql for node "test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da"
+[0m15:47:56.274833 [debug] [Thread-2 (]: Using duckdb connection "test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb"
+[0m15:47:56.275901 [debug] [Thread-2 (]: On test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb: BEGIN
+[0m15:47:56.276676 [debug] [Thread-1 (]: Using duckdb connection "test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88"
+[0m15:47:56.277359 [debug] [Thread-4 (]: Using duckdb connection "test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093"
+[0m15:47:56.278219 [debug] [Thread-1 (]: On test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88: BEGIN
+[0m15:47:56.278850 [debug] [Thread-3 (]: Using duckdb connection "test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da"
+[0m15:47:56.279492 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m15:47:56.280090 [debug] [Thread-4 (]: On test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093: BEGIN
+[0m15:47:56.280869 [debug] [Thread-3 (]: On test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da: BEGIN
+[0m15:47:56.281529 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:47:56.282113 [debug] [Thread-2 (]: Using duckdb connection "test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb"
+[0m15:47:56.282760 [debug] [Thread-4 (]: Opening a new connection, currently in state init
+[0m15:47:56.283383 [debug] [Thread-3 (]: Opening a new connection, currently in state init
+[0m15:47:56.283976 [debug] [Thread-1 (]: Using duckdb connection "test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88"
+[0m15:47:56.284627 [debug] [Thread-2 (]: On test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select entity_text
+from "warehouse"."main"."dim_entity_summary"
+where entity_text is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m15:47:56.285741 [debug] [Thread-1 (]: On test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select article_count
+from "warehouse"."main"."dim_entity_summary"
+where article_count is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m15:47:56.286359 [debug] [Thread-4 (]: SQL status: OK in 0.004 seconds
+[0m15:47:56.287444 [debug] [Thread-3 (]: SQL status: OK in 0.004 seconds
+[0m15:47:56.288289 [debug] [Thread-2 (]: SQL status: OK in 0.001 seconds
+[0m15:47:56.288865 [debug] [Thread-4 (]: Using duckdb connection "test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093"
+[0m15:47:56.289492 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m15:47:56.290108 [debug] [Thread-3 (]: Using duckdb connection "test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da"
+[0m15:47:56.290891 [debug] [Thread-4 (]: On test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select scrape_date
+from "warehouse"."main"."fct_daily_sentiment"
+where scrape_date is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m15:47:56.296391 [debug] [Thread-2 (]: On test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb: ROLLBACK
+[0m15:47:56.297152 [debug] [Thread-3 (]: On test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select headline_count
+from "warehouse"."main"."fct_daily_sentiment"
+where headline_count is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m15:47:56.298759 [debug] [Thread-1 (]: On test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88: ROLLBACK
+[0m15:47:56.300046 [debug] [Thread-2 (]: On test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb: Close
+[0m15:47:56.300817 [debug] [Thread-3 (]: SQL status: OK in 0.001 seconds
+[0m15:47:56.301433 [debug] [Thread-4 (]: SQL status: OK in 0.002 seconds
+[0m15:47:56.301999 [debug] [Thread-1 (]: On test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88: Close
+[0m15:47:56.302944 [info ] [Thread-2 (]: 2 of 8 PASS not_null_dim_entity_summary_entity_text ............................ [[32mPASS[0m in 0.14s]
+[0m15:47:56.304687 [debug] [Thread-3 (]: On test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da: ROLLBACK
+[0m15:47:56.306337 [debug] [Thread-4 (]: On test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093: ROLLBACK
+[0m15:47:56.307294 [info ] [Thread-1 (]: 1 of 8 PASS not_null_dim_entity_summary_article_count .......................... [[32mPASS[0m in 0.14s]
+[0m15:47:56.308194 [debug] [Thread-2 (]: Finished running node test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb
+[0m15:47:56.309116 [debug] [Thread-3 (]: On test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da: Close
+[0m15:47:56.309828 [debug] [Thread-4 (]: On test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093: Close
+[0m15:47:56.310634 [debug] [Thread-1 (]: Finished running node test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88
+[0m15:47:56.311345 [debug] [Thread-2 (]: Began running node test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77
+[0m15:47:56.312304 [info ] [Thread-3 (]: 3 of 8 PASS not_null_fct_daily_sentiment_headline_count ........................ [[32mPASS[0m in 0.15s]
+[0m15:47:56.313230 [info ] [Thread-4 (]: 4 of 8 PASS not_null_fct_daily_sentiment_scrape_date ........................... [[32mPASS[0m in 0.15s]
+[0m15:47:56.313964 [debug] [Thread-1 (]: Began running node test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da
+[0m15:47:56.314689 [info ] [Thread-2 (]: 5 of 8 START test not_null_fct_daily_sentiment_source_name ..................... [RUN]
+[0m15:47:56.315576 [debug] [Thread-3 (]: Finished running node test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da
+[0m15:47:56.316408 [debug] [Thread-4 (]: Finished running node test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093
+[0m15:47:56.317029 [info ] [Thread-1 (]: 6 of 8 START test not_null_stg_articles_article_key ............................ [RUN]
+[0m15:47:56.317811 [debug] [Thread-2 (]: Re-using an available connection from the pool (formerly test.news_warehouse.not_null_dim_entity_summary_entity_text.e9b5760dbb, now test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77)
+[0m15:47:56.318521 [debug] [Thread-3 (]: Began running node test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c
+[0m15:47:56.319262 [debug] [Thread-4 (]: Began running node test.news_warehouse.unique_stg_articles_article_key.691d01e603
+[0m15:47:56.319983 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly test.news_warehouse.not_null_dim_entity_summary_article_count.e113c5cc88, now test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da)
+[0m15:47:56.320638 [debug] [Thread-2 (]: Began compiling node test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77
+[0m15:47:56.321292 [info ] [Thread-3 (]: 7 of 8 START test not_null_stg_articles_translated_headline .................... [RUN]
+[0m15:47:56.321944 [info ] [Thread-4 (]: 8 of 8 START test unique_stg_articles_article_key .............................. [RUN]
+[0m15:47:56.322637 [debug] [Thread-1 (]: Began compiling node test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da
+[0m15:47:56.331058 [debug] [Thread-2 (]: Writing injected SQL for node "test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77"
+[0m15:47:56.331749 [debug] [Thread-3 (]: Re-using an available connection from the pool (formerly test.news_warehouse.not_null_fct_daily_sentiment_headline_count.8aa7f0a6da, now test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c)
+[0m15:47:56.332521 [debug] [Thread-4 (]: Re-using an available connection from the pool (formerly test.news_warehouse.not_null_fct_daily_sentiment_scrape_date.b09ab12093, now test.news_warehouse.unique_stg_articles_article_key.691d01e603)
+[0m15:47:56.340765 [debug] [Thread-1 (]: Writing injected SQL for node "test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da"
+[0m15:47:56.341721 [debug] [Thread-3 (]: Began compiling node test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c
+[0m15:47:56.342523 [debug] [Thread-4 (]: Began compiling node test.news_warehouse.unique_stg_articles_article_key.691d01e603
+[0m15:47:56.343331 [debug] [Thread-2 (]: Began executing node test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77
+[0m15:47:56.351079 [debug] [Thread-3 (]: Writing injected SQL for node "test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c"
+[0m15:47:56.356977 [debug] [Thread-1 (]: Began executing node test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da
+[0m15:47:56.364908 [debug] [Thread-2 (]: Writing runtime sql for node "test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77"
+[0m15:47:56.362338 [debug] [Thread-4 (]: Writing injected SQL for node "test.news_warehouse.unique_stg_articles_article_key.691d01e603"
+[0m15:47:56.368042 [debug] [Thread-1 (]: Writing runtime sql for node "test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da"
+[0m15:47:56.369056 [debug] [Thread-3 (]: Began executing node test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c
+[0m15:47:56.369883 [debug] [Thread-2 (]: Using duckdb connection "test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77"
+[0m15:47:56.372452 [debug] [Thread-3 (]: Writing runtime sql for node "test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c"
+[0m15:47:56.373132 [debug] [Thread-2 (]: On test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77: BEGIN
+[0m15:47:56.373906 [debug] [Thread-4 (]: Began executing node test.news_warehouse.unique_stg_articles_article_key.691d01e603
+[0m15:47:56.374589 [debug] [Thread-1 (]: Using duckdb connection "test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da"
+[0m15:47:56.375336 [debug] [Thread-2 (]: Opening a new connection, currently in state closed
+[0m15:47:56.377884 [debug] [Thread-4 (]: Writing runtime sql for node "test.news_warehouse.unique_stg_articles_article_key.691d01e603"
+[0m15:47:56.378558 [debug] [Thread-1 (]: On test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da: BEGIN
+[0m15:47:56.379310 [debug] [Thread-3 (]: Using duckdb connection "test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c"
+[0m15:47:56.380413 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m15:47:56.381048 [debug] [Thread-2 (]: SQL status: OK in 0.006 seconds
+[0m15:47:56.381785 [debug] [Thread-4 (]: Using duckdb connection "test.news_warehouse.unique_stg_articles_article_key.691d01e603"
+[0m15:47:56.382381 [debug] [Thread-3 (]: On test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c: BEGIN
+[0m15:47:56.383183 [debug] [Thread-2 (]: Using duckdb connection "test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77"
+[0m15:47:56.383819 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m15:47:56.384421 [debug] [Thread-4 (]: On test.news_warehouse.unique_stg_articles_article_key.691d01e603: BEGIN
+[0m15:47:56.385016 [debug] [Thread-3 (]: Opening a new connection, currently in state closed
+[0m15:47:56.385687 [debug] [Thread-2 (]: On test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select source_name
+from "warehouse"."main"."fct_daily_sentiment"
+where source_name is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m15:47:56.386307 [debug] [Thread-1 (]: Using duckdb connection "test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da"
+[0m15:47:56.386900 [debug] [Thread-4 (]: Opening a new connection, currently in state closed
+[0m15:47:56.387925 [debug] [Thread-1 (]: On test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select article_key
+from "warehouse"."main"."stg_articles"
+where article_key is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m15:47:56.388596 [debug] [Thread-3 (]: SQL status: OK in 0.004 seconds
+[0m15:47:56.389428 [debug] [Thread-2 (]: SQL status: OK in 0.002 seconds
+[0m15:47:56.390275 [debug] [Thread-4 (]: SQL status: OK in 0.003 seconds
+[0m15:47:56.391268 [debug] [Thread-3 (]: Using duckdb connection "test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c"
+[0m15:47:56.393521 [debug] [Thread-2 (]: On test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77: ROLLBACK
+[0m15:47:56.394149 [debug] [Thread-4 (]: Using duckdb connection "test.news_warehouse.unique_stg_articles_article_key.691d01e603"
+[0m15:47:56.394840 [debug] [Thread-1 (]: SQL status: OK in 0.005 seconds
+[0m15:47:56.395516 [debug] [Thread-3 (]: On test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select translated_headline
+from "warehouse"."main"."stg_articles"
+where translated_headline is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m15:47:56.396308 [debug] [Thread-4 (]: On test.news_warehouse.unique_stg_articles_article_key.691d01e603: /* {"app": "dbt", "dbt_version": "1.12.6", "profile_name": "news_warehouse", "target_name": "dev", "node_id": "test.news_warehouse.unique_stg_articles_article_key.691d01e603"} */
+
+    
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+select
+    article_key as unique_field,
+    count(*) as n_records
+
+from "warehouse"."main"."stg_articles"
+where article_key is not null
+group by article_key
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+[0m15:47:56.396915 [debug] [Thread-2 (]: On test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77: Close
+[0m15:47:56.399458 [debug] [Thread-1 (]: On test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da: ROLLBACK
+[0m15:47:56.400314 [debug] [Thread-3 (]: SQL status: OK in 0.003 seconds
+[0m15:47:56.401527 [info ] [Thread-2 (]: 5 of 8 PASS not_null_fct_daily_sentiment_source_name ........................... [[32mPASS[0m in 0.08s]
+[0m15:47:56.402609 [debug] [Thread-1 (]: On test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da: Close
+[0m15:47:56.404497 [debug] [Thread-3 (]: On test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c: ROLLBACK
+[0m15:47:56.405673 [debug] [Thread-2 (]: Finished running node test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77
+[0m15:47:56.406333 [debug] [Thread-4 (]: SQL status: OK in 0.006 seconds
+[0m15:47:56.407149 [info ] [Thread-1 (]: 6 of 8 PASS not_null_stg_articles_article_key .................................. [[32mPASS[0m in 0.09s]
+[0m15:47:56.408150 [debug] [Thread-3 (]: On test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c: Close
+[0m15:47:56.409051 [debug] [Thread-1 (]: Finished running node test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da
+[0m15:47:56.410593 [debug] [Thread-4 (]: On test.news_warehouse.unique_stg_articles_article_key.691d01e603: ROLLBACK
+[0m15:47:56.411777 [info ] [Thread-3 (]: 7 of 8 PASS not_null_stg_articles_translated_headline .......................... [[32mPASS[0m in 0.08s]
+[0m15:47:56.412492 [debug] [Thread-4 (]: On test.news_warehouse.unique_stg_articles_article_key.691d01e603: Close
+[0m15:47:56.413281 [debug] [Thread-3 (]: Finished running node test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c
+[0m15:47:56.414100 [info ] [Thread-4 (]: 8 of 8 PASS unique_stg_articles_article_key .................................... [[32mPASS[0m in 0.08s]
+[0m15:47:56.415101 [debug] [Thread-4 (]: Finished running node test.news_warehouse.unique_stg_articles_article_key.691d01e603
+[0m15:47:56.416730 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:47:56.417303 [debug] [MainThread]: On master: BEGIN
+[0m15:47:56.417792 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m15:47:56.418571 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m15:47:56.419088 [debug] [MainThread]: On master: COMMIT
+[0m15:47:56.419626 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:47:56.420126 [debug] [MainThread]: On master: COMMIT
+[0m15:47:56.420829 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m15:47:56.421392 [debug] [MainThread]: On master: Close
+[0m15:47:56.422015 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m15:47:56.422556 [debug] [MainThread]: Connection 'test.news_warehouse.not_null_stg_articles_article_key.db8c6d35da' was properly closed.
+[0m15:47:56.423019 [debug] [MainThread]: Connection 'test.news_warehouse.not_null_fct_daily_sentiment_source_name.3bd2b89b77' was properly closed.
+[0m15:47:56.423523 [debug] [MainThread]: Connection 'test.news_warehouse.not_null_stg_articles_translated_headline.e4edbf669c' was properly closed.
+[0m15:47:56.423977 [debug] [MainThread]: Connection 'test.news_warehouse.unique_stg_articles_article_key.691d01e603' was properly closed.
+[0m15:47:56.424532 [info ] [MainThread]: 
+[0m15:47:56.425124 [info ] [MainThread]: Finished running 8 data tests in 0 hours 0 minutes and 0.34 seconds (0.34s).
+[0m15:47:56.427147 [debug] [MainThread]: Command end result
+[0m15:47:56.472354 [debug] [MainThread]: Wrote artifact WritableManifest to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/manifest.json
+[0m15:47:56.475631 [debug] [MainThread]: Wrote artifact SemanticManifest to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/semantic_manifest.json
+[0m15:47:56.478691 [debug] [MainThread]: Wrote artifact OsiDocument to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/osi_document.json
+[0m15:47:56.489219 [debug] [MainThread]: Wrote artifact RunExecutionResult to /home/runner/work/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/Multilingual-News-Sentiment-Entity-Analysis-Pipeline/dbt_project/target/run_results.json
+[0m15:47:56.489781 [info ] [MainThread]: 
+[0m15:47:56.490419 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m15:47:56.490942 [info ] [MainThread]: 
+[0m15:47:56.491528 [info ] [MainThread]: Done. PASS=8 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=8
+[0m15:47:56.492652 [debug] [MainThread]: Resource report: {"command_name": "test", "command_success": true, "command_wall_clock_time": 1.5180057, "process_in_blocks": "0", "process_kernel_time": 0.158966, "process_mem_max_rss": "189800", "process_out_blocks": "2944", "process_user_time": 2.982378}
+[0m15:47:56.493363 [debug] [MainThread]: Command `dbt test` succeeded at 15:47:56.493249 after 1.52 seconds
+[0m15:47:56.493930 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa953363760>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa94a4a8400>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7fa951bea920>]}
+[0m15:47:56.494534 [debug] [MainThread]: Flushing usage events
+[0m15:47:56.533594 [debug] [MainThread]: An error was encountered while trying to flush usage events
